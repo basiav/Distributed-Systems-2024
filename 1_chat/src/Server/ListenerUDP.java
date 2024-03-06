@@ -30,8 +30,6 @@ public class ListenerUDP implements Runnable {
     }
 
     private void sendAll(DatagramSocket datagramSocket, int sourcePort, String msg) {
-        // TODO
-        System.out.println("SendAll UDP " + msg);
         for (ClientHandler clientHandler : server.getClients()) {
             if (clientHandler.getSocket().getPort() != sourcePort) {
                 try {

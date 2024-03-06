@@ -23,8 +23,6 @@ public class Server {
         // UDP
         ListenerUDP listenerUDP = new ListenerUDP(this, portNumber);
         new Thread(listenerUDP).start();
-
-
     }
 
     public List<ClientHandler> getClients() {
