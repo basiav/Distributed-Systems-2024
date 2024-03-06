@@ -17,13 +17,11 @@ public class Client implements Runnable {
     static String hostName = "localhost";
     static String ASCII_ART_PATH = "ascii_art.txt";
 
-
     public static void main(String[] args) {
         System.out.println("---CLIENT----");
         Client client = new Client();
         client.run();
     }
-
 
     @Override
     public void run() {
@@ -36,8 +34,10 @@ public class Client implements Runnable {
             String id = stdin.nextLine();
             out.println(id);
 
+            // TCP
             new Thread(listenTCP(in)).start();
 
+            // UDP
             DatagramSocket datagramSocket = new DatagramSocket(socket.getLocalPort());
             new Thread(listenUDP(datagramSocket)).start();
 
@@ -45,14 +45,15 @@ public class Client implements Runnable {
             while (true) {
                 String message = stdin.nextLine();
 
+                // UDP
                 if (message.startsWith("U")) {
-                    message = id + ":\n" + message + "\n";
-                    System.out.println("UDPP");
+                    message = id + ": " + message + "\n";
                     byte[] msgBytes = message.getBytes();
-                    int port = socket.getPort();
-                    InetAddress address = InetAddress.getByName("localhost");
-                    datagramSocket.send(new DatagramPacket(msgBytes, msgBytes.length, address, port));
+                    datagramSocket.send(new DatagramPacket(
+                            msgBytes, msgBytes.length, InetAddress.getByName(Client.hostName), socket.getPort())
+                    );
                 }
+                // ASCII ART
                 else if (message.startsWith("ASCII_ART")) {
                     try {
                         message = new String(Files.readAllBytes(Paths.get(ASCII_ART_PATH)));
@@ -61,10 +62,11 @@ public class Client implements Runnable {
                     }
                     message = id + ":\n" + message + "\n";
                     byte[] msgBytes = message.getBytes();
-                    int port = socket.getPort();
-                    InetAddress address = InetAddress.getByName("localhost");
-                    datagramSocket.send(new DatagramPacket(msgBytes, msgBytes.length, address, port));
+                    datagramSocket.send(new DatagramPacket(
+                            msgBytes, msgBytes.length, InetAddress.getByName(Client.hostName), socket.getPort())
+                    );
                 }
+                // TCP
                 else {
                     out.println(message);
                 }
@@ -97,7 +99,7 @@ public class Client implements Runnable {
                     byte[] buff = new byte[1024];
                     DatagramPacket datagramPacket = new DatagramPacket(buff, buff.length);
                     datagramSocket.receive(datagramPacket);
-                    String msg = new String(buff);
+                    String msg = new String(buff).trim();
                     System.out.printf("Received message: \"%s\"%n", msg);
                 }
             }
