@@ -1,17 +1,11 @@
 package Server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Server {
-    private static List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<>());
+    private static final List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<>());
 
     static int portNumber = 12345;
     static int maxClients = 10;
@@ -21,14 +15,14 @@ public class Server {
         server.run();
     }
 
-
     public void run() {
+        // TCP
+        ListenerTCP listenerTCP = new ListenerTCP(this, portNumber, maxClients);
+        new Thread(listenerTCP).start();
 
-            ListenerTCP listenerTCP = new ListenerTCP(this, portNumber, maxClients);
-            new Thread(listenerTCP).start();
-            // UDP
-            ListenerUDP listenerUDP = new ListenerUDP(this, portNumber);
-            new Thread(listenerUDP).start();
+        // UDP
+        ListenerUDP listenerUDP = new ListenerUDP(this, portNumber);
+        new Thread(listenerUDP).start();
 
 
     }
