@@ -107,7 +107,7 @@ public class Client implements Runnable {
         }
     }
 
-    private static Runnable listenTCP(BufferedReader in) {
+    private Runnable listenTCP(BufferedReader in) {
         return () -> {
             try {
                 while (true) {
@@ -120,7 +120,7 @@ public class Client implements Runnable {
         };
     }
 
-    private static Runnable listenUDP(DatagramSocket datagramSocket) {
+    private Runnable listenUDP(DatagramSocket datagramSocket) {
         return () -> {
             try {
                 while (!datagramSocket.isClosed()) {
