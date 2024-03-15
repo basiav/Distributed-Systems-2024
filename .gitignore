@@ -25,3 +25,11 @@ buildNumber.properties
 .idea/
 *.iml
 out/
+
+__pycache__
+.env
+env
+
+/venv/
+.venv
+.venv/
