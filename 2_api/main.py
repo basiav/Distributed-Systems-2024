@@ -19,10 +19,22 @@ async def root(request: Request):
     return templates.TemplateResponse("base.html", context)
 
 
-@app.get("/weather/{latitude},{longitude}", response_class=JSONResponse)
-async def get_weather(latitude: str, longitude: str):
-    response = requests.get(f"https://api.weather.gov/points/{latitude},{longitude}")
-    return JSONResponse(content=response.json())
+# @app.get("/weather/{latitude},{longitude}", response_class=JSONResponse)
+@app.get("/weather/{latitude},{longitude}", response_class=HTMLResponse)
+async def get_weather(request: Request, latitude: str, longitude: str):
+    response = requests.get(
+        f"https://api.weather.gov/points/{latitude},{longitude}"
+    )
+    # return JSONResponse(content=response.json())
+    print(response.json())
+    return templates.TemplateResponse(
+        "results.html",
+        context={
+            "request": request,
+            "latitude": latitude,
+            "longitude": longitude,
+        },
+    )
 
 
 # @app.post("/", response_class=HTMLResponse)
