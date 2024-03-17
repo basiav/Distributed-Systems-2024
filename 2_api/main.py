@@ -11,7 +11,7 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 from datetime import datetime
-from api.meteosource_api import MeteosourceAPI
+from api.meteosource_api import MeteosourceAPI, MeteosourceResults
 from api.openmeteo_api import OpenMeteoAPI
 from html_parser import get_encoded_img
 
@@ -54,16 +54,29 @@ async def post_form(
 
 @app.get("/results/{latitude},{longitude}")
 async def get_weather(request: Request, latitude: str, longitude: str):
-    openmeteo_api = OpenMeteoAPI()
-    response_openmeteo = await openmeteo_api.request(
+    OM_api = OpenMeteoAPI()
+    response_openmeteo = await OM_api.request(
         latitude=latitude, longitude=longitude
     )
 
-    meteosource_api = MeteosourceAPI(key=API_KEY_METEOSOURCE)
-    res = await meteosource_api.request_nearest_place(
+    MS_api = MeteosourceAPI(key=API_KEY_METEOSOURCE)
+    res = await MS_api.request_nearest_place(
         latitude=latitude, longitude=longitude
     )
     place_name, place_id, adm_area = res
+
+    MS_res: MeteosourceResults = await MS_api.request_points(
+        place_id
+    )
+    MS_current_temp = MS_res.current_temp
+    MS_past_plt = get_encoded_img(
+        xx=[k for k in MS_res.past.keys()],
+        yy=[v for v in MS_res.past.values()],
+    )
+    MS_forecast_plt = get_encoded_img(
+        xx=[k for k in MS_res.forecast.keys()],
+        yy=[v for v in MS_res.forecast.values()],
+    )
 
     results = [response_openmeteo, place_name]
     encoded_img = get_encoded_img(
@@ -75,6 +88,8 @@ async def get_weather(request: Request, latitude: str, longitude: str):
         context={
             "request": request,
             "results": results,
+            "MS_past_img": MS_past_plt,
+            "MS_forecast_img": MS_forecast_plt,
             "img_path": encoded_img,
         },
     )
