@@ -27,3 +27,15 @@ class MeteosourceAPI:
         adm_area = response["adm_area1"]
 
         return place_name, place_id, adm_area
+
+    async def request_points(self, place_id: str):
+        url = (
+            self.base + "/point" + f"?place_id={place_id}" + f"&key={self.key}"
+        )
+        res = requests.get(url)
+
+        results = {}
+        results["current_temp"] = res.json()["current"]["temperature"]
+        results["hourly"] = res.json()["hourly"]
+
+        return results

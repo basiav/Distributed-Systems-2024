@@ -78,17 +78,3 @@ async def get_weather(request: Request, latitude: str, longitude: str):
             "img_path": encoded_img,
         },
     )
-
-
-@app.get("/current_weather/{place_id}")
-async def get_weather_meteosource(request: Request, place_id: str):
-    response = requests.get(
-        f"https://www.meteosource.com/api/v1/free/point?place_id={place_id}&key={API_KEY_METEOSOURCE}"
-    )
-    # return JSONResponse(content=response.json())
-    print(response.json())
-    t = response.json()["current"]["temperature"]
-    return templates.TemplateResponse(
-        "results.html",
-        context={"request": request, "results": t},
-    )
