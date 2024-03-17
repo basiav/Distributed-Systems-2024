@@ -8,6 +8,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+from datetime import datetime
+
+
+dotenv_path = join(dirname(__file__), ".env")
+load_dotenv(dotenv_path)
+
+API_KEY_METEOSOURCE = os.environ.get("API_KEY_METEOSOURCE")
 
 
 app = FastAPI()
@@ -111,3 +121,55 @@ async def post_form(
 ):
     print(form_data)
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/current_weather/{place_id}")
+async def get_weather_meteosource(request: Request, place_id: str):
+    response = requests.get(
+        f"https://www.meteosource.com/api/v1/free/point?place_id={place_id}&key={API_KEY_METEOSOURCE}"
+    )
+    # return JSONResponse(content=response.json())
+    print(response.json())
+    t = response.json()["current"]["temperature"]
+    return templates.TemplateResponse(
+        "results_weather.html",
+        context={"request": request, "results": t},
+    )
+
+
+@app.get("/weather/openmeteo/{latitude},{longitude}")
+async def get_weather_openmeteo(
+    request: Request, latitude: str, longitude: str
+):
+    response = requests.get(
+        f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
+    )
+    # return JSONResponse(content=response.json())
+    print(response.json())
+    hourly = response.json()["hourly"]
+    times = hourly["time"]
+    temperature_2m = hourly["temperature_2m"]
+
+    now = datetime.now()
+    # current_time = now.strftime("%H:%M:%S")
+    dateStart = datetime.strptime(times[0], "%Y-%m-%dT%H:%M")
+    # dateNow = datetime.strptime(str(now), "%Y-%m-%dT%H:%M")
+    dateNow = now.strftime("%Y-%m-%dT%H:%M")
+    print(type(dateStart))
+
+    i = 0
+    j = 0
+    date = times[i]
+    while date <= dateNow:
+        j = i
+        date = times[i]
+        i += 1
+
+    print(f"j {j}")
+    print(times[j])
+    print(temperature_2m[j])
+
+    return templates.TemplateResponse(
+        "results_weather.html",
+        context={"request": request, "results": dateNow},
+    )
