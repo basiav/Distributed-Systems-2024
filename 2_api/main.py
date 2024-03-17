@@ -4,6 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from schemas import RequestForm
 import requests
+import numpy as np
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
 
 
 app = FastAPI()
@@ -34,6 +38,57 @@ async def get_weather(request: Request, latitude: str, longitude: str):
             "latitude": latitude,
             "longitude": longitude,
         },
+    )
+
+
+@app.get("/img", response_class=HTMLResponse)
+async def get_plt(request: Request):
+    x = np.arange(0, 2 * np.pi, 0.1)
+    y = np.sin(x)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title("Sinusoid")
+
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format="jpeg")
+    encoded = base64.b64encode(tmpfile.getvalue()).decode("utf-8")
+
+    html = (
+        "Some html head"
+        + "<img src='data:image/jpeg;base64,{}' alt='Hello'>".format(encoded)
+        + "Some more html"
+    )
+    ext = "{% extends 'base.html' %}"
+    b = "{% block content %}"
+    e = "{% endblock %}"
+
+    html_content = """
+    {}
+    {}
+    <html>
+        <head>
+            <title>Some HTML in here</title>
+        </head>
+        <body>
+            <h1>{}</h1>
+        </body>
+    </html>
+    {}
+    """.format(
+        ext, b, html, e
+    )
+
+    print(html_content)
+
+    with open("./templates/results_plt.html", "w") as f:
+        f.write(html_content)
+    return templates.TemplateResponse(
+        "results_plt.html",
+        context={"request": request, "html": html},
     )
 
 
