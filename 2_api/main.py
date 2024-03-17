@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from api.meteosource_api import MeteosourceAPI
 from api.openmeteo_api import OpenMeteoAPI
-from html_parser import get_plt
+from html_parser import get_encoded_img
 
 
 dotenv_path = join(dirname(__file__), ".env")
@@ -35,31 +35,16 @@ async def root(request: Request):
     return templates.TemplateResponse("base.html", context)
 
 
-@app.get("/img", response_class=HTMLResponse)
-async def request_plt(request: Request):
-    # print(html_content)
-
-    # with open("./templates/results_plt.html", "w") as f:
-    #     f.write(html_content)
-    # return templates.TemplateResponse(
-    #     "results_plt.html",
-    #     context={"request": request, "html": html},
-    # )
-    pass
-
-
 @app.get("/forms", response_class=HTMLResponse)
 async def get_form(request: Request):
     context = {"request": request}
     return templates.TemplateResponse("index.html", context)
 
 
-# @app.post("/forms", response_class=HTMLResponse)
 @app.post("/forms", response_class=RedirectResponse)
 async def post_form(
     request: Request, form_data: RequestForm = Depends(RequestForm.as_form)
 ):
-    print(f"\n\n\n\nform data: {form_data}\n\n\n\n")
     latitude = form_data.latitude
     longitude = form_data.longitude
     return RedirectResponse(
@@ -69,22 +54,29 @@ async def post_form(
 
 @app.get("/results/{latitude},{longitude}")
 async def get_weather(request: Request, latitude: str, longitude: str):
-    meteosource_api = OpenMeteoAPI()
-    response_meteosource = await meteosource_api.request(
+    openmeteo_api = OpenMeteoAPI()
+    response_openmeteo = await openmeteo_api.request(
         latitude=latitude, longitude=longitude
     )
-    # return r
-    # html_content = get_plt(response_meteosource["times"], response_meteosource["temperature_2m"])
-    # with open("./templates/results_plt.html", "w") as f:
-    #     f.write(html_content)
-    # return templates.TemplateResponse(
-    #     "results_plt.html",
-    #     context={"request": request, "html": html_content},
-    # )
+
+    meteosource_api = MeteosourceAPI(key=API_KEY_METEOSOURCE)
+    res = await meteosource_api.request_nearest_place(
+        latitude=latitude, longitude=longitude
+    )
+    place_name, place_id, adm_area = res
+
+    results = [response_openmeteo, place_name]
+    encoded_img = get_encoded_img(
+        response_openmeteo["times"], response_openmeteo["temperature_2m"]
+    )
 
     return templates.TemplateResponse(
         "results.html",
-        context={"request": request, "results": response_meteosource},
+        context={
+            "request": request,
+            "results": results,
+            "img_path": encoded_img,
+        },
     )
 
 

@@ -5,9 +5,6 @@ from datetime import datetime
 BASE_URL = "https://api.open-meteo.com/v1/forecast"
 
 
-# def parse_response()
-
-
 class OpenMeteoAPI:
     base: str
 
