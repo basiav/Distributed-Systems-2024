@@ -22,6 +22,15 @@ class MeteosourceAPI:
         self.base = BASE_URL
         self.key = key
 
+    def check_and_raise_502(self, response, latitude: str, longitude: str):
+        if response is None:
+            raise HTTPException(
+                status_code=502,
+                detail="No data found in MeteosourceAPI "
+                + f"for latitude: {latitude} "
+                + f"and longitude: {longitude}",
+            )
+
     async def request_nearest_place(self, latitude: str, longitude: str):
         url = (
             self.base
@@ -33,13 +42,7 @@ class MeteosourceAPI:
         res = requests.get(url)
         response = res.json()
 
-        if response is None:
-            raise HTTPException(
-                status_code=404,
-                detail="No data found in MeteosourceAPI "
-                + "for latitude: {latitude} "
-                + "and longitude: {longitude}",
-            )
+        self.check_and_raise_502(response, latitude, longitude)
 
         try:
             place_name = response["name"]
@@ -49,10 +52,10 @@ class MeteosourceAPI:
         except Exception as e:
             print(e)
             raise HTTPException(
-                status_code=404,
+                status_code=502,
                 detail="No data found in MeteosourceAPI "
-                + "for latitude: {latitude} "
-                + "and longitude: {longitude}",
+                + f"for latitude: {latitude} "
+                + f"and longitude: {longitude}",
             )
 
         return place_name, place_id, adm_area, country
@@ -62,6 +65,7 @@ class MeteosourceAPI:
             self.base + "/point" + f"?place_id={place_id}" + f"&key={self.key}"
         )
         res = requests.get(url)
+        self.check_and_raise_502(res, place_id, place_id)
 
         current_temp = res.json()["current"]["temperature"]
         hourly_data_arr = res.json()["hourly"]["data"]

@@ -32,7 +32,7 @@ class OpenMeteoAPI:
 
         if response is None or "hourly" not in response.json().keys():
             raise HTTPException(
-                status_code=404,
+                status_code=502,
                 detail="No data found in OpenMeteoAPI "
                 + "for latitude: {latitude} "
                 + "and longitude: {longitude}",
