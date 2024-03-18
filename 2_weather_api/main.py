@@ -7,7 +7,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from api.meteosource_api import MeteosourceAPI, MeteosourceResults
 from api.openmeteo_api import OpenMeteoAPI, OpenMeteoResults
-from html_parser import get_encoded_img
+from util import get_encoded_img
 
 
 dotenv_path = join(dirname(__file__), ".env")
