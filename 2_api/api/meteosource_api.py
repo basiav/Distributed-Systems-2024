@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import requests
 from datetime import datetime
 from pydantic import BaseModel
@@ -35,8 +34,9 @@ class MeteosourceAPI:
         place_name = response["name"]
         place_id = response["place_id"]
         adm_area = response["adm_area1"]
+        country = response["country"]
 
-        return place_name, place_id, adm_area
+        return place_name, place_id, adm_area, country
 
     async def request_points(self, place_id: str) -> MeteosourceResults:
         url = (

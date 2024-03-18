@@ -6,17 +6,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>WeatherConsultant</title>
 </head>
 <body>
-    <h2>Results for {{place_name}} in {{adm_area}}</h2>
-    <h2>MeteosourceAPI</h2>
+    <h2>Results for {{place_name}} in {{adm_area}}, {{country}}</h2>
+    <h2>Mean temp: {{mean_temp}}</h2>
+    <h2>MeteosourceAPI, current temp: {{MS_current_temp}}</h2>
     <h3>Past weather</h3>
     <div><img src={{MS_past_img}}></div>
     <h3>Weather forecast</h3>
     <div><img src={{MS_forecast_img}}></div>
     
-    <h2>OpenMeteoAPI</h2>
+    <h2>OpenMeteoAPI, current temp: {{OM_current_temp}}</h2>
     <h3>Past weather</h3>
     <div><img src={{OM_past_img}}></div>
     <h3>Weather forecast</h3>

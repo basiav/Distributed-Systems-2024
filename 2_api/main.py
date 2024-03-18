@@ -1,16 +1,10 @@
-from fastapi import Depends, FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import Depends, FastAPI, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from schemas import RequestForm
-import requests
-
-# import base64
-# from io import BytesIO
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
-from datetime import datetime
 from api.meteosource_api import MeteosourceAPI, MeteosourceResults
 from api.openmeteo_api import OpenMeteoAPI, OpenMeteoResults
 from html_parser import get_encoded_img
@@ -23,7 +17,6 @@ API_KEY_METEOSOURCE = os.environ.get("API_KEY_METEOSOURCE")
 
 
 app = FastAPI()
-
 
 # app.mount("/static", StaticFiles(directory="templates"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -55,7 +48,12 @@ async def post_form(
 @app.get("/results/{latitude},{longitude}")
 async def get_weather(request: Request, latitude: str, longitude: str):
     MS_api = MeteosourceAPI(key=API_KEY_METEOSOURCE)
-    place_name, place_id, adm_area = await MS_api.request_nearest_place(
+    (
+        place_name,
+        place_id,
+        adm_area,
+        country,
+    ) = await MS_api.request_nearest_place(
         latitude=latitude, longitude=longitude
     )
 
@@ -82,7 +80,10 @@ async def get_weather(request: Request, latitude: str, longitude: str):
     OM_forecast_plt = get_encoded_img(
         xx=[k for k in OM_res.forecast.keys()],
         yy=[v for v in OM_res.forecast.values()],
+        locator=True,
     )
+
+    mean_temp = round((float(MS_current_temp) + float(OM_current_temp)) / 2, 2)
 
     return templates.TemplateResponse(
         "results.html",
@@ -90,9 +91,13 @@ async def get_weather(request: Request, latitude: str, longitude: str):
             "request": request,
             "place_name": place_name,
             "adm_area": adm_area,
+            "country": country,
+            "mean_temp": mean_temp,
+            "MS_current_temp": MS_current_temp,
             "MS_past_img": MS_past_plt,
             "MS_forecast_img": MS_forecast_plt,
             "OM_past_img": OM_past_plt,
             "OM_forecast_img": OM_forecast_plt,
+            "OM_current_temp": OM_current_temp,
         },
     )
