@@ -4,13 +4,14 @@ import base64
 from io import BytesIO
 
 
-def get_encoded_img(xx, yy):
-    fig, ax = plt.subplots()
+def get_encoded_img(xx, yy, title=None):
+    fig, ax = plt.subplots(tight_layout=True)
     ax.scatter(xx, yy)
 
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_title("Sinusoid")
+    ax.set_xlabel("Datetime")
+    ax.set_ylabel("Temperature")
+    ax.set_title(title)
+    ax.tick_params(axis="x", labelrotation=90)
 
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format="jpeg")

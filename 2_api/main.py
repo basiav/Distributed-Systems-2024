@@ -12,7 +12,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from datetime import datetime
 from api.meteosource_api import MeteosourceAPI, MeteosourceResults
-from api.openmeteo_api import OpenMeteoAPI
+from api.openmeteo_api import OpenMeteoAPI, OpenMeteoResults
 from html_parser import get_encoded_img
 
 
@@ -54,20 +54,12 @@ async def post_form(
 
 @app.get("/results/{latitude},{longitude}")
 async def get_weather(request: Request, latitude: str, longitude: str):
-    OM_api = OpenMeteoAPI()
-    response_openmeteo = await OM_api.request(
-        latitude=latitude, longitude=longitude
-    )
-
     MS_api = MeteosourceAPI(key=API_KEY_METEOSOURCE)
-    res = await MS_api.request_nearest_place(
+    place_name, place_id, adm_area = await MS_api.request_nearest_place(
         latitude=latitude, longitude=longitude
     )
-    place_name, place_id, adm_area = res
 
-    MS_res: MeteosourceResults = await MS_api.request_points(
-        place_id
-    )
+    MS_res: MeteosourceResults = await MS_api.request_points(place_id)
     MS_current_temp = MS_res.current_temp
     MS_past_plt = get_encoded_img(
         xx=[k for k in MS_res.past.keys()],
@@ -78,18 +70,29 @@ async def get_weather(request: Request, latitude: str, longitude: str):
         yy=[v for v in MS_res.forecast.values()],
     )
 
-    results = [response_openmeteo, place_name]
-    encoded_img = get_encoded_img(
-        response_openmeteo["times"], response_openmeteo["temperature_2m"]
+    OM_api = OpenMeteoAPI()
+    OM_res: OpenMeteoResults = await OM_api.request(
+        latitude=latitude, longitude=longitude
+    )
+    OM_current_temp = OM_res.current_temp
+    OM_past_plt = get_encoded_img(
+        xx=[k for k in OM_res.past.keys()],
+        yy=[v for v in OM_res.past.values()],
+    )
+    OM_forecast_plt = get_encoded_img(
+        xx=[k for k in OM_res.forecast.keys()],
+        yy=[v for v in OM_res.forecast.values()],
     )
 
     return templates.TemplateResponse(
         "results.html",
         context={
             "request": request,
-            "results": results,
+            "place_name": place_name,
+            "adm_area": adm_area,
             "MS_past_img": MS_past_plt,
             "MS_forecast_img": MS_forecast_plt,
-            "img_path": encoded_img,
+            "OM_past_img": OM_past_plt,
+            "OM_forecast_img": OM_forecast_plt,
         },
     )
