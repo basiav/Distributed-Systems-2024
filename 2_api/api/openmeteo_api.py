@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import HTTPException
 import requests
 from datetime import datetime
@@ -28,7 +29,7 @@ class OpenMeteoAPI:
             + "&&hourly=temperature_2m"
         )
 
-        response = requests.get(url)
+        response = await asyncio.to_thread(requests.get, url)
 
         if response is None or "hourly" not in response.json().keys():
             raise HTTPException(

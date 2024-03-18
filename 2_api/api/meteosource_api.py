@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import HTTPException
 import requests
 from datetime import datetime
@@ -39,7 +40,8 @@ class MeteosourceAPI:
             + f"&lon={longitude}"
             + f"&key={self.key}"
         )
-        res = requests.get(url)
+        res = await asyncio.to_thread(requests.get, url)
+
         response = res.json()
 
         self.check_and_raise_502(response, latitude, longitude)
@@ -64,7 +66,9 @@ class MeteosourceAPI:
         url = (
             self.base + "/point" + f"?place_id={place_id}" + f"&key={self.key}"
         )
-        res = requests.get(url)
+
+        res = await asyncio.to_thread(requests.get, url)
+
         self.check_and_raise_502(res, place_id, place_id)
 
         current_temp = res.json()["current"]["temperature"]
