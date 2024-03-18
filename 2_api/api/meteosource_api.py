@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import requests
 from datetime import datetime
 from pydantic import BaseModel
@@ -31,10 +32,28 @@ class MeteosourceAPI:
         )
         res = requests.get(url)
         response = res.json()
-        place_name = response["name"]
-        place_id = response["place_id"]
-        adm_area = response["adm_area1"]
-        country = response["country"]
+
+        if response is None:
+            raise HTTPException(
+                status_code=404,
+                detail="No data found in MeteosourceAPI "
+                + "for latitude: {latitude} "
+                + "and longitude: {longitude}",
+            )
+
+        try:
+            place_name = response["name"]
+            place_id = response["place_id"]
+            adm_area = response["adm_area1"]
+            country = response["country"]
+        except Exception as e:
+            print(e)
+            raise HTTPException(
+                status_code=404,
+                detail="No data found in MeteosourceAPI "
+                + "for latitude: {latitude} "
+                + "and longitude: {longitude}",
+            )
 
         return place_name, place_id, adm_area, country
 

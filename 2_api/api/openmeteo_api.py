@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import requests
 from datetime import datetime
 from pydantic import BaseModel
@@ -28,6 +29,14 @@ class OpenMeteoAPI:
         )
 
         response = requests.get(url)
+
+        if response is None or "hourly" not in response.json().keys():
+            raise HTTPException(
+                status_code=404,
+                detail="No data found in OpenMeteoAPI "
+                + "for latitude: {latitude} "
+                + "and longitude: {longitude}",
+            )
 
         hourly_data_arr = response.json()["hourly"]
         times = hourly_data_arr["time"]
