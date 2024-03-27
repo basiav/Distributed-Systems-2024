@@ -33,3 +33,7 @@ env
 /venv/
 .venv
 .venv/
+
+# Pdfs from class
+*.pdf
+*/*.pdf
