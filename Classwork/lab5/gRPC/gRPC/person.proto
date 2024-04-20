@@ -21,7 +21,13 @@ message Person {
     PhoneType type = 2;
   }
 
+  message Salaries {
+    double salaries = 1;
+  }
+
   repeated PhoneNumber phones = 4;
+
+  repeated Salaries salaries = 5;
 }
 
 message AddressBook {

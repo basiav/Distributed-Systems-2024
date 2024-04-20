@@ -57,8 +57,8 @@ public class JavaSerialization
 		{    
 			long n = 1000;
 			System.out.println("Performing java serialization " + n + " times...");
-			long start = System.currentTimeMillis();
 			System.out.println("Timer start");
+			long start = System.currentTimeMillis();
 
 	        for(long i = 0; i< n; i++)
 	        {
@@ -78,6 +78,7 @@ public class JavaSerialization
 			
 	        
 	        //serialize again (only once) and write to a file
+			System.out.println("Timer start");
 			start = System.currentTimeMillis();
 			FileOutputStream file = new FileOutputStream("person1.ser"); 
 			ObjectOutputStream out = new ObjectOutputStream(file); 
@@ -86,6 +87,8 @@ public class JavaSerialization
 			file.close();
 			finish = System.currentTimeMillis();
 			timeElapsed = finish - start;
+			System.out.println("... finished.");
+			System.out.println("Timer stop");
 			System.out.println("Elapsed time: " + timeElapsed);
 		} 
 		catch(IOException ex) 

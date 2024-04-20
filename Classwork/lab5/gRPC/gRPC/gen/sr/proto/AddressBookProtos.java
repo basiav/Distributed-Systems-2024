@@ -81,6 +81,30 @@ public final class AddressBookProtos {
      */
     sr.proto.AddressBookProtos.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
         int index);
+
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    java.util.List<sr.proto.AddressBookProtos.Person.Salaries> 
+        getSalariesList();
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    sr.proto.AddressBookProtos.Person.Salaries getSalaries(int index);
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    int getSalariesCount();
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    java.util.List<? extends sr.proto.AddressBookProtos.Person.SalariesOrBuilder> 
+        getSalariesOrBuilderList();
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    sr.proto.AddressBookProtos.Person.SalariesOrBuilder getSalariesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code tutorial.Person}
@@ -107,6 +131,7 @@ public final class AddressBookProtos {
       name_ = "";
       email_ = "";
       phones_ = java.util.Collections.emptyList();
+      salaries_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -863,6 +888,442 @@ public final class AddressBookProtos {
 
     }
 
+    public interface SalariesOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:tutorial.Person.Salaries)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>double salaries = 1;</code>
+       * @return The salaries.
+       */
+      double getSalaries();
+    }
+    /**
+     * Protobuf type {@code tutorial.Person.Salaries}
+     */
+    public static final class Salaries extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:tutorial.Person.Salaries)
+        SalariesOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          Salaries.class.getName());
+      }
+      // Use Salaries.newBuilder() to construct.
+      private Salaries(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private Salaries() {
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return sr.proto.AddressBookProtos.internal_static_tutorial_Person_Salaries_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return sr.proto.AddressBookProtos.internal_static_tutorial_Person_Salaries_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                sr.proto.AddressBookProtos.Person.Salaries.class, sr.proto.AddressBookProtos.Person.Salaries.Builder.class);
+      }
+
+      public static final int SALARIES_FIELD_NUMBER = 1;
+      private double salaries_ = 0D;
+      /**
+       * <code>double salaries = 1;</code>
+       * @return The salaries.
+       */
+      @java.lang.Override
+      public double getSalaries() {
+        return salaries_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (java.lang.Double.doubleToRawLongBits(salaries_) != 0) {
+          output.writeDouble(1, salaries_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (java.lang.Double.doubleToRawLongBits(salaries_) != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(1, salaries_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof sr.proto.AddressBookProtos.Person.Salaries)) {
+          return super.equals(obj);
+        }
+        sr.proto.AddressBookProtos.Person.Salaries other = (sr.proto.AddressBookProtos.Person.Salaries) obj;
+
+        if (java.lang.Double.doubleToLongBits(getSalaries())
+            != java.lang.Double.doubleToLongBits(
+                other.getSalaries())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + SALARIES_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getSalaries()));
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static sr.proto.AddressBookProtos.Person.Salaries parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static sr.proto.AddressBookProtos.Person.Salaries parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static sr.proto.AddressBookProtos.Person.Salaries parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(sr.proto.AddressBookProtos.Person.Salaries prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code tutorial.Person.Salaries}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:tutorial.Person.Salaries)
+          sr.proto.AddressBookProtos.Person.SalariesOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return sr.proto.AddressBookProtos.internal_static_tutorial_Person_Salaries_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return sr.proto.AddressBookProtos.internal_static_tutorial_Person_Salaries_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  sr.proto.AddressBookProtos.Person.Salaries.class, sr.proto.AddressBookProtos.Person.Salaries.Builder.class);
+        }
+
+        // Construct using sr.proto.AddressBookProtos.Person.Salaries.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          salaries_ = 0D;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return sr.proto.AddressBookProtos.internal_static_tutorial_Person_Salaries_descriptor;
+        }
+
+        @java.lang.Override
+        public sr.proto.AddressBookProtos.Person.Salaries getDefaultInstanceForType() {
+          return sr.proto.AddressBookProtos.Person.Salaries.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public sr.proto.AddressBookProtos.Person.Salaries build() {
+          sr.proto.AddressBookProtos.Person.Salaries result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public sr.proto.AddressBookProtos.Person.Salaries buildPartial() {
+          sr.proto.AddressBookProtos.Person.Salaries result = new sr.proto.AddressBookProtos.Person.Salaries(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(sr.proto.AddressBookProtos.Person.Salaries result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.salaries_ = salaries_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof sr.proto.AddressBookProtos.Person.Salaries) {
+            return mergeFrom((sr.proto.AddressBookProtos.Person.Salaries)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(sr.proto.AddressBookProtos.Person.Salaries other) {
+          if (other == sr.proto.AddressBookProtos.Person.Salaries.getDefaultInstance()) return this;
+          if (other.getSalaries() != 0D) {
+            setSalaries(other.getSalaries());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 9: {
+                  salaries_ = input.readDouble();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 9
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private double salaries_ ;
+        /**
+         * <code>double salaries = 1;</code>
+         * @return The salaries.
+         */
+        @java.lang.Override
+        public double getSalaries() {
+          return salaries_;
+        }
+        /**
+         * <code>double salaries = 1;</code>
+         * @param value The salaries to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSalaries(double value) {
+
+          salaries_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>double salaries = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearSalaries() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          salaries_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:tutorial.Person.Salaries)
+      }
+
+      // @@protoc_insertion_point(class_scope:tutorial.Person.Salaries)
+      private static final sr.proto.AddressBookProtos.Person.Salaries DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new sr.proto.AddressBookProtos.Person.Salaries();
+      }
+
+      public static sr.proto.AddressBookProtos.Person.Salaries getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Salaries>
+          PARSER = new com.google.protobuf.AbstractParser<Salaries>() {
+        @java.lang.Override
+        public Salaries parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<Salaries> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Salaries> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public sr.proto.AddressBookProtos.Person.Salaries getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
@@ -993,6 +1454,47 @@ public final class AddressBookProtos {
       return phones_.get(index);
     }
 
+    public static final int SALARIES_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private java.util.List<sr.proto.AddressBookProtos.Person.Salaries> salaries_;
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    @java.lang.Override
+    public java.util.List<sr.proto.AddressBookProtos.Person.Salaries> getSalariesList() {
+      return salaries_;
+    }
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends sr.proto.AddressBookProtos.Person.SalariesOrBuilder> 
+        getSalariesOrBuilderList() {
+      return salaries_;
+    }
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    @java.lang.Override
+    public int getSalariesCount() {
+      return salaries_.size();
+    }
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    @java.lang.Override
+    public sr.proto.AddressBookProtos.Person.Salaries getSalaries(int index) {
+      return salaries_.get(index);
+    }
+    /**
+     * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+     */
+    @java.lang.Override
+    public sr.proto.AddressBookProtos.Person.SalariesOrBuilder getSalariesOrBuilder(
+        int index) {
+      return salaries_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1019,6 +1521,9 @@ public final class AddressBookProtos {
       for (int i = 0; i < phones_.size(); i++) {
         output.writeMessage(4, phones_.get(i));
       }
+      for (int i = 0; i < salaries_.size(); i++) {
+        output.writeMessage(5, salaries_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1041,6 +1546,10 @@ public final class AddressBookProtos {
       for (int i = 0; i < phones_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, phones_.get(i));
+      }
+      for (int i = 0; i < salaries_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, salaries_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1065,6 +1574,8 @@ public final class AddressBookProtos {
           .equals(other.getEmail())) return false;
       if (!getPhonesList()
           .equals(other.getPhonesList())) return false;
+      if (!getSalariesList()
+          .equals(other.getSalariesList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1085,6 +1596,10 @@ public final class AddressBookProtos {
       if (getPhonesCount() > 0) {
         hash = (37 * hash) + PHONES_FIELD_NUMBER;
         hash = (53 * hash) + getPhonesList().hashCode();
+      }
+      if (getSalariesCount() > 0) {
+        hash = (37 * hash) + SALARIES_FIELD_NUMBER;
+        hash = (53 * hash) + getSalariesList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1227,6 +1742,13 @@ public final class AddressBookProtos {
           phonesBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (salariesBuilder_ == null) {
+          salaries_ = java.util.Collections.emptyList();
+        } else {
+          salaries_ = null;
+          salariesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1268,6 +1790,15 @@ public final class AddressBookProtos {
           result.phones_ = phones_;
         } else {
           result.phones_ = phonesBuilder_.build();
+        }
+        if (salariesBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0)) {
+            salaries_ = java.util.Collections.unmodifiableList(salaries_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.salaries_ = salaries_;
+        } else {
+          result.salaries_ = salariesBuilder_.build();
         }
       }
 
@@ -1335,6 +1866,32 @@ public final class AddressBookProtos {
             }
           }
         }
+        if (salariesBuilder_ == null) {
+          if (!other.salaries_.isEmpty()) {
+            if (salaries_.isEmpty()) {
+              salaries_ = other.salaries_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureSalariesIsMutable();
+              salaries_.addAll(other.salaries_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.salaries_.isEmpty()) {
+            if (salariesBuilder_.isEmpty()) {
+              salariesBuilder_.dispose();
+              salariesBuilder_ = null;
+              salaries_ = other.salaries_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              salariesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSalariesFieldBuilder() : null;
+            } else {
+              salariesBuilder_.addAllMessages(other.salaries_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -1389,6 +1946,19 @@ public final class AddressBookProtos {
                 }
                 break;
               } // case 34
+              case 42: {
+                sr.proto.AddressBookProtos.Person.Salaries m =
+                    input.readMessage(
+                        sr.proto.AddressBookProtos.Person.Salaries.parser(),
+                        extensionRegistry);
+                if (salariesBuilder_ == null) {
+                  ensureSalariesIsMutable();
+                  salaries_.add(m);
+                } else {
+                  salariesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 42
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1820,6 +2390,246 @@ public final class AddressBookProtos {
           phones_ = null;
         }
         return phonesBuilder_;
+      }
+
+      private java.util.List<sr.proto.AddressBookProtos.Person.Salaries> salaries_ =
+        java.util.Collections.emptyList();
+      private void ensureSalariesIsMutable() {
+        if (!((bitField0_ & 0x00000010) != 0)) {
+          salaries_ = new java.util.ArrayList<sr.proto.AddressBookProtos.Person.Salaries>(salaries_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          sr.proto.AddressBookProtos.Person.Salaries, sr.proto.AddressBookProtos.Person.Salaries.Builder, sr.proto.AddressBookProtos.Person.SalariesOrBuilder> salariesBuilder_;
+
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public java.util.List<sr.proto.AddressBookProtos.Person.Salaries> getSalariesList() {
+        if (salariesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(salaries_);
+        } else {
+          return salariesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public int getSalariesCount() {
+        if (salariesBuilder_ == null) {
+          return salaries_.size();
+        } else {
+          return salariesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public sr.proto.AddressBookProtos.Person.Salaries getSalaries(int index) {
+        if (salariesBuilder_ == null) {
+          return salaries_.get(index);
+        } else {
+          return salariesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder setSalaries(
+          int index, sr.proto.AddressBookProtos.Person.Salaries value) {
+        if (salariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSalariesIsMutable();
+          salaries_.set(index, value);
+          onChanged();
+        } else {
+          salariesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder setSalaries(
+          int index, sr.proto.AddressBookProtos.Person.Salaries.Builder builderForValue) {
+        if (salariesBuilder_ == null) {
+          ensureSalariesIsMutable();
+          salaries_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          salariesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder addSalaries(sr.proto.AddressBookProtos.Person.Salaries value) {
+        if (salariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSalariesIsMutable();
+          salaries_.add(value);
+          onChanged();
+        } else {
+          salariesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder addSalaries(
+          int index, sr.proto.AddressBookProtos.Person.Salaries value) {
+        if (salariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSalariesIsMutable();
+          salaries_.add(index, value);
+          onChanged();
+        } else {
+          salariesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder addSalaries(
+          sr.proto.AddressBookProtos.Person.Salaries.Builder builderForValue) {
+        if (salariesBuilder_ == null) {
+          ensureSalariesIsMutable();
+          salaries_.add(builderForValue.build());
+          onChanged();
+        } else {
+          salariesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder addSalaries(
+          int index, sr.proto.AddressBookProtos.Person.Salaries.Builder builderForValue) {
+        if (salariesBuilder_ == null) {
+          ensureSalariesIsMutable();
+          salaries_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          salariesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder addAllSalaries(
+          java.lang.Iterable<? extends sr.proto.AddressBookProtos.Person.Salaries> values) {
+        if (salariesBuilder_ == null) {
+          ensureSalariesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, salaries_);
+          onChanged();
+        } else {
+          salariesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder clearSalaries() {
+        if (salariesBuilder_ == null) {
+          salaries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          salariesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public Builder removeSalaries(int index) {
+        if (salariesBuilder_ == null) {
+          ensureSalariesIsMutable();
+          salaries_.remove(index);
+          onChanged();
+        } else {
+          salariesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public sr.proto.AddressBookProtos.Person.Salaries.Builder getSalariesBuilder(
+          int index) {
+        return getSalariesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public sr.proto.AddressBookProtos.Person.SalariesOrBuilder getSalariesOrBuilder(
+          int index) {
+        if (salariesBuilder_ == null) {
+          return salaries_.get(index);  } else {
+          return salariesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public java.util.List<? extends sr.proto.AddressBookProtos.Person.SalariesOrBuilder> 
+           getSalariesOrBuilderList() {
+        if (salariesBuilder_ != null) {
+          return salariesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(salaries_);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public sr.proto.AddressBookProtos.Person.Salaries.Builder addSalariesBuilder() {
+        return getSalariesFieldBuilder().addBuilder(
+            sr.proto.AddressBookProtos.Person.Salaries.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public sr.proto.AddressBookProtos.Person.Salaries.Builder addSalariesBuilder(
+          int index) {
+        return getSalariesFieldBuilder().addBuilder(
+            index, sr.proto.AddressBookProtos.Person.Salaries.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tutorial.Person.Salaries salaries = 5;</code>
+       */
+      public java.util.List<sr.proto.AddressBookProtos.Person.Salaries.Builder> 
+           getSalariesBuilderList() {
+        return getSalariesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          sr.proto.AddressBookProtos.Person.Salaries, sr.proto.AddressBookProtos.Person.Salaries.Builder, sr.proto.AddressBookProtos.Person.SalariesOrBuilder> 
+          getSalariesFieldBuilder() {
+        if (salariesBuilder_ == null) {
+          salariesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              sr.proto.AddressBookProtos.Person.Salaries, sr.proto.AddressBookProtos.Person.Salaries.Builder, sr.proto.AddressBookProtos.Person.SalariesOrBuilder>(
+                  salaries_,
+                  ((bitField0_ & 0x00000010) != 0),
+                  getParentForChildren(),
+                  isClean());
+          salaries_ = null;
+        }
+        return salariesBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:tutorial.Person)
@@ -2624,6 +3434,11 @@ public final class AddressBookProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tutorial_Person_Salaries_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_tutorial_Person_Salaries_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_AddressBook_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2637,15 +3452,17 @@ public final class AddressBookProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014person.proto\022\010tutorial\"\325\001\n\006Person\022\014\n\004n" +
+      "\n\014person.proto\022\010tutorial\"\240\002\n\006Person\022\014\n\004n" +
       "ame\030\001 \001(\t\022\n\n\002id\030\002 \001(\005\022\r\n\005email\030\003 \001(\t\022,\n\006" +
       "phones\030\004 \003(\0132\034.tutorial.Person.PhoneNumb" +
-      "er\032G\n\013PhoneNumber\022\016\n\006number\030\001 \001(\t\022(\n\004typ" +
-      "e\030\002 \001(\0162\032.tutorial.Person.PhoneType\"+\n\tP" +
-      "honeType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002" +
-      "\"/\n\013AddressBook\022 \n\006people\030\001 \003(\0132\020.tutori" +
-      "al.PersonB\035\n\010sr.protoB\021AddressBookProtos" +
-      "b\006proto3"
+      "er\022+\n\010salaries\030\005 \003(\0132\031.tutorial.Person.S" +
+      "alaries\032G\n\013PhoneNumber\022\016\n\006number\030\001 \001(\t\022(" +
+      "\n\004type\030\002 \001(\0162\032.tutorial.Person.PhoneType" +
+      "\032\034\n\010Salaries\022\020\n\010salaries\030\001 \001(\001\"+\n\tPhoneT" +
+      "ype\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002\"/\n\013A" +
+      "ddressBook\022 \n\006people\030\001 \003(\0132\020.tutorial.Pe" +
+      "rsonB\035\n\010sr.protoB\021AddressBookProtosb\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2656,13 +3473,19 @@ public final class AddressBookProtos {
     internal_static_tutorial_Person_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_tutorial_Person_descriptor,
-        new java.lang.String[] { "Name", "Id", "Email", "Phones", });
+        new java.lang.String[] { "Name", "Id", "Email", "Phones", "Salaries", });
     internal_static_tutorial_Person_PhoneNumber_descriptor =
       internal_static_tutorial_Person_descriptor.getNestedTypes().get(0);
     internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_tutorial_Person_PhoneNumber_descriptor,
         new java.lang.String[] { "Number", "Type", });
+    internal_static_tutorial_Person_Salaries_descriptor =
+      internal_static_tutorial_Person_descriptor.getNestedTypes().get(1);
+    internal_static_tutorial_Person_Salaries_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_tutorial_Person_Salaries_descriptor,
+        new java.lang.String[] { "Salaries", });
     internal_static_tutorial_AddressBook_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tutorial_AddressBook_fieldAccessorTable = new
