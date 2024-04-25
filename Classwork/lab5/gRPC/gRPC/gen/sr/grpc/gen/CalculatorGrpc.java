@@ -77,6 +77,37 @@ public final class CalculatorGrpc {
     return getSubtractMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<sr.grpc.gen.MultiplyArguments,
+      sr.grpc.gen.ArithmeticOpResult> getMultiplyMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "Multiply",
+      requestType = sr.grpc.gen.MultiplyArguments.class,
+      responseType = sr.grpc.gen.ArithmeticOpResult.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<sr.grpc.gen.MultiplyArguments,
+      sr.grpc.gen.ArithmeticOpResult> getMultiplyMethod() {
+    io.grpc.MethodDescriptor<sr.grpc.gen.MultiplyArguments, sr.grpc.gen.ArithmeticOpResult> getMultiplyMethod;
+    if ((getMultiplyMethod = CalculatorGrpc.getMultiplyMethod) == null) {
+      synchronized (CalculatorGrpc.class) {
+        if ((getMultiplyMethod = CalculatorGrpc.getMultiplyMethod) == null) {
+          CalculatorGrpc.getMultiplyMethod = getMultiplyMethod =
+              io.grpc.MethodDescriptor.<sr.grpc.gen.MultiplyArguments, sr.grpc.gen.ArithmeticOpResult>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Multiply"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  sr.grpc.gen.MultiplyArguments.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  sr.grpc.gen.ArithmeticOpResult.getDefaultInstance()))
+              .setSchemaDescriptor(new CalculatorMethodDescriptorSupplier("Multiply"))
+              .build();
+        }
+      }
+    }
+    return getMultiplyMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +169,13 @@ public final class CalculatorGrpc {
         io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSubtractMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void multiply(sr.grpc.gen.MultiplyArguments request,
+        io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMultiplyMethod(), responseObserver);
+    }
   }
 
   /**
@@ -182,6 +220,14 @@ public final class CalculatorGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSubtractMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void multiply(sr.grpc.gen.MultiplyArguments request,
+        io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getMultiplyMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -212,6 +258,13 @@ public final class CalculatorGrpc {
     public sr.grpc.gen.ArithmeticOpResult subtract(sr.grpc.gen.ArithmeticOpArguments request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSubtractMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public sr.grpc.gen.ArithmeticOpResult multiply(sr.grpc.gen.MultiplyArguments request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getMultiplyMethod(), getCallOptions(), request);
     }
   }
 
@@ -246,10 +299,19 @@ public final class CalculatorGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSubtractMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<sr.grpc.gen.ArithmeticOpResult> multiply(
+        sr.grpc.gen.MultiplyArguments request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getMultiplyMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ADD = 0;
   private static final int METHODID_SUBTRACT = 1;
+  private static final int METHODID_MULTIPLY = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -274,6 +336,10 @@ public final class CalculatorGrpc {
           break;
         case METHODID_SUBTRACT:
           serviceImpl.subtract((sr.grpc.gen.ArithmeticOpArguments) request,
+              (io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult>) responseObserver);
+          break;
+        case METHODID_MULTIPLY:
+          serviceImpl.multiply((sr.grpc.gen.MultiplyArguments) request,
               (io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult>) responseObserver);
           break;
         default:
@@ -308,6 +374,13 @@ public final class CalculatorGrpc {
               sr.grpc.gen.ArithmeticOpArguments,
               sr.grpc.gen.ArithmeticOpResult>(
                 service, METHODID_SUBTRACT)))
+        .addMethod(
+          getMultiplyMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              sr.grpc.gen.MultiplyArguments,
+              sr.grpc.gen.ArithmeticOpResult>(
+                service, METHODID_MULTIPLY)))
         .build();
   }
 
@@ -358,6 +431,7 @@ public final class CalculatorGrpc {
               .setSchemaDescriptor(new CalculatorFileDescriptorSupplier())
               .addMethod(getAddMethod())
               .addMethod(getSubtractMethod())
+              .addMethod(getMultiplyMethod())
               .build();
         }
       }

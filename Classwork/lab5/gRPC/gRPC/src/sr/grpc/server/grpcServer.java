@@ -34,8 +34,8 @@ public class grpcServer
 		server = ServerBuilder.forPort(50051).executor((Executors.newFixedThreadPool(16)))
 				//NettyServerBuilder.forAddress(socket).executor(Executors.newFixedThreadPool(16))
 				.addService(new CalculatorImpl())
-				//.addService(new CalculatorImpl())
-				//.addService(new AdvancedCalculatorImpl())
+				.addService(new CalculatorImpl())
+				.addService(new AdvancedCalculatorImpl())
 				.addService(new StreamTesterImpl())
 				.build()
 				.start();

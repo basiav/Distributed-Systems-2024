@@ -125,6 +125,12 @@ public class grpcClient
 						System.out.println(result.getRes());
 						break;
 					}
+					case "multiply": {
+						MultiplyArguments request = MultiplyArguments.newBuilder().addAllNumbers(Arrays.asList(1,2,3,4,5,6)).build();
+						ArithmeticOpResult result = calcBlockingStub.multiply(request);
+						System.out.println(result.getRes());
+						break;
+					}
 					case "add-deadline1":
 						try {
 							ArithmeticOpArguments request = ArithmeticOpArguments.newBuilder().setArg1(44).setArg2(55).build();

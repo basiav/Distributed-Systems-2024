@@ -16,9 +16,14 @@ message ArithmeticOpResult {
   int32 res = 1;
 }
 
+message MultiplyArguments {
+  repeated int32 numbers = 1;
+}
+
 service Calculator {
   rpc Add (ArithmeticOpArguments) returns (ArithmeticOpResult) {}
   rpc Subtract (ArithmeticOpArguments) returns (ArithmeticOpResult) {}
+  rpc Multiply (MultiplyArguments) returns (ArithmeticOpResult) {}
 }
 
 enum OperationType {
