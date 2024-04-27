@@ -1,0 +1,36 @@
+syntax = "proto3";
+option go_package = "../main";
+package calculator;
+
+message ArithmeticOpArguments {
+  int32 arg1 = 1;
+  int32 arg2 = 2;
+}
+
+message SingleIntResult {
+  int32 res = 1;
+}
+
+service Calculator {
+  rpc AddTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
+  rpc SubtractTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
+}
+
+message ListArithmeticOpArguments {
+  repeated int32 args = 2;
+}
+
+message Complex {
+    double real = 1;
+    double imag = 2;
+}
+
+message ListComplexOpArguments {
+    repeated Complex args = 3;
+}
+
+service AdvancedCalculator {
+  rpc MultiplyTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
+  rpc ListSumComplex(ListComplexOpArguments) returns (Complex) {}
+  rpc ListSum (ListArithmeticOpArguments) returns (SingleIntResult) {}
+}
