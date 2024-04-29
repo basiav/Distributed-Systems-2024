@@ -38,7 +38,7 @@ if __name__ == '__main__':
     map_name_proxy = {
         # "bathroom bulb": "Bulb/bathroomBulb",
         "bathroom bulb": "Bulb/bathroom",
-        "kitchen bulb": "Bulb/kitchen",
+>>>>>>>>> Temporary merge branch 2
         "mothers room bulb": "Bulb/mothersRoomBulb",
         "home office color printer": "Printer/homeOfficeColorPrinter",
         "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
