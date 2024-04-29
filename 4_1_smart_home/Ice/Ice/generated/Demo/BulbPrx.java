@@ -15,7 +15,7 @@
 
 package Demo;
 
-public interface BulbPrx extends com.zeroc.Ice.ObjectPrx
+public interface BulbPrx extends DevicePrx
 {
     default void changeColor(Color color)
     {
@@ -152,6 +152,43 @@ public interface BulbPrx extends com.zeroc.Ice.ObjectPrx
         f.invoke(false, context, null, ostr -> {
                      ostr.writeInt(iceP_percentagePoints);
                  }, null);
+        return f;
+    }
+
+    default Color[] getAllPossibleColors()
+    {
+        return getAllPossibleColors(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default Color[] getAllPossibleColors(java.util.Map<String, String> context)
+    {
+        return _iceI_getAllPossibleColorsAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Color[]> getAllPossibleColorsAsync()
+    {
+        return _iceI_getAllPossibleColorsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Color[]> getAllPossibleColorsAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_getAllPossibleColorsAsync(context, false);
+    }
+
+    /**
+     * @hidden
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Color[]> _iceI_getAllPossibleColorsAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Color[]> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAllPossibleColors", null, sync, null);
+        f.invoke(true, context, null, null, istr -> {
+                     Color[] ret;
+                     ret = colorsHelper.read(istr);
+                     return ret;
+                 });
         return f;
     }
 

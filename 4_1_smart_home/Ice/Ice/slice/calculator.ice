@@ -12,9 +12,11 @@ module Demo
     enum InfoKey {
         Temperature, SmokeLevel, Location, Brightness, Color
     };
+//    dictionary<string, string> dict;
 
     class Info {
         int status;
+//        dictionary<InfoKey, string> moreInfo;
     };
 
 //    class Device {
@@ -41,11 +43,14 @@ module Demo
 //        void dim();
 //        void brighten();
 //    };
-    interface Bulb {
+    sequence<Color> colors;
+
+    interface Bulb extends Device{
         void changeColor(Color color);
         void dim();
         void brighten();
         void changeBrightness(int percentagePoints);
+        colors getAllPossibleColors();
     };
 
 

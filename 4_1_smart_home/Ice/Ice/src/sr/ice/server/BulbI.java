@@ -1,20 +1,19 @@
 package sr.ice.server;
 import Demo.*;
 import com.zeroc.Ice.Current;
-import com.zeroc.Ice.OutputStream;
-import com.zeroc.Ice.UserException;
-import com.zeroc.IceInternal.Incoming;
 
-import java.util.concurrent.CompletionStage;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BulbI implements Bulb {
     Color color;
     int brightnessPercentage;
-    String name;
+    String location;
+    boolean turnedOn;
 
     public BulbI(String bathroomBulb) {
-        this.name = bathroomBulb;
+        this.location = bathroomBulb;
         this.color = Color.White;
         this.brightnessPercentage = 10;
     }
@@ -22,7 +21,7 @@ public class BulbI implements Bulb {
 //    public BulbI(String location) {
 //        this(location, Color.White);
 //    }
-
+//
 //    public BulbI(String location, Color color) {
 //        super(location);
 //        this.color = color;
@@ -69,17 +68,50 @@ public class BulbI implements Bulb {
 //    }
 
 
-//    @Override
-//    public Color[] getAllPossibleColors(Current current) {
-//        return Color.values();
+    @Override
+    public Color[] getAllPossibleColors(Current current) {
+        return Color.values();
+    }
+
+//    public Info getInfo(Current current) {
+//        return new Info(getStatus(), new HashMap<>(Map.of(InfoKey.Location, location)));
 //    }
-//
+
 //    @Override
 //    public Info getInfo(Current current) {
-//        Info info = super.getInfo(current);
+////        Info info = super.getInfo(current);
+//        Info getInfo = new Info(getStatus(), new HashMap<>(Map.of(InfoKey.Location, location)));
+//
 //
 //        info.moreInfo.put(InfoKey.Brightness, brightnessPercentage + "%");
 //        info.moreInfo.put(InfoKey.Color, color.name());
 //        return info;
 //    }
+
+    protected String getStatus() {
+        return turnedOn ? "on" : "off";
+    }
+
+    @Override
+    public void turnOn(Current current) {
+        turnedOn = true;
+        changeStatus();
+    }
+
+    @Override
+    public void turnOff(Current current) {
+        turnedOn = false;
+        changeStatus();
+    }
+
+    private void changeStatus() {
+        String status = getStatus();
+        System.out.println("Turning " + status + " device...");
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Device turned " + status);
+    }
 }

@@ -38,14 +38,15 @@ if __name__ == '__main__':
     map_name_proxy = {
         # "bathroom bulb": "Bulb/bathroomBulb",
         "bathroom bulb": "Bulb/bathroom",
+        "kitchen bulb": "Bulb/kitchen",
         "mothers room bulb": "Bulb/mothersRoomBulb",
         "home office color printer": "Printer/homeOfficeColorPrinter",
         "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
     }
 
     map_device_address = {
-        # "bathroom bulb": "127.0.0.1",
-        "bathroom bulb": "127.0.0.2",
+        "bathroom bulb": "127.0.0.1",
+        "kitchen bulb": "127.0.0.2",
         "mothers room bulb": "127.0.0.2",
         "home office color printer": "127.0.0.1",
         "spare office grayscale printer": "127.0.0.2"
@@ -99,7 +100,7 @@ if __name__ == '__main__':
                     for item in fun.__code__.co_varnames[1:-1]:
                         print(f"-> {item}")
                         if item == "color":
-                            print(f"\t{SmartHome.Color._enumerators}")
+                            print(f"\t{Demo.Color._enumerators}")
                             color = input()
                             args = Demo.Color.valueOf(int(color))
                         else:

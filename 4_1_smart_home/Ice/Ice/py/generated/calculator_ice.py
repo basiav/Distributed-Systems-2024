@@ -258,14 +258,11 @@ if 'PrinterPrx' not in _M_Demo.__dict__:
     _M_Demo.PrinterDisp = PrinterDisp
     del PrinterDisp
 
-if '_t_colors' not in _M_Demo.__dict__:
-    _M_Demo._t_colors = IcePy.defineSequence('::Demo::colors', (), _M_Demo._t_Color)
-
 _M_Demo._t_Bulb = IcePy.defineValue('::Demo::Bulb', Ice.Value, -1, (), False, True, None, ())
 
 if 'BulbPrx' not in _M_Demo.__dict__:
     _M_Demo.BulbPrx = Ice.createTempClass()
-    class BulbPrx(_M_Demo.DevicePrx):
+    class BulbPrx(Ice.ObjectPrx):
 
         def changeColor(self, color, context=None):
             return _M_Demo.Bulb._op_changeColor.invoke(self, ((color, ), context))
@@ -315,18 +312,6 @@ if 'BulbPrx' not in _M_Demo.__dict__:
         def end_changeBrightness(self, _r):
             return _M_Demo.Bulb._op_changeBrightness.end(self, _r)
 
-        def getAllPossibleColors(self, context=None):
-            return _M_Demo.Bulb._op_getAllPossibleColors.invoke(self, ((), context))
-
-        def getAllPossibleColorsAsync(self, context=None):
-            return _M_Demo.Bulb._op_getAllPossibleColors.invokeAsync(self, ((), context))
-
-        def begin_getAllPossibleColors(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.Bulb._op_getAllPossibleColors.begin(self, ((), _response, _ex, _sent, context))
-
-        def end_getAllPossibleColors(self, _r):
-            return _M_Demo.Bulb._op_getAllPossibleColors.end(self, _r)
-
         @staticmethod
         def checkedCast(proxy, facetOrContext=None, context=None):
             return _M_Demo.BulbPrx.ice_checkedCast(proxy, '::Demo::Bulb', facetOrContext, context)
@@ -344,10 +329,10 @@ if 'BulbPrx' not in _M_Demo.__dict__:
     del BulbPrx
 
     _M_Demo.Bulb = Ice.createTempClass()
-    class Bulb(_M_Demo.Device):
+    class Bulb(Ice.Object):
 
         def ice_ids(self, current=None):
-            return ('::Demo::Bulb', '::Demo::Device', '::Ice::Object')
+            return ('::Demo::Bulb', '::Ice::Object')
 
         def ice_id(self, current=None):
             return '::Demo::Bulb'
@@ -368,22 +353,18 @@ if 'BulbPrx' not in _M_Demo.__dict__:
         def changeBrightness(self, percentagePoints, current=None):
             raise NotImplementedError("servant method 'changeBrightness' not implemented")
 
-        def getAllPossibleColors(self, current=None):
-            raise NotImplementedError("servant method 'getAllPossibleColors' not implemented")
-
         def __str__(self):
             return IcePy.stringify(self, _M_Demo._t_BulbDisp)
 
         __repr__ = __str__
 
-    _M_Demo._t_BulbDisp = IcePy.defineClass('::Demo::Bulb', Bulb, (), None, (_M_Demo._t_DeviceDisp,))
+    _M_Demo._t_BulbDisp = IcePy.defineClass('::Demo::Bulb', Bulb, (), None, ())
     Bulb._ice_type = _M_Demo._t_BulbDisp
 
     Bulb._op_changeColor = IcePy.Operation('changeColor', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), _M_Demo._t_Color, False, 0),), (), None, ())
     Bulb._op_dim = IcePy.Operation('dim', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
     Bulb._op_brighten = IcePy.Operation('brighten', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
     Bulb._op_changeBrightness = IcePy.Operation('changeBrightness', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_int, False, 0),), (), None, ())
-    Bulb._op_getAllPossibleColors = IcePy.Operation('getAllPossibleColors', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_colors, False, 0), ())
 
     _M_Demo.Bulb = Bulb
     del Bulb

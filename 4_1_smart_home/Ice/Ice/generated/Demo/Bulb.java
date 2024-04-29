@@ -15,7 +15,7 @@
 
 package Demo;
 
-public interface Bulb extends com.zeroc.Ice.Object
+public interface Bulb extends Device
 {
     void changeColor(Color color, com.zeroc.Ice.Current current);
 
@@ -25,10 +25,13 @@ public interface Bulb extends com.zeroc.Ice.Object
 
     void changeBrightness(int percentagePoints, com.zeroc.Ice.Current current);
 
+    Color[] getAllPossibleColors(com.zeroc.Ice.Current current);
+
     /** @hidden */
     static final String[] _iceIds =
     {
         "::Demo::Bulb",
+        "::Demo::Device",
         "::Ice::Object"
     };
 
@@ -115,6 +118,24 @@ public interface Bulb extends com.zeroc.Ice.Object
         return inS.setResult(inS.writeEmptyParams());
     }
 
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+    **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAllPossibleColors(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        inS.readEmptyParams();
+        Color[] ret = obj.getAllPossibleColors(current);
+        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
+        colorsHelper.write(ostr, ret);
+        inS.endWriteParams(ostr);
+        return inS.setResult(ostr);
+    }
+
     /** @hidden */
     final static String[] _iceOps =
     {
@@ -122,10 +143,13 @@ public interface Bulb extends com.zeroc.Ice.Object
         "changeBrightness",
         "changeColor",
         "dim",
+        "getAllPossibleColors",
         "ice_id",
         "ice_ids",
         "ice_isA",
-        "ice_ping"
+        "ice_ping",
+        "turnOff",
+        "turnOn"
     };
 
     /** @hidden */
@@ -159,19 +183,31 @@ public interface Bulb extends com.zeroc.Ice.Object
             }
             case 4:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return _iceD_getAllPossibleColors(this, in, current);
             }
             case 5:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 6:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 7:
             {
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+            }
+            case 8:
+            {
                 return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+            }
+            case 9:
+            {
+                return Device._iceD_turnOff(this, in, current);
+            }
+            case 10:
+            {
+                return Device._iceD_turnOn(this, in, current);
             }
         }
 

@@ -3,12 +3,7 @@ package sr.ice.client;
 import Demo.BulbPrx;
 import com.zeroc.Ice.*;
 
-import java.io.IOException;
 import java.lang.Exception;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 public class IceClient {
 	public static void main(String[] args) {
