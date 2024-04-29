@@ -261,6 +261,25 @@ if 'PrinterPrx' not in _M_Demo.__dict__:
 if '_t_colors' not in _M_Demo.__dict__:
     _M_Demo._t_colors = IcePy.defineSequence('::Demo::colors', (), _M_Demo._t_Color)
 
+if 'ValueOutOfRangeException' not in _M_Demo.__dict__:
+    _M_Demo.ValueOutOfRangeException = Ice.createTempClass()
+    class ValueOutOfRangeException(Ice.UserException):
+        def __init__(self, reason=''):
+            self.reason = reason
+
+        def __str__(self):
+            return IcePy.stringifyException(self)
+
+        __repr__ = __str__
+
+        _ice_id = '::Demo::ValueOutOfRangeException'
+
+    _M_Demo._t_ValueOutOfRangeException = IcePy.defineException('::Demo::ValueOutOfRangeException', ValueOutOfRangeException, (), False, None, (('reason', (), IcePy._t_string, False, 0),))
+    ValueOutOfRangeException._ice_type = _M_Demo._t_ValueOutOfRangeException
+
+    _M_Demo.ValueOutOfRangeException = ValueOutOfRangeException
+    del ValueOutOfRangeException
+
 _M_Demo._t_Bulb = IcePy.defineValue('::Demo::Bulb', Ice.Value, -1, (), False, True, None, ())
 
 if 'BulbPrx' not in _M_Demo.__dict__:
@@ -380,10 +399,10 @@ if 'BulbPrx' not in _M_Demo.__dict__:
     Bulb._ice_type = _M_Demo._t_BulbDisp
 
     Bulb._op_changeColor = IcePy.Operation('changeColor', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), _M_Demo._t_Color, False, 0),), (), None, ())
-    Bulb._op_dim = IcePy.Operation('dim', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
-    Bulb._op_brighten = IcePy.Operation('brighten', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
-    Bulb._op_changeBrightness = IcePy.Operation('changeBrightness', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_int, False, 0),), (), None, ())
-    Bulb._op_getAllPossibleColors = IcePy.Operation('getAllPossibleColors', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_colors, False, 0), ())
+    Bulb._op_dim = IcePy.Operation('dim', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
+    Bulb._op_brighten = IcePy.Operation('brighten', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
+    Bulb._op_changeBrightness = IcePy.Operation('changeBrightness', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_int, False, 0),), (), None, (_M_Demo._t_ValueOutOfRangeException,))
+    Bulb._op_getAllPossibleColors = IcePy.Operation('getAllPossibleColors', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), _M_Demo._t_colors, False, 0), ())
 
     _M_Demo.Bulb = Bulb
     del Bulb

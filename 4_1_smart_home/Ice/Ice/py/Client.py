@@ -38,7 +38,7 @@ if __name__ == '__main__':
     map_name_proxy = {
         # "bathroom bulb": "Bulb/bathroomBulb",
         "bathroom bulb": "Bulb/bathroom",
-        "kitchen bulb": "Bulb/kitchen",
+        "kitchen bulb": "bulb/kitchen",
         "mothers room bulb": "Bulb/mothersRoomBulb",
         "home office color printer": "Printer/homeOfficeColorPrinter",
         "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
@@ -95,6 +95,7 @@ if __name__ == '__main__':
                     continue
 
                 fun = getattr(device, operations[int(op)])
+                print(f"operations[int(op)]: {operations[int(op)]}")
                 if fun.__code__.co_varnames[1:-1]:
                     print("Insert listed arguments:")
                     for item in fun.__code__.co_varnames[1:-1]:

@@ -34,19 +34,21 @@ public class BulbI implements Bulb {
     }
 
     @Override
-    public void dim(Current current) {
+    public void dim(Current current) throws ValueOutOfRangeException {
         changeBrightness(-5, current);
     }
 
     @Override
-    public void brighten(Current current){
+    public void brighten(Current current) throws ValueOutOfRangeException {
         changeBrightness(5, current);
     }
 
     @Override
-    public void changeBrightness(int percentagePoints, Current current){
+    public void changeBrightness(int percentagePoints, Current current) throws ValueOutOfRangeException {
         int oldBrightness = brightnessPercentage;
         int newBrightness = brightnessPercentage + percentagePoints;
+
+        if (newBrightness < 0 || newBrightness > 100) throw new ValueOutOfRangeException(String.valueOf(newBrightness));
 
         brightnessPercentage = newBrightness;
         System.out.println("Bulb brightness changed from " + oldBrightness + " to " + brightnessPercentage);

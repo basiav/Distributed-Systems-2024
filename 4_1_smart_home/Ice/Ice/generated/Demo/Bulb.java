@@ -19,11 +19,14 @@ public interface Bulb extends Device
 {
     void changeColor(Color color, com.zeroc.Ice.Current current);
 
-    void dim(com.zeroc.Ice.Current current);
+    void dim(com.zeroc.Ice.Current current)
+        throws ValueOutOfRangeException;
 
-    void brighten(com.zeroc.Ice.Current current);
+    void brighten(com.zeroc.Ice.Current current)
+        throws ValueOutOfRangeException;
 
-    void changeBrightness(int percentagePoints, com.zeroc.Ice.Current current);
+    void changeBrightness(int percentagePoints, com.zeroc.Ice.Current current)
+        throws ValueOutOfRangeException;
 
     Color[] getAllPossibleColors(com.zeroc.Ice.Current current);
 
@@ -76,8 +79,10 @@ public interface Bulb extends Device
      * @param inS -
      * @param current -
      * @return -
+     * @throws com.zeroc.Ice.UserException -
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_dim(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
@@ -91,8 +96,10 @@ public interface Bulb extends Device
      * @param inS -
      * @param current -
      * @return -
+     * @throws com.zeroc.Ice.UserException -
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_brighten(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
@@ -106,8 +113,10 @@ public interface Bulb extends Device
      * @param inS -
      * @param current -
      * @return -
+     * @throws com.zeroc.Ice.UserException -
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_changeBrightness(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
@@ -127,7 +136,7 @@ public interface Bulb extends Device
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAllPossibleColors(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
         Color[] ret = obj.getAllPossibleColors(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();

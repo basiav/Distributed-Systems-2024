@@ -54,13 +54,26 @@ public interface BulbPrx extends DevicePrx
     }
 
     default void dim()
+        throws ValueOutOfRangeException
     {
         dim(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default void dim(java.util.Map<String, String> context)
+        throws ValueOutOfRangeException
     {
-        _iceI_dimAsync(context, true).waitForResponse();
+        try
+        {
+            _iceI_dimAsync(context, true).waitForResponseOrUserEx();
+        }
+        catch(ValueOutOfRangeException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
     }
 
     default java.util.concurrent.CompletableFuture<Void> dimAsync()
@@ -81,19 +94,38 @@ public interface BulbPrx extends DevicePrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_dimAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "dim", null, sync, null);
-        f.invoke(false, context, null, null, null);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "dim", null, sync, _iceE_dim);
+        f.invoke(true, context, null, null, null);
         return f;
     }
 
+    /** @hidden */
+    static final Class<?>[] _iceE_dim =
+    {
+        ValueOutOfRangeException.class
+    };
+
     default void brighten()
+        throws ValueOutOfRangeException
     {
         brighten(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default void brighten(java.util.Map<String, String> context)
+        throws ValueOutOfRangeException
     {
-        _iceI_brightenAsync(context, true).waitForResponse();
+        try
+        {
+            _iceI_brightenAsync(context, true).waitForResponseOrUserEx();
+        }
+        catch(ValueOutOfRangeException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
     }
 
     default java.util.concurrent.CompletableFuture<Void> brightenAsync()
@@ -114,19 +146,38 @@ public interface BulbPrx extends DevicePrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_brightenAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "brighten", null, sync, null);
-        f.invoke(false, context, null, null, null);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "brighten", null, sync, _iceE_brighten);
+        f.invoke(true, context, null, null, null);
         return f;
     }
 
+    /** @hidden */
+    static final Class<?>[] _iceE_brighten =
+    {
+        ValueOutOfRangeException.class
+    };
+
     default void changeBrightness(int percentagePoints)
+        throws ValueOutOfRangeException
     {
         changeBrightness(percentagePoints, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default void changeBrightness(int percentagePoints, java.util.Map<String, String> context)
+        throws ValueOutOfRangeException
     {
-        _iceI_changeBrightnessAsync(percentagePoints, context, true).waitForResponse();
+        try
+        {
+            _iceI_changeBrightnessAsync(percentagePoints, context, true).waitForResponseOrUserEx();
+        }
+        catch(ValueOutOfRangeException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
     }
 
     default java.util.concurrent.CompletableFuture<Void> changeBrightnessAsync(int percentagePoints)
@@ -148,12 +199,18 @@ public interface BulbPrx extends DevicePrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_changeBrightnessAsync(int iceP_percentagePoints, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "changeBrightness", null, sync, null);
-        f.invoke(false, context, null, ostr -> {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "changeBrightness", null, sync, _iceE_changeBrightness);
+        f.invoke(true, context, null, ostr -> {
                      ostr.writeInt(iceP_percentagePoints);
                  }, null);
         return f;
     }
+
+    /** @hidden */
+    static final Class<?>[] _iceE_changeBrightness =
+    {
+        ValueOutOfRangeException.class
+    };
 
     default Color[] getAllPossibleColors()
     {
@@ -183,7 +240,7 @@ public interface BulbPrx extends DevicePrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Color[]> _iceI_getAllPossibleColorsAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Color[]> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAllPossibleColors", null, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<Color[]> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAllPossibleColors", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, null, istr -> {
                      Color[] ret;
                      ret = colorsHelper.read(istr);

@@ -45,12 +45,14 @@ module Demo
 //    };
     sequence<Color> colors;
 
+    exception ValueOutOfRangeException { string reason; };
+
     interface Bulb extends Device{
         void changeColor(Color color);
-        void dim();
-        void brighten();
-        void changeBrightness(int percentagePoints);
-        colors getAllPossibleColors();
+        void dim() throws ValueOutOfRangeException;
+        void brighten() throws ValueOutOfRangeException;
+        void changeBrightness(int percentagePoints) throws ValueOutOfRangeException;
+        idempotent colors getAllPossibleColors();
     };
 
 
