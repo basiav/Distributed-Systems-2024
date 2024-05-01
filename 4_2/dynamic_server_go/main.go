@@ -5,35 +5,74 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"net"
 
-	"google.golang.org/grpc"
+	grpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var port = flag.Int("port", 50051, "the port to serve on")
+var port = flag.Int("port", 50050, "the port to serve on")
 
 type calcServer struct {
 	UnimplementedCalculatorServer
+}
+
+// Add implements helloworld.GreeterServer
+func (s *calcServer) SimpleAdd(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
+	fmt.Println("SimpleAdd")
+	return &SingleIntResult{
+		Res: in.Arg1 + in.Arg2,
+	}, nil
+}
+
+func (s *calcServer) SimpleSubtract(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
+	fmt.Println("SubtractTwo")
+	return &SingleIntResult{
+		Res: in.Arg1 - in.Arg2,
+	}, nil
 }
 
 type advCalcServer struct {
 	UnimplementedAdvancedCalculatorServer
 }
 
-// Add implements helloworld.GreeterServer
-func (s *calcServer) AddTwo(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
-	fmt.Println("AddTwo")
-	return &SingleIntResult{
-		Res: in.Arg1 + in.Arg2,
-	}, nil
-}
-
-func (s *calcServer) SubtractTwo(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
-	fmt.Println("SubtractTwo")
-	return &SingleIntResult{
-		Res: in.Arg1 - in.Arg2,
-	}, nil
+func (s *advCalcServer) ComplexOperation(ctx context.Context, in *ComplexArithmeticOpArguments) (*ComplexArithmeticOpResult, error) {
+	fmt.Println("ComplexOperation")
+	fmt.Println(in.Optype, in.Args)
+	res := float64(0)
+	if in.Optype == OperationType_SUM {
+		for _, num := range in.Args {
+			res += num
+		}
+	}
+	if in.Optype == OperationType_AVG {
+		i := float64(0)
+		for _, num := range in.Args {
+			res += num
+			i += 1
+		}
+		res /= i
+	}
+	if in.Optype == OperationType_MAX {
+		max := math.Inf(-1)
+		for _, num := range in.Args {
+			if num >= max {
+				max = num
+				res = max
+			}
+		}
+	}
+	if in.Optype == OperationType_MIN {
+		min := math.Inf(0)
+		for _, num := range in.Args {
+			if num < min {
+				min = num
+				res = min
+			}
+		}
+	}
+	return &ComplexArithmeticOpResult{Res: res}, nil
 }
 
 func (s *advCalcServer) ListSum(ctx context.Context, in *ListArithmeticOpArguments) (*SingleIntResult, error) {
@@ -46,24 +85,6 @@ func (s *advCalcServer) ListSum(ctx context.Context, in *ListArithmeticOpArgumen
 	return &SingleIntResult{
 		Res: res,
 	}, nil
-}
-
-func (s *advCalcServer) MultiplyTwo(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
-	fmt.Println("Multiply")
-	return &SingleIntResult{
-		Res: in.Arg1 * in.Arg2,
-	}, nil
-}
-
-func (s *advCalcServer) ListSumComplex(ctx context.Context, in *ListComplexOpArguments) (*Complex, error) {
-	fmt.Println("ListSumComplex")
-	res := Complex{Real: 0, Imag: 0}
-	for _, num := range in.Args {
-		res.Real += num.Real
-		res.Imag += num.Imag
-	}
-
-	return &res, nil
 }
 
 func main() {
@@ -80,7 +101,6 @@ func main() {
 
 		Fix module errors using
 		go mod tidy
-		I don't know what magic this command uses, but it should work.
 	*/
 
 	flag.Parse()

@@ -2,6 +2,7 @@ syntax = "proto3";
 option go_package = "../main";
 package calculator;
 
+
 message ArithmeticOpArguments {
   int32 arg1 = 1;
   int32 arg2 = 2;
@@ -12,25 +13,31 @@ message SingleIntResult {
 }
 
 service Calculator {
-  rpc AddTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
-  rpc SubtractTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
+  rpc SimpleAdd (ArithmeticOpArguments) returns (SingleIntResult) {}
+  rpc SimpleSubtract (ArithmeticOpArguments) returns (SingleIntResult) {}
+}
+
+enum OperationType {
+  SUM = 0;
+  AVG = 1;
+  MIN = 2;
+  MAX = 3;
+}
+
+message ComplexArithmeticOpArguments {
+  OperationType optype = 1;  
+  repeated double args = 2;
+}
+
+message ComplexArithmeticOpResult {
+  double res = 1;
 }
 
 message ListArithmeticOpArguments {
   repeated int32 args = 2;
 }
-
-message Complex {
-    double real = 1;
-    double imag = 2;
-}
-
-message ListComplexOpArguments {
-    repeated Complex args = 2;
-}
-
+     
 service AdvancedCalculator {
-  rpc MultiplyTwo (ArithmeticOpArguments) returns (SingleIntResult) {}
-  rpc ListSumComplex(ListComplexOpArguments) returns (Complex) {}
+  rpc ComplexOperation (ComplexArithmeticOpArguments) returns (ComplexArithmeticOpResult) {}
   rpc ListSum (ListArithmeticOpArguments) returns (SingleIntResult) {}
 }

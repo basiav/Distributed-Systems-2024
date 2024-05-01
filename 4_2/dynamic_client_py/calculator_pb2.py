@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63\x61lculator.proto\x12\ncalculator\"3\n\x15\x41rithmeticOpArguments\x12\x0c\n\x04\x61rg1\x18\x01 \x01(\x05\x12\x0c\n\x04\x61rg2\x18\x02 \x01(\x05\"\x1e\n\x0fSingleIntResult\x12\x0b\n\x03res\x18\x01 \x01(\x05\")\n\x19ListArithmeticOpArguments\x12\x0c\n\x04\x61rgs\x18\x02 \x03(\x05\"%\n\x07\x43omplex\x12\x0c\n\x04real\x18\x01 \x01(\x01\x12\x0c\n\x04imag\x18\x02 \x01(\x01\";\n\x16ListComplexOpArguments\x12!\n\x04\x61rgs\x18\x02 \x03(\x0b\x32\x13.calculator.Complex2\xa9\x01\n\nCalculator\x12J\n\x06\x41\x64\x64Two\x12!.calculator.ArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x12O\n\x0bSubtractTwo\x12!.calculator.ArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x32\x83\x02\n\x12\x41\x64vancedCalculator\x12O\n\x0bMultiplyTwo\x12!.calculator.ArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x12K\n\x0eListSumComplex\x12\".calculator.ListComplexOpArguments\x1a\x13.calculator.Complex\"\x00\x12O\n\x07ListSum\x12%.calculator.ListArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x42\tZ\x07../mainb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63\x61lculator.proto\x12\ncalculator\"3\n\x15\x41rithmeticOpArguments\x12\x0c\n\x04\x61rg1\x18\x01 \x01(\x05\x12\x0c\n\x04\x61rg2\x18\x02 \x01(\x05\"\x1e\n\x0fSingleIntResult\x12\x0b\n\x03res\x18\x01 \x01(\x05\"W\n\x1c\x43omplexArithmeticOpArguments\x12)\n\x06optype\x18\x01 \x01(\x0e\x32\x19.calculator.OperationType\x12\x0c\n\x04\x61rgs\x18\x02 \x03(\x01\"(\n\x19\x43omplexArithmeticOpResult\x12\x0b\n\x03res\x18\x01 \x01(\x01\")\n\x19ListArithmeticOpArguments\x12\x0c\n\x04\x61rgs\x18\x02 \x03(\x05*3\n\rOperationType\x12\x07\n\x03SUM\x10\x00\x12\x07\n\x03\x41VG\x10\x01\x12\x07\n\x03MIN\x10\x02\x12\x07\n\x03MAX\x10\x03\x32\xaf\x01\n\nCalculator\x12M\n\tSimpleAdd\x12!.calculator.ArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x12R\n\x0eSimpleSubtract\x12!.calculator.ArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x32\xcc\x01\n\x12\x41\x64vancedCalculator\x12\x65\n\x10\x43omplexOperation\x12(.calculator.ComplexArithmeticOpArguments\x1a%.calculator.ComplexArithmeticOpResult\"\x00\x12O\n\x07ListSum\x12%.calculator.ListArithmeticOpArguments\x1a\x1b.calculator.SingleIntResult\"\x00\x42\tZ\x07../mainb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,18 +22,20 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'calculator_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z\007../main'
+  _globals['_OPERATIONTYPE']._serialized_start=291
+  _globals['_OPERATIONTYPE']._serialized_end=342
   _globals['_ARITHMETICOPARGUMENTS']._serialized_start=32
   _globals['_ARITHMETICOPARGUMENTS']._serialized_end=83
   _globals['_SINGLEINTRESULT']._serialized_start=85
   _globals['_SINGLEINTRESULT']._serialized_end=115
-  _globals['_LISTARITHMETICOPARGUMENTS']._serialized_start=117
-  _globals['_LISTARITHMETICOPARGUMENTS']._serialized_end=158
-  _globals['_COMPLEX']._serialized_start=160
-  _globals['_COMPLEX']._serialized_end=197
-  _globals['_LISTCOMPLEXOPARGUMENTS']._serialized_start=199
-  _globals['_LISTCOMPLEXOPARGUMENTS']._serialized_end=258
-  _globals['_CALCULATOR']._serialized_start=261
-  _globals['_CALCULATOR']._serialized_end=430
-  _globals['_ADVANCEDCALCULATOR']._serialized_start=433
-  _globals['_ADVANCEDCALCULATOR']._serialized_end=692
+  _globals['_COMPLEXARITHMETICOPARGUMENTS']._serialized_start=117
+  _globals['_COMPLEXARITHMETICOPARGUMENTS']._serialized_end=204
+  _globals['_COMPLEXARITHMETICOPRESULT']._serialized_start=206
+  _globals['_COMPLEXARITHMETICOPRESULT']._serialized_end=246
+  _globals['_LISTARITHMETICOPARGUMENTS']._serialized_start=248
+  _globals['_LISTARITHMETICOPARGUMENTS']._serialized_end=289
+  _globals['_CALCULATOR']._serialized_start=345
+  _globals['_CALCULATOR']._serialized_end=520
+  _globals['_ADVANCEDCALCULATOR']._serialized_start=523
+  _globals['_ADVANCEDCALCULATOR']._serialized_end=727
 # @@protoc_insertion_point(module_scope)

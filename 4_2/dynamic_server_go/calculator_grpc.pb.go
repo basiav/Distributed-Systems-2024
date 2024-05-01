@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v5.26.1
-// source: dynamic_server_go/calculator.proto
+// source: calculator.proto
 
 package main
 
@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Calculator_AddTwo_FullMethodName      = "/calculator.Calculator/AddTwo"
-	Calculator_SubtractTwo_FullMethodName = "/calculator.Calculator/SubtractTwo"
+	Calculator_SimpleAdd_FullMethodName      = "/calculator.Calculator/SimpleAdd"
+	Calculator_SimpleSubtract_FullMethodName = "/calculator.Calculator/SimpleSubtract"
 )
 
 // CalculatorClient is the client API for Calculator service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CalculatorClient interface {
-	AddTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
-	SubtractTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
+	SimpleAdd(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
+	SimpleSubtract(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
 }
 
 type calculatorClient struct {
@@ -39,18 +39,18 @@ func NewCalculatorClient(cc grpc.ClientConnInterface) CalculatorClient {
 	return &calculatorClient{cc}
 }
 
-func (c *calculatorClient) AddTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error) {
+func (c *calculatorClient) SimpleAdd(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error) {
 	out := new(SingleIntResult)
-	err := c.cc.Invoke(ctx, Calculator_AddTwo_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Calculator_SimpleAdd_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *calculatorClient) SubtractTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error) {
+func (c *calculatorClient) SimpleSubtract(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error) {
 	out := new(SingleIntResult)
-	err := c.cc.Invoke(ctx, Calculator_SubtractTwo_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Calculator_SimpleSubtract_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +61,8 @@ func (c *calculatorClient) SubtractTwo(ctx context.Context, in *ArithmeticOpArgu
 // All implementations must embed UnimplementedCalculatorServer
 // for forward compatibility
 type CalculatorServer interface {
-	AddTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error)
-	SubtractTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error)
+	SimpleAdd(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error)
+	SimpleSubtract(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error)
 	mustEmbedUnimplementedCalculatorServer()
 }
 
@@ -70,11 +70,11 @@ type CalculatorServer interface {
 type UnimplementedCalculatorServer struct {
 }
 
-func (UnimplementedCalculatorServer) AddTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddTwo not implemented")
+func (UnimplementedCalculatorServer) SimpleAdd(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SimpleAdd not implemented")
 }
-func (UnimplementedCalculatorServer) SubtractTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SubtractTwo not implemented")
+func (UnimplementedCalculatorServer) SimpleSubtract(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SimpleSubtract not implemented")
 }
 func (UnimplementedCalculatorServer) mustEmbedUnimplementedCalculatorServer() {}
 
@@ -89,38 +89,38 @@ func RegisterCalculatorServer(s grpc.ServiceRegistrar, srv CalculatorServer) {
 	s.RegisterService(&Calculator_ServiceDesc, srv)
 }
 
-func _Calculator_AddTwo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Calculator_SimpleAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ArithmeticOpArguments)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CalculatorServer).AddTwo(ctx, in)
+		return srv.(CalculatorServer).SimpleAdd(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Calculator_AddTwo_FullMethodName,
+		FullMethod: Calculator_SimpleAdd_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CalculatorServer).AddTwo(ctx, req.(*ArithmeticOpArguments))
+		return srv.(CalculatorServer).SimpleAdd(ctx, req.(*ArithmeticOpArguments))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Calculator_SubtractTwo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Calculator_SimpleSubtract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ArithmeticOpArguments)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CalculatorServer).SubtractTwo(ctx, in)
+		return srv.(CalculatorServer).SimpleSubtract(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Calculator_SubtractTwo_FullMethodName,
+		FullMethod: Calculator_SimpleSubtract_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CalculatorServer).SubtractTwo(ctx, req.(*ArithmeticOpArguments))
+		return srv.(CalculatorServer).SimpleSubtract(ctx, req.(*ArithmeticOpArguments))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -133,30 +133,28 @@ var Calculator_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CalculatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddTwo",
-			Handler:    _Calculator_AddTwo_Handler,
+			MethodName: "SimpleAdd",
+			Handler:    _Calculator_SimpleAdd_Handler,
 		},
 		{
-			MethodName: "SubtractTwo",
-			Handler:    _Calculator_SubtractTwo_Handler,
+			MethodName: "SimpleSubtract",
+			Handler:    _Calculator_SimpleSubtract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "dynamic_server_go/calculator.proto",
+	Metadata: "calculator.proto",
 }
 
 const (
-	AdvancedCalculator_MultiplyTwo_FullMethodName    = "/calculator.AdvancedCalculator/MultiplyTwo"
-	AdvancedCalculator_ListSumComplex_FullMethodName = "/calculator.AdvancedCalculator/ListSumComplex"
-	AdvancedCalculator_ListSum_FullMethodName        = "/calculator.AdvancedCalculator/ListSum"
+	AdvancedCalculator_ComplexOperation_FullMethodName = "/calculator.AdvancedCalculator/ComplexOperation"
+	AdvancedCalculator_ListSum_FullMethodName          = "/calculator.AdvancedCalculator/ListSum"
 )
 
 // AdvancedCalculatorClient is the client API for AdvancedCalculator service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdvancedCalculatorClient interface {
-	MultiplyTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
-	ListSumComplex(ctx context.Context, in *ListComplexOpArguments, opts ...grpc.CallOption) (*Complex, error)
+	ComplexOperation(ctx context.Context, in *ComplexArithmeticOpArguments, opts ...grpc.CallOption) (*ComplexArithmeticOpResult, error)
 	ListSum(ctx context.Context, in *ListArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error)
 }
 
@@ -168,18 +166,9 @@ func NewAdvancedCalculatorClient(cc grpc.ClientConnInterface) AdvancedCalculator
 	return &advancedCalculatorClient{cc}
 }
 
-func (c *advancedCalculatorClient) MultiplyTwo(ctx context.Context, in *ArithmeticOpArguments, opts ...grpc.CallOption) (*SingleIntResult, error) {
-	out := new(SingleIntResult)
-	err := c.cc.Invoke(ctx, AdvancedCalculator_MultiplyTwo_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *advancedCalculatorClient) ListSumComplex(ctx context.Context, in *ListComplexOpArguments, opts ...grpc.CallOption) (*Complex, error) {
-	out := new(Complex)
-	err := c.cc.Invoke(ctx, AdvancedCalculator_ListSumComplex_FullMethodName, in, out, opts...)
+func (c *advancedCalculatorClient) ComplexOperation(ctx context.Context, in *ComplexArithmeticOpArguments, opts ...grpc.CallOption) (*ComplexArithmeticOpResult, error) {
+	out := new(ComplexArithmeticOpResult)
+	err := c.cc.Invoke(ctx, AdvancedCalculator_ComplexOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -199,8 +188,7 @@ func (c *advancedCalculatorClient) ListSum(ctx context.Context, in *ListArithmet
 // All implementations must embed UnimplementedAdvancedCalculatorServer
 // for forward compatibility
 type AdvancedCalculatorServer interface {
-	MultiplyTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error)
-	ListSumComplex(context.Context, *ListComplexOpArguments) (*Complex, error)
+	ComplexOperation(context.Context, *ComplexArithmeticOpArguments) (*ComplexArithmeticOpResult, error)
 	ListSum(context.Context, *ListArithmeticOpArguments) (*SingleIntResult, error)
 	mustEmbedUnimplementedAdvancedCalculatorServer()
 }
@@ -209,11 +197,8 @@ type AdvancedCalculatorServer interface {
 type UnimplementedAdvancedCalculatorServer struct {
 }
 
-func (UnimplementedAdvancedCalculatorServer) MultiplyTwo(context.Context, *ArithmeticOpArguments) (*SingleIntResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MultiplyTwo not implemented")
-}
-func (UnimplementedAdvancedCalculatorServer) ListSumComplex(context.Context, *ListComplexOpArguments) (*Complex, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListSumComplex not implemented")
+func (UnimplementedAdvancedCalculatorServer) ComplexOperation(context.Context, *ComplexArithmeticOpArguments) (*ComplexArithmeticOpResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplexOperation not implemented")
 }
 func (UnimplementedAdvancedCalculatorServer) ListSum(context.Context, *ListArithmeticOpArguments) (*SingleIntResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSum not implemented")
@@ -231,38 +216,20 @@ func RegisterAdvancedCalculatorServer(s grpc.ServiceRegistrar, srv AdvancedCalcu
 	s.RegisterService(&AdvancedCalculator_ServiceDesc, srv)
 }
 
-func _AdvancedCalculator_MultiplyTwo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ArithmeticOpArguments)
+func _AdvancedCalculator_ComplexOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ComplexArithmeticOpArguments)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdvancedCalculatorServer).MultiplyTwo(ctx, in)
+		return srv.(AdvancedCalculatorServer).ComplexOperation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdvancedCalculator_MultiplyTwo_FullMethodName,
+		FullMethod: AdvancedCalculator_ComplexOperation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdvancedCalculatorServer).MultiplyTwo(ctx, req.(*ArithmeticOpArguments))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AdvancedCalculator_ListSumComplex_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListComplexOpArguments)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdvancedCalculatorServer).ListSumComplex(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AdvancedCalculator_ListSumComplex_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdvancedCalculatorServer).ListSumComplex(ctx, req.(*ListComplexOpArguments))
+		return srv.(AdvancedCalculatorServer).ComplexOperation(ctx, req.(*ComplexArithmeticOpArguments))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -293,12 +260,8 @@ var AdvancedCalculator_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AdvancedCalculatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "MultiplyTwo",
-			Handler:    _AdvancedCalculator_MultiplyTwo_Handler,
-		},
-		{
-			MethodName: "ListSumComplex",
-			Handler:    _AdvancedCalculator_ListSumComplex_Handler,
+			MethodName: "ComplexOperation",
+			Handler:    _AdvancedCalculator_ComplexOperation_Handler,
 		},
 		{
 			MethodName: "ListSum",
@@ -306,5 +269,5 @@ var AdvancedCalculator_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "dynamic_server_go/calculator.proto",
+	Metadata: "calculator.proto",
 }

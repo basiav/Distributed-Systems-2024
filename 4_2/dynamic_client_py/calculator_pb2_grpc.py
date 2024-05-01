@@ -14,13 +14,13 @@ class CalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AddTwo = channel.unary_unary(
-                '/calculator.Calculator/AddTwo',
+        self.SimpleAdd = channel.unary_unary(
+                '/calculator.Calculator/SimpleAdd',
                 request_serializer=calculator__pb2.ArithmeticOpArguments.SerializeToString,
                 response_deserializer=calculator__pb2.SingleIntResult.FromString,
                 )
-        self.SubtractTwo = channel.unary_unary(
-                '/calculator.Calculator/SubtractTwo',
+        self.SimpleSubtract = channel.unary_unary(
+                '/calculator.Calculator/SimpleSubtract',
                 request_serializer=calculator__pb2.ArithmeticOpArguments.SerializeToString,
                 response_deserializer=calculator__pb2.SingleIntResult.FromString,
                 )
@@ -29,13 +29,13 @@ class CalculatorStub(object):
 class CalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AddTwo(self, request, context):
+    def SimpleAdd(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def SubtractTwo(self, request, context):
+    def SimpleSubtract(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -44,13 +44,13 @@ class CalculatorServicer(object):
 
 def add_CalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AddTwo': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddTwo,
+            'SimpleAdd': grpc.unary_unary_rpc_method_handler(
+                    servicer.SimpleAdd,
                     request_deserializer=calculator__pb2.ArithmeticOpArguments.FromString,
                     response_serializer=calculator__pb2.SingleIntResult.SerializeToString,
             ),
-            'SubtractTwo': grpc.unary_unary_rpc_method_handler(
-                    servicer.SubtractTwo,
+            'SimpleSubtract': grpc.unary_unary_rpc_method_handler(
+                    servicer.SimpleSubtract,
                     request_deserializer=calculator__pb2.ArithmeticOpArguments.FromString,
                     response_serializer=calculator__pb2.SingleIntResult.SerializeToString,
             ),
@@ -65,7 +65,7 @@ class Calculator(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AddTwo(request,
+    def SimpleAdd(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,14 +75,14 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/calculator.Calculator/AddTwo',
+        return grpc.experimental.unary_unary(request, target, '/calculator.Calculator/SimpleAdd',
             calculator__pb2.ArithmeticOpArguments.SerializeToString,
             calculator__pb2.SingleIntResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def SubtractTwo(request,
+    def SimpleSubtract(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,7 +92,7 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/calculator.Calculator/SubtractTwo',
+        return grpc.experimental.unary_unary(request, target, '/calculator.Calculator/SimpleSubtract',
             calculator__pb2.ArithmeticOpArguments.SerializeToString,
             calculator__pb2.SingleIntResult.FromString,
             options, channel_credentials,
@@ -108,15 +108,10 @@ class AdvancedCalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.MultiplyTwo = channel.unary_unary(
-                '/calculator.AdvancedCalculator/MultiplyTwo',
-                request_serializer=calculator__pb2.ArithmeticOpArguments.SerializeToString,
-                response_deserializer=calculator__pb2.SingleIntResult.FromString,
-                )
-        self.ListSumComplex = channel.unary_unary(
-                '/calculator.AdvancedCalculator/ListSumComplex',
-                request_serializer=calculator__pb2.ListComplexOpArguments.SerializeToString,
-                response_deserializer=calculator__pb2.Complex.FromString,
+        self.ComplexOperation = channel.unary_unary(
+                '/calculator.AdvancedCalculator/ComplexOperation',
+                request_serializer=calculator__pb2.ComplexArithmeticOpArguments.SerializeToString,
+                response_deserializer=calculator__pb2.ComplexArithmeticOpResult.FromString,
                 )
         self.ListSum = channel.unary_unary(
                 '/calculator.AdvancedCalculator/ListSum',
@@ -128,13 +123,7 @@ class AdvancedCalculatorStub(object):
 class AdvancedCalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def MultiplyTwo(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ListSumComplex(self, request, context):
+    def ComplexOperation(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -149,15 +138,10 @@ class AdvancedCalculatorServicer(object):
 
 def add_AdvancedCalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'MultiplyTwo': grpc.unary_unary_rpc_method_handler(
-                    servicer.MultiplyTwo,
-                    request_deserializer=calculator__pb2.ArithmeticOpArguments.FromString,
-                    response_serializer=calculator__pb2.SingleIntResult.SerializeToString,
-            ),
-            'ListSumComplex': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListSumComplex,
-                    request_deserializer=calculator__pb2.ListComplexOpArguments.FromString,
-                    response_serializer=calculator__pb2.Complex.SerializeToString,
+            'ComplexOperation': grpc.unary_unary_rpc_method_handler(
+                    servicer.ComplexOperation,
+                    request_deserializer=calculator__pb2.ComplexArithmeticOpArguments.FromString,
+                    response_serializer=calculator__pb2.ComplexArithmeticOpResult.SerializeToString,
             ),
             'ListSum': grpc.unary_unary_rpc_method_handler(
                     servicer.ListSum,
@@ -175,7 +159,7 @@ class AdvancedCalculator(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def MultiplyTwo(request,
+    def ComplexOperation(request,
             target,
             options=(),
             channel_credentials=None,
@@ -185,26 +169,9 @@ class AdvancedCalculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/calculator.AdvancedCalculator/MultiplyTwo',
-            calculator__pb2.ArithmeticOpArguments.SerializeToString,
-            calculator__pb2.SingleIntResult.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ListSumComplex(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/calculator.AdvancedCalculator/ListSumComplex',
-            calculator__pb2.ListComplexOpArguments.SerializeToString,
-            calculator__pb2.Complex.FromString,
+        return grpc.experimental.unary_unary(request, target, '/calculator.AdvancedCalculator/ComplexOperation',
+            calculator__pb2.ComplexArithmeticOpArguments.SerializeToString,
+            calculator__pb2.ComplexArithmeticOpResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
