@@ -22,13 +22,13 @@ python -m grpc_tools.protoc -I protos --python_out=. --pyi_out=. --grpc_python_o
 def get_random(descriptor: FieldDescriptor):
     """
     Generates a structure described by the FieldDescriptor.
-    Should work for nested types but may fail.
     """
-    # generate list if field is repeated
+    # Generate a list for repeated fields
     repeats = 1 if not descriptor.label == FieldDescriptor.LABEL_REPEATED else 5
     ret = []
     while repeats > 0:
         repeats -= 1
+        # Plain types
         if descriptor.type == FieldDescriptor.TYPE_INT32:
             ret.append(random.randint(1, 10))
         if (
@@ -37,19 +37,17 @@ def get_random(descriptor: FieldDescriptor):
         ):
             ret.append(round(random.random() * 10, 1))
 
-        # manage nested types
+        # Message (nested) types - recursively
         if descriptor.type == FieldDescriptor.TYPE_MESSAGE:
-            # recursively generate them
             nested_objects = {
                 field.name: get_random(field)
                 for field in descriptor.message_type.fields
             }
-            # what the hell is this
             cls = GetMessageClass(descriptor.message_type.fields[0].containing_type)
-            # create an object from generated data
             message_object = cls(**nested_objects)
             ret.append(message_object)
 
+        # Enum types (non-recursively)
         if descriptor.enum_type:
             random_enum_val = random.choice(descriptor.enum_type.values_by_name.keys())
             ret.append(random_enum_val)
