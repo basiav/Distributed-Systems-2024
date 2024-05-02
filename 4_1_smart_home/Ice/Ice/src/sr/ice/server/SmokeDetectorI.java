@@ -1,7 +1,5 @@
 package sr.ice.server;
-
-import Demo.Info;
-import Demo.InfoKey;
+import Demo.*;
 import com.zeroc.Ice.Current;
 
 public class SmokeDetectorI extends DetectorI {

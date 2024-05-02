@@ -1,10 +1,6 @@
 package sr.ice.server;
-
-import Demo.DetectorSafetyException;
+import Demo.*;
 import Demo.IDetector;
-
-import Demo.Info;
-import Demo.InfoKey;
 import com.zeroc.Ice.Current;
 
 import java.util.HashMap;

@@ -20,18 +20,10 @@ public class IceServerSecond {
             // METODA 1 (polecana produkcyjnie): Konfiguracja adaptera Adapter1 jest w pliku konfiguracyjnym podanym jako parametr uruchomienia serwera
             ObjectAdapter adapter = communicator.createObjectAdapter("SmartHomeAdapter2");
 
-            // METODA 2 (niepolecana, dopuszczalna testowo): Konfiguracja adaptera Adapter1 jest w kodzie źródłowym
-            //ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Adapter1", "tcp -h 127.0.0.2 -p 10000");
-            //ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Adapter1", "tcp -h 127.0.0.2 -p 10000 : udp -h 127.0.0.2 -p 10000");
-//			ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("SmartHomeAdapter2", "tcp -h 127.0.0.2 -p 10000 -z : udp -h 127.0.0.2 -p 10000 -z");
-
             // 3. Utworzenie serwanta/serwantów
-//			CalcI calcServant1 = new CalcI();
-//			CalcI calcServant2 = new CalcI();
             BulbI bulbServant = new BulbI("kitchenBulb");
 
             // 4. Dodanie wpisów do tablicy ASM, skojarzenie nazwy obiektu (Identity) z serwantem
-//			adapter.add(calcServant1, new Identity("calc11", "calc"));
             adapter.add(bulbServant, new Identity("kitchen", "Bulb"));
 
             // 5. Aktywacja adaptera i wejście w pętlę przetwarzania żądań

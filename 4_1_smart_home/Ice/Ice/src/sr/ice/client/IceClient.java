@@ -1,8 +1,7 @@
 package sr.ice.client;
 
-import Demo.BulbPrx;
-import Demo.BulbPrx;
 import com.zeroc.Ice.*;
+import Demo.*;
 
 import java.lang.Exception;
 
@@ -16,16 +15,15 @@ public class IceClient {
 			communicator = Util.initialize(args);
 
 			// 2. Uzyskanie referencji obiektu na podstawie linii w pliku konfiguracyjnym (wówczas aplikację należy uruchomić z argumentem --Ice.config=config.client)
-			//ObjectPrx base1 = communicator.propertyToProxy("Calc1.Proxy");
+			ObjectPrx base1 = communicator.propertyToProxy("Bulb1.Proxy");
 
 			// 2. Uzyskanie referencji obiektu - to samo co powyżej, ale mniej ładnie
 //			ObjectPrx base1 = communicator.stringToProxy("calc/calc11:tcp -h 127.0.0.2 -p 10000 -z : udp -h 127.0.0.2 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
-			ObjectPrx base1 = communicator.stringToProxy("Bulb/bathroom:tcp -h 127.0.0.1 -p 10000 -z : udp -h 127.0.0.1 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
+//			ObjectPrx base1 = communicator.stringToProxy("Bulb/bathroom:tcp -h 127.0.0.1 -p 10000 -z : udp -h 127.0.0.1 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
 
 
 			// 3. Rzutowanie, zawężanie (do typu Calc)
-//			CalcPrx obj1 = CalcPrx.checkedCast(base1);
-			BulbPrx obj1 = BulbPrx.checkedCast(base1);
+			IBulbPrx obj1 = IBulbPrx.checkedCast(base1);
 
 			//CalcPrx obj1 = CalcPrx.uncheckedCast(base1); //na czym polega różnica?
 			if (obj1 == null) throw new Error("Invalid proxy");
