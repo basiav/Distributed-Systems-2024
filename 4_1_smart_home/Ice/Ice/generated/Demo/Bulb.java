@@ -15,212 +15,63 @@
 
 package Demo;
 
-public interface Bulb extends Device
+public class Bulb extends Device
 {
-    void changeColor(Color color, com.zeroc.Ice.Current current);
-
-    void dim(com.zeroc.Ice.Current current)
-        throws ValueOutOfRangeException;
-
-    void brighten(com.zeroc.Ice.Current current)
-        throws ValueOutOfRangeException;
-
-    void changeBrightness(int percentagePoints, com.zeroc.Ice.Current current)
-        throws ValueOutOfRangeException;
-
-    Color[] getAllPossibleColors(com.zeroc.Ice.Current current);
-
-    /** @hidden */
-    static final String[] _iceIds =
+    public Bulb()
     {
-        "::Demo::Bulb",
-        "::Demo::Device",
-        "::Ice::Object"
-    };
-
-    @Override
-    default String[] ice_ids(com.zeroc.Ice.Current current)
-    {
-        return _iceIds;
+        super();
+        this.color = Color.Red;
     }
 
-    @Override
-    default String ice_id(com.zeroc.Ice.Current current)
+    public Bulb(String location, boolean turnedOn, Color color, int brightnessPercentage)
     {
-        return ice_staticId();
+        super(location, turnedOn);
+        this.color = color;
+        this.brightnessPercentage = brightnessPercentage;
     }
 
-    static String ice_staticId()
+    public Color color;
+
+    public int brightnessPercentage;
+
+    public Bulb clone()
+    {
+        return (Bulb)super.clone();
+    }
+
+    public static String ice_staticId()
     {
         return "::Demo::Bulb";
     }
 
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_changeColor(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    @Override
+    public String ice_id()
     {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        Color iceP_color;
-        iceP_color = Color.ice_read(istr);
-        inS.endReadParams();
-        obj.changeColor(iceP_color, current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-     * @throws com.zeroc.Ice.UserException -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_dim(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        obj.dim(current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-     * @throws com.zeroc.Ice.UserException -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_brighten(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        obj.brighten(current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-     * @throws com.zeroc.Ice.UserException -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_changeBrightness(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        int iceP_percentagePoints;
-        iceP_percentagePoints = istr.readInt();
-        inS.endReadParams();
-        obj.changeBrightness(iceP_percentagePoints, current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAllPossibleColors(Bulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
-        inS.readEmptyParams();
-        Color[] ret = obj.getAllPossibleColors(current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        colorsHelper.write(ostr, ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
+        return ice_staticId();
     }
 
     /** @hidden */
-    final static String[] _iceOps =
-    {
-        "brighten",
-        "changeBrightness",
-        "changeColor",
-        "dim",
-        "getAllPossibleColors",
-        "ice_id",
-        "ice_ids",
-        "ice_isA",
-        "ice_ping",
-        "turnOff",
-        "turnOn"
-    };
+    public static final long serialVersionUID = 1461115868L;
 
     /** @hidden */
     @Override
-    default java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceDispatch(com.zeroc.IceInternal.Incoming in, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
+    protected void _iceWriteImpl(com.zeroc.Ice.OutputStream ostr_)
     {
-        int pos = java.util.Arrays.binarySearch(_iceOps, current.operation);
-        if(pos < 0)
-        {
-            throw new com.zeroc.Ice.OperationNotExistException(current.id, current.facet, current.operation);
-        }
+        ostr_.startSlice(ice_staticId(), -1, false);
+        Color.ice_write(ostr_, color);
+        ostr_.writeInt(brightnessPercentage);
+        ostr_.endSlice();
+        super._iceWriteImpl(ostr_);
+    }
 
-        switch(pos)
-        {
-            case 0:
-            {
-                return _iceD_brighten(this, in, current);
-            }
-            case 1:
-            {
-                return _iceD_changeBrightness(this, in, current);
-            }
-            case 2:
-            {
-                return _iceD_changeColor(this, in, current);
-            }
-            case 3:
-            {
-                return _iceD_dim(this, in, current);
-            }
-            case 4:
-            {
-                return _iceD_getAllPossibleColors(this, in, current);
-            }
-            case 5:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
-            }
-            case 6:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
-            }
-            case 7:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
-            }
-            case 8:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
-            }
-            case 9:
-            {
-                return Device._iceD_turnOff(this, in, current);
-            }
-            case 10:
-            {
-                return Device._iceD_turnOn(this, in, current);
-            }
-        }
-
-        assert(false);
-        throw new com.zeroc.Ice.OperationNotExistException(current.id, current.facet, current.operation);
+    /** @hidden */
+    @Override
+    protected void _iceReadImpl(com.zeroc.Ice.InputStream istr_)
+    {
+        istr_.startSlice();
+        color = Color.ice_read(istr_);
+        brightnessPercentage = istr_.readInt();
+        istr_.endSlice();
+        super._iceReadImpl(istr_);
     }
 }

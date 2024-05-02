@@ -5,8 +5,6 @@ import com.zeroc.Ice.Identity;
 import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.Util;
 
-import java.util.Arrays;
-
 public class IceServer {
 	public void t1(String[] args) {
 		int status = 0;
@@ -29,10 +27,15 @@ public class IceServer {
 //			CalcI calcServant1 = new CalcI();
 //			CalcI calcServant2 = new CalcI();
 			BulbI bulbServant = new BulbI("bathroomBulb");
+			CarbonMonoxideDetectorI carbonMonoxideDetectorServant = new CarbonMonoxideDetectorI("bathroom");
+			SmokeDetectorI smokeDetectorServant = new SmokeDetectorI("kitchen");
+
 
 			// 4. Dodanie wpisów do tablicy ASM, skojarzenie nazwy obiektu (Identity) z serwantem
 //			adapter.add(calcServant1, new Identity("calc11", "calc"));
 			adapter.add(bulbServant, new Identity("bathroom", "Bulb"));
+			adapter.add(carbonMonoxideDetectorServant, new Identity("bathroom", "Detector"));
+			adapter.add(smokeDetectorServant, new Identity("kitchen", "Detector"));
 
 			// 5. Aktywacja adaptera i wejście w pętlę przetwarzania żądań
 			adapter.activate();

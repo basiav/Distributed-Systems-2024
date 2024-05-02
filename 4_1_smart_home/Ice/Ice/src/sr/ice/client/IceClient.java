@@ -1,6 +1,7 @@
 package sr.ice.client;
 
 import Demo.BulbPrx;
+import Demo.BulbPrx;
 import com.zeroc.Ice.*;
 
 import java.lang.Exception;
@@ -19,7 +20,7 @@ public class IceClient {
 
 			// 2. Uzyskanie referencji obiektu - to samo co powyżej, ale mniej ładnie
 //			ObjectPrx base1 = communicator.stringToProxy("calc/calc11:tcp -h 127.0.0.2 -p 10000 -z : udp -h 127.0.0.2 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
-			ObjectPrx base1 = communicator.stringToProxy("Bulb/bathroom:tcp -h 127.0.0.2 -p 10000 -z : udp -h 127.0.0.2 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
+			ObjectPrx base1 = communicator.stringToProxy("Bulb/bathroom:tcp -h 127.0.0.1 -p 10000 -z : udp -h 127.0.0.1 -p 10000 -z"); //opcja -z włącza możliwość kompresji wiadomości
 
 
 			// 3. Rzutowanie, zawężanie (do typu Calc)

@@ -15,117 +15,59 @@
 
 package Demo;
 
-public interface Device extends com.zeroc.Ice.Object
+public class Device extends com.zeroc.Ice.Value
 {
-    void turnOn(com.zeroc.Ice.Current current);
-
-    void turnOff(com.zeroc.Ice.Current current);
-
-    /** @hidden */
-    static final String[] _iceIds =
+    public Device()
     {
-        "::Demo::Device",
-        "::Ice::Object"
-    };
-
-    @Override
-    default String[] ice_ids(com.zeroc.Ice.Current current)
-    {
-        return _iceIds;
+        this.location = "";
     }
 
-    @Override
-    default String ice_id(com.zeroc.Ice.Current current)
+    public Device(String location, boolean turnedOn)
     {
-        return ice_staticId();
+        this.location = location;
+        this.turnedOn = turnedOn;
     }
 
-    static String ice_staticId()
+    public String location;
+
+    public boolean turnedOn;
+
+    public Device clone()
+    {
+        return (Device)super.clone();
+    }
+
+    public static String ice_staticId()
     {
         return "::Demo::Device";
     }
 
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_turnOn(Device obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    @Override
+    public String ice_id()
     {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        obj.turnOn(current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_turnOff(Device obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        obj.turnOff(current);
-        return inS.setResult(inS.writeEmptyParams());
+        return ice_staticId();
     }
 
     /** @hidden */
-    final static String[] _iceOps =
-    {
-        "ice_id",
-        "ice_ids",
-        "ice_isA",
-        "ice_ping",
-        "turnOff",
-        "turnOn"
-    };
+    public static final long serialVersionUID = -1907561142L;
 
     /** @hidden */
     @Override
-    default java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceDispatch(com.zeroc.IceInternal.Incoming in, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
+    protected void _iceWriteImpl(com.zeroc.Ice.OutputStream ostr_)
     {
-        int pos = java.util.Arrays.binarySearch(_iceOps, current.operation);
-        if(pos < 0)
-        {
-            throw new com.zeroc.Ice.OperationNotExistException(current.id, current.facet, current.operation);
-        }
+        ostr_.startSlice(ice_staticId(), -1, true);
+        ostr_.writeString(location);
+        ostr_.writeBool(turnedOn);
+        ostr_.endSlice();
+    }
 
-        switch(pos)
-        {
-            case 0:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
-            }
-            case 1:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
-            }
-            case 2:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
-            }
-            case 3:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
-            }
-            case 4:
-            {
-                return _iceD_turnOff(this, in, current);
-            }
-            case 5:
-            {
-                return _iceD_turnOn(this, in, current);
-            }
-        }
-
-        assert(false);
-        throw new com.zeroc.Ice.OperationNotExistException(current.id, current.facet, current.operation);
+    /** @hidden */
+    @Override
+    protected void _iceReadImpl(com.zeroc.Ice.InputStream istr_)
+    {
+        istr_.startSlice();
+        location = istr_.readString();
+        turnedOn = istr_.readBool();
+        istr_.endSlice();
     }
 }

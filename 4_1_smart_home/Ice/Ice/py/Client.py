@@ -39,17 +39,21 @@ if __name__ == '__main__':
         # "bathroom bulb": "Bulb/bathroomBulb",
         "bathroom bulb": "Bulb/bathroom",
         "kitchen bulb": "bulb/kitchen",
-        "mothers room bulb": "Bulb/mothersRoomBulb",
-        "home office color printer": "Printer/homeOfficeColorPrinter",
-        "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
+        "bathroom detector": "Detector/bathroom",
+        "kitchen detector": "Detector/bathroom"
+        # "mothers room bulb": "Bulb/mothersRoomBulb",
+        # "home office color printer": "Printer/homeOfficeColorPrinter",
+        # "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
     }
 
     map_device_address = {
         "bathroom bulb": "127.0.0.1",
         "kitchen bulb": "127.0.0.2",
-        "mothers room bulb": "127.0.0.2",
-        "home office color printer": "127.0.0.1",
-        "spare office grayscale printer": "127.0.0.2"
+        "bathroom detector": "127.0.0.1",
+        "kitchen detector": "127.0.0.1",
+        # "mothers room bulb": "127.0.0.2",
+        # "home office color printer": "127.0.0.1",
+        # "spare office grayscale printer": "127.0.0.2"
     }
 
     try:
@@ -76,8 +80,11 @@ if __name__ == '__main__':
                 f"{chosen_device_proxy_name} : tcp -h {map_device_address[chosen_device_name]} -p 10000")
 
             print(f"base: {base}")
-            device = Demo.BulbPrx.checkedCast(base) \
-                if get_device_category() == "Bulb" else Demo.PrinterPrx.checkedCast(base)
+            # device = Demo.BulbPrx.checkedCast(base) \
+            #     if get_device_category() == "Bulb" else Demo.PrinterPrx.checkedCast(base)
+
+            device = Demo.IBulbPrx.checkedCast(base) \
+                if get_device_category() == "Bulb" else Demo.IDetectorPrx.checkedCast(base)
             print(f"device: {device}")
             if not device:
                 raise RuntimeError("Invalid proxy")

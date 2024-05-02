@@ -9,45 +9,55 @@ module Demo
         Red, Green, Blue, White
     };
 
+<<<<<<< HEAD
     enum InfoKey {
-        Temperature, SmokeLevel, Location, Brightness, Color
+        Location, SmokeLevel, Brightness, Color
     };
-//    dictionary<string, string> dict;
+    dictionary<InfoKey, string> MoreInfo;
 
     class Info {
-        int status;
-//        dictionary<InfoKey, string> moreInfo;
+        string status;
+        MoreInfo moreInfo;
     };
 
-//    class Device {
-//        bool turnedOn;
-//        string location;
-//
-//        void turnOn();
-//        void turnOff();
+    class Device {
+        string location;
+        bool turnedOn;
+    };
+
+    interface IDevice {
+        void turnOn();
+        void turnOff();
+        Info getInfo();
+    };
+
+=======
+//    enum InfoKey {
+//        Temperature, SmokeLevel, Location, Brightness, Color
 //    };
-    interface Device {
+////    dictionary<string, string> dict;
+//
+//    class Info {
+//        int status;
+////        dictionary<InfoKey, string> moreInfo;
+//    };
+
+    class Device {
+        string location;
+        bool turnedOn;
+    };
+
+    interface IDevice {
         void turnOn();
         void turnOff();
     };
 
-    class Printer {
-        void print(string message);
-    };
-
-//    class Bulb {
-//        Color color;
-//        int brightnessPercentage;
-//
-//        void changeColor(Color color);
-//        void dim();
-//        void brighten();
-//    };
+>>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
     sequence<Color> colors;
 
     exception ValueOutOfRangeException { string reason; };
 
-    interface Bulb extends Device{
+    interface IBulb extends IDevice{
         void changeColor(Color color);
         void dim() throws ValueOutOfRangeException;
         void brighten() throws ValueOutOfRangeException;
@@ -55,6 +65,19 @@ module Demo
         idempotent colors getAllPossibleColors();
     };
 
+    exception TurnOffSafetyExcpetion { string reason; };
+    interface IDeviceNonTurnOff {
+        void turnOn();
+        void turnOff() throws TurnOffSafetyExcpetion;
+<<<<<<< HEAD
+        Info getInfo();
+=======
+>>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
+    };
+
+    interface IDetector extends IDeviceNonTurnOff {
+        string alert();
+    };
 
 
 };

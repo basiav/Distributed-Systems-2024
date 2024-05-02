@@ -17,11 +17,10 @@ package Demo;
 
 public enum InfoKey implements java.io.Serializable
 {
-    Temperature(0),
+    Location(0),
     SmokeLevel(1),
-    Location(2),
-    Brightness(3),
-    Color(4);
+    Brightness(2),
+    Color(3);
 
     public int value()
     {
@@ -33,14 +32,12 @@ public enum InfoKey implements java.io.Serializable
         switch(v)
         {
         case 0:
-            return Temperature;
+            return Location;
         case 1:
             return SmokeLevel;
         case 2:
-            return Location;
-        case 3:
             return Brightness;
-        case 4:
+        case 3:
             return Color;
         }
         return null;
@@ -53,24 +50,24 @@ public enum InfoKey implements java.io.Serializable
 
     public void ice_write(com.zeroc.Ice.OutputStream ostr)
     {
-        ostr.writeEnum(_value, 4);
+        ostr.writeEnum(_value, 3);
     }
 
     public static void ice_write(com.zeroc.Ice.OutputStream ostr, InfoKey v)
     {
         if(v == null)
         {
-            ostr.writeEnum(Demo.InfoKey.Temperature.value(), 4);
+            ostr.writeEnum(Demo.InfoKey.Location.value(), 3);
         }
         else
         {
-            ostr.writeEnum(v.value(), 4);
+            ostr.writeEnum(v.value(), 3);
         }
     }
 
     public static InfoKey ice_read(com.zeroc.Ice.InputStream istr)
     {
-        int v = istr.readEnum(4);
+        int v = istr.readEnum(3);
         return validate(v);
     }
 

@@ -19,14 +19,18 @@ public class Info extends com.zeroc.Ice.Value
 {
     public Info()
     {
+        this.status = "";
     }
 
-    public Info(int status)
+    public Info(String status, java.util.Map<InfoKey, java.lang.String> moreInfo)
     {
         this.status = status;
+        this.moreInfo = moreInfo;
     }
 
-    public int status;
+    public String status;
+
+    public java.util.Map<InfoKey, java.lang.String> moreInfo;
 
     public Info clone()
     {
@@ -45,14 +49,15 @@ public class Info extends com.zeroc.Ice.Value
     }
 
     /** @hidden */
-    public static final long serialVersionUID = -1997214417L;
+    public static final long serialVersionUID = -1255618861L;
 
     /** @hidden */
     @Override
     protected void _iceWriteImpl(com.zeroc.Ice.OutputStream ostr_)
     {
         ostr_.startSlice(ice_staticId(), -1, true);
-        ostr_.writeInt(status);
+        ostr_.writeString(status);
+        MoreInfoHelper.write(ostr_, moreInfo);
         ostr_.endSlice();
     }
 
@@ -61,7 +66,8 @@ public class Info extends com.zeroc.Ice.Value
     protected void _iceReadImpl(com.zeroc.Ice.InputStream istr_)
     {
         istr_.startSlice();
-        status = istr_.readInt();
+        status = istr_.readString();
+        moreInfo = MoreInfoHelper.read(istr_);
         istr_.endSlice();
     }
 }

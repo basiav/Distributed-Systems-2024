@@ -6,14 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class BulbI implements Bulb {
+public class BulbI extends DeviceI implements IBulb {
     Color color;
     int brightnessPercentage;
     String location;
     boolean turnedOn;
 
     public BulbI(String bathroomBulb) {
-        this.location = bathroomBulb;
+        super(bathroomBulb);
+//        this.location = bathroomBulb;
         this.color = Color.White;
         this.brightnessPercentage = 10;
     }
@@ -75,10 +76,19 @@ public class BulbI implements Bulb {
         return Color.values();
     }
 
+    @Override
+    public Info getInfo(Current current) {
+        Info info = super.getInfo(current);
+
+        info.moreInfo.put(InfoKey.Brightness, brightnessPercentage + "%");
+        info.moreInfo.put(InfoKey.Color, color.name());
+        return info;
+    }
+
 //    public Info getInfo(Current current) {
 //        return new Info(getStatus(), new HashMap<>(Map.of(InfoKey.Location, location)));
 //    }
-
+//
 //    @Override
 //    public Info getInfo(Current current) {
 ////        Info info = super.getInfo(current);
@@ -90,30 +100,30 @@ public class BulbI implements Bulb {
 //        return info;
 //    }
 
-    protected String getStatus() {
-        return turnedOn ? "on" : "off";
-    }
+//    protected String getStatus() {
+//        return turnedOn ? "on" : "off";
+//    }
 
-    @Override
-    public void turnOn(Current current) {
-        turnedOn = true;
-        changeStatus();
-    }
-
-    @Override
-    public void turnOff(Current current) {
-        turnedOn = false;
-        changeStatus();
-    }
-
-    private void changeStatus() {
-        String status = getStatus();
-        System.out.println("Turning " + status + " device...");
-        try {
-            Thread.sleep(2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Device turned " + status);
-    }
+//    @Override
+//    public void turnOn(Current current) {
+//        turnedOn = true;
+//        changeStatus();
+//    }
+//
+//    @Override
+//    public void turnOff(Current current) {
+//        turnedOn = false;
+//        changeStatus();
+//    }
+//
+//    private void changeStatus() {
+//        String status = getStatus();
+//        System.out.println("Turning " + status + " device...");
+//        try {
+//            Thread.sleep(2);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("Device turned " + status);
+//    }
 }
