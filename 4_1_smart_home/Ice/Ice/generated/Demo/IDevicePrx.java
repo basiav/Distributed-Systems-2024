@@ -83,7 +83,6 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-<<<<<<< HEAD
     default Info getInfo()
     {
         return getInfo(com.zeroc.Ice.ObjectPrx.noExplicitContext);
@@ -122,8 +121,6 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

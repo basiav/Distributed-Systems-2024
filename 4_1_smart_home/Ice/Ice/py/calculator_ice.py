@@ -45,7 +45,6 @@ if 'Color' not in _M_Demo.__dict__:
     _M_Demo.Color = Color
     del Color
 
-<<<<<<< HEAD
 if 'InfoKey' not in _M_Demo.__dict__:
     _M_Demo.InfoKey = Ice.createTempClass()
     class InfoKey(Ice.EnumBase):
@@ -79,129 +78,27 @@ if 'Info' not in _M_Demo.__dict__:
         def __init__(self, status='', moreInfo=None):
             self.status = status
             self.moreInfo = moreInfo
-=======
-if 'Device' not in _M_Demo.__dict__:
-    _M_Demo.Device = Ice.createTempClass()
-    class Device(Ice.Value):
-        def __init__(self, location='', turnedOn=False):
-            self.location = location
-            self.turnedOn = turnedOn
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
 
         def ice_id(self):
-            return '::Demo::Device'
+            return '::Demo::Info'
 
         @staticmethod
         def ice_staticId():
-            return '::Demo::Device'
+            return '::Demo::Info'
 
         def __str__(self):
-            return IcePy.stringify(self, _M_Demo._t_Device)
+            return IcePy.stringify(self, _M_Demo._t_Info)
 
         __repr__ = __str__
 
-<<<<<<< HEAD
     _M_Demo._t_Info = IcePy.defineValue('::Demo::Info', Info, -1, (), False, False, None, (
         ('status', (), IcePy._t_string, False, 0),
         ('moreInfo', (), _M_Demo._t_MoreInfo, False, 0)
     ))
     Info._ice_type = _M_Demo._t_Info
-=======
-    _M_Demo._t_Device = IcePy.defineValue('::Demo::Device', Device, -1, (), False, False, None, (
-        ('location', (), IcePy._t_string, False, 0),
-        ('turnedOn', (), IcePy._t_bool, False, 0)
-    ))
-    Device._ice_type = _M_Demo._t_Device
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
 
-    _M_Demo.Device = Device
-    del Device
-
-<<<<<<< HEAD
-if 'Device' not in _M_Demo.__dict__:
-    _M_Demo.Device = Ice.createTempClass()
-    class Device(Ice.Value):
-        def __init__(self, location='', turnedOn=False):
-            self.location = location
-            self.turnedOn = turnedOn
-
-        def ice_id(self):
-            return '::Demo::Device'
-=======
-_M_Demo._t_IDevice = IcePy.defineValue('::Demo::IDevice', Ice.Value, -1, (), False, True, None, ())
-
-if 'IDevicePrx' not in _M_Demo.__dict__:
-    _M_Demo.IDevicePrx = Ice.createTempClass()
-    class IDevicePrx(Ice.ObjectPrx):
-
-        def turnOn(self, context=None):
-            return _M_Demo.IDevice._op_turnOn.invoke(self, ((), context))
-
-        def turnOnAsync(self, context=None):
-            return _M_Demo.IDevice._op_turnOn.invokeAsync(self, ((), context))
-
-        def begin_turnOn(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.IDevice._op_turnOn.begin(self, ((), _response, _ex, _sent, context))
-
-        def end_turnOn(self, _r):
-            return _M_Demo.IDevice._op_turnOn.end(self, _r)
-
-        def turnOff(self, context=None):
-            return _M_Demo.IDevice._op_turnOff.invoke(self, ((), context))
-
-        def turnOffAsync(self, context=None):
-            return _M_Demo.IDevice._op_turnOff.invokeAsync(self, ((), context))
-
-        def begin_turnOff(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.IDevice._op_turnOff.begin(self, ((), _response, _ex, _sent, context))
-
-        def end_turnOff(self, _r):
-            return _M_Demo.IDevice._op_turnOff.end(self, _r)
-
-        @staticmethod
-        def checkedCast(proxy, facetOrContext=None, context=None):
-            return _M_Demo.IDevicePrx.ice_checkedCast(proxy, '::Demo::IDevice', facetOrContext, context)
-
-        @staticmethod
-        def uncheckedCast(proxy, facet=None):
-            return _M_Demo.IDevicePrx.ice_uncheckedCast(proxy, facet)
-
-        @staticmethod
-        def ice_staticId():
-            return '::Demo::IDevice'
-    _M_Demo._t_IDevicePrx = IcePy.defineProxy('::Demo::IDevice', IDevicePrx)
-
-    _M_Demo.IDevicePrx = IDevicePrx
-    del IDevicePrx
-
-    _M_Demo.IDevice = Ice.createTempClass()
-    class IDevice(Ice.Object):
-
-        def ice_ids(self, current=None):
-            return ('::Demo::IDevice', '::Ice::Object')
-
-        def ice_id(self, current=None):
-            return '::Demo::IDevice'
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
-
-        @staticmethod
-        def ice_staticId():
-            return '::Demo::IDevice'
-
-        def __str__(self):
-<<<<<<< HEAD
-            return IcePy.stringify(self, _M_Demo._t_Device)
-
-        __repr__ = __str__
-
-    _M_Demo._t_Device = IcePy.defineValue('::Demo::Device', Device, -1, (), False, False, None, (
-        ('location', (), IcePy._t_string, False, 0),
-        ('turnedOn', (), IcePy._t_bool, False, 0)
-    ))
-    Device._ice_type = _M_Demo._t_Device
-
-    _M_Demo.Device = Device
-    del Device
+    _M_Demo.Info = Info
+    del Info
 
 _M_Demo._t_IDevice = IcePy.defineValue('::Demo::IDevice', Ice.Value, -1, (), False, True, None, ())
 
@@ -284,8 +181,6 @@ if 'IDevicePrx' not in _M_Demo.__dict__:
             raise NotImplementedError("servant method 'getInfo' not implemented")
 
         def __str__(self):
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
             return IcePy.stringify(self, _M_Demo._t_IDeviceDisp)
 
         __repr__ = __str__
@@ -295,13 +190,38 @@ if 'IDevicePrx' not in _M_Demo.__dict__:
 
     IDevice._op_turnOn = IcePy.Operation('turnOn', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
     IDevice._op_turnOff = IcePy.Operation('turnOff', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
-<<<<<<< HEAD
     IDevice._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
 
     _M_Demo.IDevice = IDevice
     del IDevice
+
+if 'Device' not in _M_Demo.__dict__:
+    _M_Demo.Device = Ice.createTempClass()
+    class Device(Ice.Value):
+        def __init__(self, location='', turnedOn=False):
+            self.location = location
+            self.turnedOn = turnedOn
+
+        def ice_id(self):
+            return '::Demo::Device'
+
+        @staticmethod
+        def ice_staticId():
+            return '::Demo::Device'
+
+        def __str__(self):
+            return IcePy.stringify(self, _M_Demo._t_Device)
+
+        __repr__ = __str__
+
+    _M_Demo._t_Device = IcePy.defineValue('::Demo::Device', Device, -1, (), False, False, None, (
+        ('location', (), IcePy._t_string, False, 0),
+        ('turnedOn', (), IcePy._t_bool, False, 0)
+    ))
+    Device._ice_type = _M_Demo._t_Device
+
+    _M_Demo.Device = Device
+    del Device
 
 if '_t_colors' not in _M_Demo.__dict__:
     _M_Demo._t_colors = IcePy.defineSequence('::Demo::colors', (), _M_Demo._t_Color)
@@ -501,7 +421,6 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
         def end_turnOff(self, _r):
             return _M_Demo.IDeviceNonTurnOff._op_turnOff.end(self, _r)
 
-<<<<<<< HEAD
         def getInfo(self, context=None):
             return _M_Demo.IDeviceNonTurnOff._op_getInfo.invoke(self, ((), context))
 
@@ -514,8 +433,6 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
         def end_getInfo(self, _r):
             return _M_Demo.IDeviceNonTurnOff._op_getInfo.end(self, _r)
 
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
         @staticmethod
         def checkedCast(proxy, facetOrContext=None, context=None):
             return _M_Demo.IDeviceNonTurnOffPrx.ice_checkedCast(proxy, '::Demo::IDeviceNonTurnOff', facetOrContext, context)
@@ -551,12 +468,9 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
         def turnOff(self, current=None):
             raise NotImplementedError("servant method 'turnOff' not implemented")
 
-<<<<<<< HEAD
         def getInfo(self, current=None):
             raise NotImplementedError("servant method 'getInfo' not implemented")
 
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
         def __str__(self):
             return IcePy.stringify(self, _M_Demo._t_IDeviceNonTurnOffDisp)
 
@@ -567,10 +481,7 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
 
     IDeviceNonTurnOff._op_turnOn = IcePy.Operation('turnOn', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
     IDeviceNonTurnOff._op_turnOff = IcePy.Operation('turnOff', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_TurnOffSafetyExcpetion,))
-<<<<<<< HEAD
     IDeviceNonTurnOff._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
 
     _M_Demo.IDeviceNonTurnOff = IDeviceNonTurnOff
     del IDeviceNonTurnOff

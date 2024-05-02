@@ -66,10 +66,7 @@ public interface IDetector extends IDeviceNonTurnOff
     final static String[] _iceOps =
     {
         "alert",
-<<<<<<< HEAD
         "getInfo",
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
         "ice_id",
         "ice_ids",
         "ice_isA",
@@ -97,7 +94,6 @@ public interface IDetector extends IDeviceNonTurnOff
             }
             case 1:
             {
-<<<<<<< HEAD
                 return IDeviceNonTurnOff._iceD_getInfo(this, in, current);
             }
             case 2:
@@ -121,27 +117,6 @@ public interface IDetector extends IDeviceNonTurnOff
                 return IDeviceNonTurnOff._iceD_turnOff(this, in, current);
             }
             case 7:
-=======
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
-            }
-            case 2:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
-            }
-            case 3:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
-            }
-            case 4:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
-            }
-            case 5:
-            {
-                return IDeviceNonTurnOff._iceD_turnOff(this, in, current);
-            }
-            case 6:
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
             {
                 return IDeviceNonTurnOff._iceD_turnOn(this, in, current);
             }

@@ -33,11 +33,6 @@ public abstract class DeviceI implements IDevice {
         changeStatus();
     }
 
-//    @Override
-//    public Info getInfo(Current current) {
-//        return new Info(getStatus(), new HashMap<>(Map.of(InfoKey.Location, location)));
-//    }
-
     private void changeStatus() {
         String status = getStatus();
         System.out.println("Turning " + status + " device...");

@@ -22,11 +22,8 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
     void turnOff(com.zeroc.Ice.Current current)
         throws TurnOffSafetyExcpetion;
 
-<<<<<<< HEAD
     Info getInfo(com.zeroc.Ice.Current current);
 
-=======
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
     /** @hidden */
     static final String[] _iceIds =
     {
@@ -83,7 +80,6 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
         return inS.setResult(inS.writeEmptyParams());
     }
 
-<<<<<<< HEAD
     /**
      * @hidden
      * @param obj -
@@ -107,11 +103,6 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
     final static String[] _iceOps =
     {
         "getInfo",
-=======
-    /** @hidden */
-    final static String[] _iceOps =
-    {
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
         "ice_id",
         "ice_ids",
         "ice_isA",
@@ -135,7 +126,6 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
         {
             case 0:
             {
-<<<<<<< HEAD
                 return _iceD_getInfo(this, in, current);
             }
             case 1:
@@ -159,27 +149,6 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
                 return _iceD_turnOff(this, in, current);
             }
             case 6:
-=======
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
-            }
-            case 1:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
-            }
-            case 2:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
-            }
-            case 3:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
-            }
-            case 4:
-            {
-                return _iceD_turnOff(this, in, current);
-            }
-            case 5:
->>>>>>> a96e70dd073a8a75836a0925cb69dd5e9f908ba8
             {
                 return _iceD_turnOn(this, in, current);
             }
