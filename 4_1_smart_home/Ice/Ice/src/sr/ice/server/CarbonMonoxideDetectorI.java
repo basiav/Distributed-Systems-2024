@@ -1,14 +1,24 @@
 package sr.ice.server;
+import Demo.*;
 
-public class CarbonMonoxideDetectorI extends DetectorI{
-    double alarmVolume;
+import com.zeroc.Ice.Current;
+
+public class CarbonMonoxideDetectorI extends DetectorI {
+    double carbonMonoxideLevel = 0.0001;
 
     public CarbonMonoxideDetectorI(String location) {
-        super(location);
+        super(location, AlarmVolume.VeryHigh);
     }
 
-    public CarbonMonoxideDetectorI(String location, double alarmVolume) {
+    public CarbonMonoxideDetectorI(String location, double carbonMonoxideLevel) {
         super(location);
-        this.alarmVolume = alarmVolume;
+        this.carbonMonoxideLevel = carbonMonoxideLevel;
+    }
+
+    @Override
+    public Info getInfo(Current current) {
+        Info info = super.getInfo(current);
+        info.details.put(InfoKey.CarbonMonoxideLevel, String.valueOf(carbonMonoxideLevel));
+        return info;
     }
 }

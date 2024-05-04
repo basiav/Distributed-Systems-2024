@@ -5,6 +5,9 @@ import com.zeroc.Ice.Identity;
 import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.Util;
 
+import Demo.*;
+
+
 public class IceServer {
 	public void t1(String[] args) {
 		int status = 0;
@@ -19,14 +22,14 @@ public class IceServer {
 			ObjectAdapter adapter = communicator.createObjectAdapter("SmartHomeAdapter1");
 
 			// 3. Utworzenie serwanta/serwantów
-			BulbI bulbServant = new BulbI("bathroomBulb");
+			BulbI bulbServant = new BulbI("bathroom", Color.Green);
 			CarbonMonoxideDetectorI carbonMonoxideDetectorServant = new CarbonMonoxideDetectorI("bathroom");
 			SmokeDetectorI smokeDetectorServant = new SmokeDetectorI("kitchen");
 
 			// 4. Dodanie wpisów do tablicy ASM, skojarzenie nazwy obiektu (Identity) z serwantem
-			adapter.add(bulbServant, new Identity("bathroom", "Bulb"));
-			adapter.add(carbonMonoxideDetectorServant, new Identity("bathroom", "Detector"));
-			adapter.add(smokeDetectorServant, new Identity("kitchen", "Detector"));
+			adapter.add(bulbServant, new Identity("bathroomBulb", "Bulb"));
+			adapter.add(carbonMonoxideDetectorServant, new Identity("bathroomDetect", "Detector"));
+			adapter.add(smokeDetectorServant, new Identity("kitchenDetect", "Detector"));
 
 			// 5. Aktywacja adaptera i wejście w pętlę przetwarzania żądań
 			adapter.activate();

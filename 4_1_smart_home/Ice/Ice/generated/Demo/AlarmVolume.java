@@ -15,66 +15,57 @@
 
 package Demo;
 
-public enum InfoKey implements java.io.Serializable
+public enum AlarmVolume implements java.io.Serializable
 {
-    Location(0),
-    SmokeLevel(1),
-    CarbonMonoxideLevel(2),
-    Brightness(3),
-    Color(4);
+    High(0),
+    VeryHigh(1);
 
     public int value()
     {
         return _value;
     }
 
-    public static InfoKey valueOf(int v)
+    public static AlarmVolume valueOf(int v)
     {
         switch(v)
         {
         case 0:
-            return Location;
+            return High;
         case 1:
-            return SmokeLevel;
-        case 2:
-            return CarbonMonoxideLevel;
-        case 3:
-            return Brightness;
-        case 4:
-            return Color;
+            return VeryHigh;
         }
         return null;
     }
 
-    private InfoKey(int v)
+    private AlarmVolume(int v)
     {
         _value = v;
     }
 
     public void ice_write(com.zeroc.Ice.OutputStream ostr)
     {
-        ostr.writeEnum(_value, 4);
+        ostr.writeEnum(_value, 1);
     }
 
-    public static void ice_write(com.zeroc.Ice.OutputStream ostr, InfoKey v)
+    public static void ice_write(com.zeroc.Ice.OutputStream ostr, AlarmVolume v)
     {
         if(v == null)
         {
-            ostr.writeEnum(Demo.InfoKey.Location.value(), 4);
+            ostr.writeEnum(Demo.AlarmVolume.High.value(), 1);
         }
         else
         {
-            ostr.writeEnum(v.value(), 4);
+            ostr.writeEnum(v.value(), 1);
         }
     }
 
-    public static InfoKey ice_read(com.zeroc.Ice.InputStream istr)
+    public static AlarmVolume ice_read(com.zeroc.Ice.InputStream istr)
     {
-        int v = istr.readEnum(4);
+        int v = istr.readEnum(1);
         return validate(v);
     }
 
-    public static void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<InfoKey> v)
+    public static void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<AlarmVolume> v)
     {
         if(v != null && v.isPresent())
         {
@@ -82,7 +73,7 @@ public enum InfoKey implements java.io.Serializable
         }
     }
 
-    public static void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, InfoKey v)
+    public static void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, AlarmVolume v)
     {
         if(ostr.writeOptional(tag, com.zeroc.Ice.OptionalFormat.Size))
         {
@@ -90,7 +81,7 @@ public enum InfoKey implements java.io.Serializable
         }
     }
 
-    public static java.util.Optional<InfoKey> ice_read(com.zeroc.Ice.InputStream istr, int tag)
+    public static java.util.Optional<AlarmVolume> ice_read(com.zeroc.Ice.InputStream istr, int tag)
     {
         if(istr.readOptional(tag, com.zeroc.Ice.OptionalFormat.Size))
         {
@@ -102,9 +93,9 @@ public enum InfoKey implements java.io.Serializable
         }
     }
 
-    private static InfoKey validate(int v)
+    private static AlarmVolume validate(int v)
     {
-        final InfoKey e = valueOf(v);
+        final AlarmVolume e = valueOf(v);
         if(e == null)
         {
             throw new com.zeroc.Ice.MarshalException("enumerator value " + v + " is out of range");

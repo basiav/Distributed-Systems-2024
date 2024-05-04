@@ -12,10 +12,7 @@ public abstract class DeviceNonTurnOffI implements IDeviceNonTurnOff {
 
     public DeviceNonTurnOffI(String location) {
         this.location = location;
-    }
-    public DeviceNonTurnOffI(String location, boolean turnedOn) {
-        this.location = location;
-        this.turnedOn = false;
+        this.turnedOn = true;
     }
 
     @Override

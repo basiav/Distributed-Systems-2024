@@ -36,24 +36,25 @@ if __name__ == '__main__':
     ic = None
 
     map_name_proxy = {
-        # "bathroom bulb": "Bulb/bathroomBulb",
-        "bathroom bulb": "Bulb/bathroom",
-        "kitchen bulb": "bulb/kitchen",
-        "bathroom detector": "Detector/bathroom",
-        "kitchen detector": "Detector/bathroom"
-        # "mothers room bulb": "Bulb/mothersRoomBulb",
-        # "home office color printer": "Printer/homeOfficeColorPrinter",
-        # "spare office grayscale printer": "Printer/spareOfficeGrayScalePrinter"
+        # On first server
+        "bathroom bulb": "Bulb/bathroomBulb",
+        "bathroom detector": "Detector/bathroomDetect",
+        "kitchen detector": "Detector/kitchenDetect",
+        # On sercond server
+        "living room bulb": "Bulb/livingRoomBulb",
+        "bedroom detector": "Detector/bedroomDetect"
     }
 
+    SERVER_FIRST = "127.0.0.1"
+    SERVER_SECOND = "127.0.0.2"
     map_device_address = {
-        "bathroom bulb": "127.0.0.1",
-        "kitchen bulb": "127.0.0.2",
-        "bathroom detector": "127.0.0.1",
-        "kitchen detector": "127.0.0.1",
-        # "mothers room bulb": "127.0.0.2",
-        # "home office color printer": "127.0.0.1",
-        # "spare office grayscale printer": "127.0.0.2"
+        # On first server
+        "bathroom bulb": SERVER_FIRST,
+        "bathroom detector": SERVER_FIRST,
+        "kitchen detector": SERVER_FIRST,
+        # On sercond server
+        "living room bulb": SERVER_SECOND,
+        "bedroom detector": SERVER_SECOND
     }
 
     try:

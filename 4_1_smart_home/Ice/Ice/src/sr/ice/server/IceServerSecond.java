@@ -21,10 +21,12 @@ public class IceServerSecond {
             ObjectAdapter adapter = communicator.createObjectAdapter("SmartHomeAdapter2");
 
             // 3. Utworzenie serwanta/serwantów
-            BulbI bulbServant = new BulbI("kitchenBulb");
+            BulbI bulbServant = new BulbI("livingRoom");
+            CarbonMonoxideDetectorI carbonMonoxideDetectorServant = new CarbonMonoxideDetectorI("bedroom");
 
             // 4. Dodanie wpisów do tablicy ASM, skojarzenie nazwy obiektu (Identity) z serwantem
-            adapter.add(bulbServant, new Identity("kitchen", "Bulb"));
+            adapter.add(bulbServant, new Identity("livingRoomBulb", "Bulb"));
+            adapter.add(carbonMonoxideDetectorServant, new Identity("bedroomDetect", "Detector"));
 
             // 5. Aktywacja adaptera i wejście w pętlę przetwarzania żądań
             adapter.activate();

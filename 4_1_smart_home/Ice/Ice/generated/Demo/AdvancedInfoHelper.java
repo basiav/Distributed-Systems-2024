@@ -15,10 +15,10 @@
 
 package Demo;
 /**
- * Helper class for marshaling/unmarshaling MoreInfo.
+ * Helper class for marshaling/unmarshaling AdvancedInfo.
  **/
 
-public final class MoreInfoHelper
+public final class AdvancedInfoHelper
 {
     public static void write(com.zeroc.Ice.OutputStream ostr, java.util.Map<InfoKey, java.lang.String> v)
     {
@@ -66,7 +66,7 @@ public final class MoreInfoHelper
         if(ostr.writeOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
         {
             int pos = ostr.startSize();
-            MoreInfoHelper.write(ostr, v);
+            AdvancedInfoHelper.write(ostr, v);
             ostr.endSize(pos);
         }
     }
@@ -77,7 +77,7 @@ public final class MoreInfoHelper
         {
             istr.skip(4);
             java.util.Map<InfoKey, java.lang.String> v;
-            v = MoreInfoHelper.read(istr);
+            v = AdvancedInfoHelper.read(istr);
             return java.util.Optional.of(v);
         }
         else

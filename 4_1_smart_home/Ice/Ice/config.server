@@ -6,8 +6,8 @@
 SmartHomeAdapter1.Endpoints=tcp -h 127.0.0.1 -p 10000 -z -t 10000 : udp -h 127.0.0.1 -p 10000 -z
 SmartHomeAdapter2.Endpoints=tcp -h 127.0.0.2 -p 10000 -z -t 10000 : udp -h 127.0.0.2 -p 10000 -z
 
-
-Adapter1.ThreadPool.Size=10
+SmartHomeAdapter1.ThreadPool.Size=10
+SmartHomeAdapter2.ThreadPool.Size=10
 
 #
 # Warn about connection exceptions

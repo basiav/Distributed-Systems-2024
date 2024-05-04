@@ -2,21 +2,18 @@ package sr.ice.server;
 import Demo.*;
 import com.zeroc.Ice.Current;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class BulbI extends DeviceI implements IBulb {
-    Color color;
-    int brightnessPercentage;
-    String location;
-    boolean turnedOn;
+    Color color = Color.White;
+    int brightnessPercentage = 10;
 
-    public BulbI(String bathroomBulb) {
-        super(bathroomBulb);
-//        this.location = bathroomBulb;
-        this.color = Color.White;
-        this.brightnessPercentage = 10;
+    public BulbI(String location) {
+        super(location);
+    }
+
+    public BulbI(String location, Color color) {
+        super(location);
+        this.color = color;
     }
 
     @Override
@@ -55,8 +52,8 @@ public class BulbI extends DeviceI implements IBulb {
     public Info getInfo(Current current) {
         Info info = super.getInfo(current);
 
-        info.moreInfo.put(InfoKey.Brightness, brightnessPercentage + "%");
-        info.moreInfo.put(InfoKey.Color, color.name());
+        info.details.put(InfoKey.Brightness, brightnessPercentage + "%");
+        info.details.put(InfoKey.Color, color.name());
         return info;
     }
 }

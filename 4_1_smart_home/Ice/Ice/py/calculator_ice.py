@@ -60,24 +60,25 @@ if 'InfoKey' not in _M_Demo.__dict__:
 
     InfoKey.Location = InfoKey("Location", 0)
     InfoKey.SmokeLevel = InfoKey("SmokeLevel", 1)
-    InfoKey.Brightness = InfoKey("Brightness", 2)
-    InfoKey.Color = InfoKey("Color", 3)
-    InfoKey._enumerators = { 0:InfoKey.Location, 1:InfoKey.SmokeLevel, 2:InfoKey.Brightness, 3:InfoKey.Color }
+    InfoKey.CarbonMonoxideLevel = InfoKey("CarbonMonoxideLevel", 2)
+    InfoKey.Brightness = InfoKey("Brightness", 3)
+    InfoKey.Color = InfoKey("Color", 4)
+    InfoKey._enumerators = { 0:InfoKey.Location, 1:InfoKey.SmokeLevel, 2:InfoKey.CarbonMonoxideLevel, 3:InfoKey.Brightness, 4:InfoKey.Color }
 
     _M_Demo._t_InfoKey = IcePy.defineEnum('::Demo::InfoKey', InfoKey, (), InfoKey._enumerators)
 
     _M_Demo.InfoKey = InfoKey
     del InfoKey
 
-if '_t_MoreInfo' not in _M_Demo.__dict__:
-    _M_Demo._t_MoreInfo = IcePy.defineDictionary('::Demo::MoreInfo', (), _M_Demo._t_InfoKey, IcePy._t_string)
+if '_t_AdvancedInfo' not in _M_Demo.__dict__:
+    _M_Demo._t_AdvancedInfo = IcePy.defineDictionary('::Demo::AdvancedInfo', (), _M_Demo._t_InfoKey, IcePy._t_string)
 
 if 'Info' not in _M_Demo.__dict__:
     _M_Demo.Info = Ice.createTempClass()
     class Info(Ice.Value):
-        def __init__(self, status='', moreInfo=None):
-            self.status = status
-            self.moreInfo = moreInfo
+        def __init__(self, turnedOn='', details=None):
+            self.turnedOn = turnedOn
+            self.details = details
 
         def ice_id(self):
             return '::Demo::Info'
@@ -92,8 +93,8 @@ if 'Info' not in _M_Demo.__dict__:
         __repr__ = __str__
 
     _M_Demo._t_Info = IcePy.defineValue('::Demo::Info', Info, -1, (), False, False, None, (
-        ('status', (), IcePy._t_string, False, 0),
-        ('moreInfo', (), _M_Demo._t_MoreInfo, False, 0)
+        ('turnedOn', (), IcePy._t_string, False, 0),
+        ('details', (), _M_Demo._t_AdvancedInfo, False, 0)
     ))
     Info._ice_type = _M_Demo._t_Info
 
@@ -485,6 +486,28 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
 
     _M_Demo.IDeviceNonTurnOff = IDeviceNonTurnOff
     del IDeviceNonTurnOff
+
+if 'AlarmVolume' not in _M_Demo.__dict__:
+    _M_Demo.AlarmVolume = Ice.createTempClass()
+    class AlarmVolume(Ice.EnumBase):
+
+        def __init__(self, _n, _v):
+            Ice.EnumBase.__init__(self, _n, _v)
+
+        def valueOf(self, _n):
+            if _n in self._enumerators:
+                return self._enumerators[_n]
+            return None
+        valueOf = classmethod(valueOf)
+
+    AlarmVolume.High = AlarmVolume("High", 0)
+    AlarmVolume.VeryHigh = AlarmVolume("VeryHigh", 1)
+    AlarmVolume._enumerators = { 0:AlarmVolume.High, 1:AlarmVolume.VeryHigh }
+
+    _M_Demo._t_AlarmVolume = IcePy.defineEnum('::Demo::AlarmVolume', AlarmVolume, (), AlarmVolume._enumerators)
+
+    _M_Demo.AlarmVolume = AlarmVolume
+    del AlarmVolume
 
 _M_Demo._t_IDetector = IcePy.defineValue('::Demo::IDetector', Ice.Value, -1, (), False, True, None, ())
 

@@ -14,34 +14,38 @@ public abstract class DeviceI implements IDevice {
 
     public DeviceI(String location) {
         this.location = location;
+        this.turnedOn = true;
     }
+
     public DeviceI(String location, boolean turnedOn) {
         this.location = location;
-        this.turnedOn = true;
+        this.turnedOn = turnedOn;
     }
 
 
     @Override
-    public void turnOn(Current current) {
+    public void turnOn(Current current) throws WrongMethodException {
+        if (turnedOn) throw new WrongMethodException("The device is already turned on...");
         turnedOn = true;
         changeStatus();
     }
 
     @Override
-    public void turnOff(Current current) {
+    public void turnOff(Current current) throws WrongMethodException {
+        if (!turnedOn) throw new WrongMethodException("The device is already turned off...");
         turnedOn = false;
         changeStatus();
     }
 
     private void changeStatus() {
         String status = getStatus();
-        System.out.println("Turning " + status + " device...");
+        System.out.println("Turning the device " + status + " ...");
         try {
             Thread.sleep(2);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Device turned " + status);
+        System.out.println("The device turned " + status);
     }
 
     protected String getStatus() {

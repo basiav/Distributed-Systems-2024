@@ -10,18 +10,19 @@ module Demo
     };
 
     enum InfoKey {
-        Location, SmokeLevel, Brightness, Color
+        Location, SmokeLevel, CarbonMonoxideLevel, Brightness, Color
     };
-    dictionary<InfoKey, string> MoreInfo;
+    dictionary<InfoKey, string> AdvancedInfo;
 
     class Info {
-        string status;
-        MoreInfo moreInfo;
+        string turnedOn;
+        AdvancedInfo details;
     };
 
+    exception WrongMethodException { string reason; };
     interface IDevice {
-        void turnOn();
-        void turnOff();
+        void turnOn() throws WrongMethodException;
+        void turnOff() throws WrongMethodException;
         Info getInfo();
     };
 
@@ -49,6 +50,9 @@ module Demo
         Info getInfo();
     };
 
+    enum AlarmVolume {
+        High, VeryHigh
+    };
     interface IDetector extends IDeviceNonTurnOff {
         string alert();
     };

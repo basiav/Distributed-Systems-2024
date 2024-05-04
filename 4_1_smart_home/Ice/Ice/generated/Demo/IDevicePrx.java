@@ -18,13 +18,26 @@ package Demo;
 public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
 {
     default void turnOn()
+        throws WrongMethodException
     {
         turnOn(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default void turnOn(java.util.Map<String, String> context)
+        throws WrongMethodException
     {
-        _iceI_turnOnAsync(context, true).waitForResponse();
+        try
+        {
+            _iceI_turnOnAsync(context, true).waitForResponseOrUserEx();
+        }
+        catch(WrongMethodException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
     }
 
     default java.util.concurrent.CompletableFuture<Void> turnOnAsync()
@@ -45,19 +58,38 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_turnOnAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "turnOn", null, sync, null);
-        f.invoke(false, context, null, null, null);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "turnOn", null, sync, _iceE_turnOn);
+        f.invoke(true, context, null, null, null);
         return f;
     }
 
+    /** @hidden */
+    static final Class<?>[] _iceE_turnOn =
+    {
+        WrongMethodException.class
+    };
+
     default void turnOff()
+        throws WrongMethodException
     {
         turnOff(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default void turnOff(java.util.Map<String, String> context)
+        throws WrongMethodException
     {
-        _iceI_turnOffAsync(context, true).waitForResponse();
+        try
+        {
+            _iceI_turnOffAsync(context, true).waitForResponseOrUserEx();
+        }
+        catch(WrongMethodException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
     }
 
     default java.util.concurrent.CompletableFuture<Void> turnOffAsync()
@@ -78,10 +110,16 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_turnOffAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "turnOff", null, sync, null);
-        f.invoke(false, context, null, null, null);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "turnOff", null, sync, _iceE_turnOff);
+        f.invoke(true, context, null, null, null);
         return f;
     }
+
+    /** @hidden */
+    static final Class<?>[] _iceE_turnOff =
+    {
+        WrongMethodException.class
+    };
 
     default Info getInfo()
     {

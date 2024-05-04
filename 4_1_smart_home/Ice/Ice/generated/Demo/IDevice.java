@@ -17,9 +17,11 @@ package Demo;
 
 public interface IDevice extends com.zeroc.Ice.Object
 {
-    void turnOn(com.zeroc.Ice.Current current);
+    void turnOn(com.zeroc.Ice.Current current)
+        throws WrongMethodException;
 
-    void turnOff(com.zeroc.Ice.Current current);
+    void turnOff(com.zeroc.Ice.Current current)
+        throws WrongMethodException;
 
     Info getInfo(com.zeroc.Ice.Current current);
 
@@ -53,8 +55,10 @@ public interface IDevice extends com.zeroc.Ice.Object
      * @param inS -
      * @param current -
      * @return -
+     * @throws com.zeroc.Ice.UserException -
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_turnOn(IDevice obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
@@ -68,8 +72,10 @@ public interface IDevice extends com.zeroc.Ice.Object
      * @param inS -
      * @param current -
      * @return -
+     * @throws com.zeroc.Ice.UserException -
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_turnOff(IDevice obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
