@@ -4,55 +4,16 @@ from grpc_reflection.v1alpha.proto_reflection_descriptor_database import (
     ProtoReflectionDescriptorDatabase,
 )
 import calculator_pb2_grpc
-import random
+import grpc_requests
 
 from google._upb._message import (
-    MethodDescriptor,
-    Descriptor,
     DescriptorPool,
-    FieldDescriptor,
 )
 
 """
 Compile proto file using
 python -m grpc_tools.protoc -I protos --python_out=. --pyi_out=. --grpc_python_out=. protos/calculator.proto
 """
-
-
-def get_random(descriptor: FieldDescriptor):
-    """
-    Generates a structure described by the FieldDescriptor.
-    """
-    # Generate a list for repeated fields
-    repeats = 1 if not descriptor.label == FieldDescriptor.LABEL_REPEATED else 5
-    ret = []
-    while repeats > 0:
-        repeats -= 1
-        # Plain types
-        if descriptor.type == FieldDescriptor.TYPE_INT32:
-            ret.append(random.randint(1, 10))
-        if (
-            descriptor.type == FieldDescriptor.TYPE_DOUBLE
-            or descriptor.type == FieldDescriptor.TYPE_FLOAT
-        ):
-            ret.append(round(random.random() * 10, 1))
-
-        # Message (nested) types - recursively
-        if descriptor.type == FieldDescriptor.TYPE_MESSAGE:
-            nested_objects = {
-                field.name: get_random(field)
-                for field in descriptor.message_type.fields
-            }
-            cls = GetMessageClass(descriptor.message_type.fields[0].containing_type)
-            message_object = cls(**nested_objects)
-            ret.append(message_object)
-
-        # Enum types (non-recursively)
-        if descriptor.enum_type:
-            random_enum_val = random.choice(descriptor.enum_type.values_by_name.keys())
-            ret.append(random_enum_val)
-
-    return ret[0] if not descriptor.label == FieldDescriptor.LABEL_REPEATED else ret
 
 
 def listing():
@@ -104,6 +65,87 @@ def list_available_service_methods_with_args(service_name):
     print("_____________________________________________________")
 
 
+def send_example_requests():
+    print("\tExample rpc requests to the enable-reflection server")
+
+    print("EXAMPLE 1 - SimpleAdd")
+    example1()
+
+    print("EXAMPLE 2")
+    example2()
+
+    print("EXAMPLE 3")
+    example3()
+
+    print("EXAMPLE 4")
+    example4()
+
+
+# EXAMPLE 1 - SimpleAdd with grpc_requests
+def example1():
+    arg1, arg2 = 10, 12
+    print("Args: ", arg1, arg2)
+    result = client.request(
+        "calculator.Calculator", "SimpleAdd", {"arg1": arg1, "arg2": arg2}
+    )
+    print(f"SimpleAdd result: {result}\n")
+
+
+# EXAMPLE 2 - AdvancedCalc with enums, invocation on stub
+def example2():
+    service_name = "calculator.AdvancedCalculator"
+    print("Service of choice: ", service_name)
+    service_desc = desc_pool.FindServiceByName(service_name)
+    method_descriptor = service_desc.methods_by_name["ComplexOperation"]
+    print("Method of choice: ", method_descriptor.name)
+    input_struct = method_descriptor.input_type
+    # {'optype': 'SUM', 'args': [4.3, 2.4, 2.1, 5.9, 4.9]}
+    kwargs = {}
+    kwargs["optype"] = "SUM"
+    kwargs["args"] = [4.3, 2.4, 2.1, 5.9, 4.9]
+    print("Args: ", kwargs, sep=" ")
+
+    message_class = GetMessageClass(input_struct)
+    class_arguments = message_class(**kwargs)
+    result = advanced_stub.__getattribute__(method_descriptor.name)(class_arguments)
+    print("Result:", result)
+
+
+# EXAMPLE 3 - AdvancedCalc with enums, invocation on stub
+def example3():
+    service_name = "calculator.AdvancedCalculator"
+    print("Service of choice: ", service_name)
+    service_desc = desc_pool.FindServiceByName(service_name)
+    method_descriptor = service_desc.methods_by_name["ComplexOperation"]
+    print("Method of choice: ", method_descriptor.name)
+    input_struct = method_descriptor.input_type
+    # {'optype': 'MAX', 'args': [28.3, 2.4, 11, 68.5, 4.9]}
+    kwargs = {}
+    kwargs["optype"] = "MAX"
+    kwargs["args"] = [28.3, 2.4, 11, 68.5, 4.9]
+    print("Args: ", kwargs, sep=" ")
+
+    message_class = GetMessageClass(input_struct)
+    class_arguments = message_class(**kwargs)
+    result = advanced_stub.__getattribute__(method_descriptor.name)(class_arguments)
+    print("Result:", result)
+
+
+# EXAMPLE 4 - AdvancedCalc with enums with grpc_requests
+def example4():
+    args = [1.88, 6.1, 35.1, 34.4, 2, 11]
+    operations = ["SUM", "AVG", "MIN", "MAX"]
+
+    print(f"args: {args}")
+    for op in operations:
+        result = client.request(
+            "calculator.AdvancedCalculator",
+            "ComplexOperation",
+            {"optype": op, "args": args},
+        )
+        print(f"Operation {op}: {result}")
+
+
 if __name__ == "__main__":
     # setup connection
     PORT = 50050
@@ -113,6 +155,7 @@ if __name__ == "__main__":
     )
     basic_stub = calculator_pb2_grpc.CalculatorStub(channel)
     advanced_stub = calculator_pb2_grpc.AdvancedCalculatorStub(channel)
+    client = grpc_requests.Client.get_by_endpoint(server_address)
 
     # setup reflection
     reflection_db = ProtoReflectionDescriptorDatabase(channel)
@@ -120,54 +163,8 @@ if __name__ == "__main__":
 
     listing()
     print("\n_____________________________________________________")
-    print("Generate random requests:\n")
 
-    # EXAMPLE 1 - random service, random choice
-    # Random service
-    services = list(
-        filter(lambda s: not s.startswith("grpc"), reflection_db.get_services())
-    )
-    service_name = random.choice(services)
-    print("Service of choice: ", service_name)
-    service_desc = desc_pool.FindServiceByName(service_name)
-
-    # Random method
-    print("Available Methods: ", *service_desc.methods_by_name.keys(), sep="\n")
-    method_descriptor: MethodDescriptor = random.choice(
-        service_desc.methods_by_name.values()
-    )
-    print("Method of choice: ", method_descriptor.name)
-
-    # Fill-in with random arguments
-    input_struct: Descriptor = method_descriptor.input_type
-    kwargs = {}
-    for field_descriptor in input_struct.fields:
-        kwargs[field_descriptor.name] = get_random(field_descriptor)
-    print("Arguments: ", kwargs, sep=" ")
-
-    # Create message object
-    message_class = GetMessageClass(input_struct)
-    class_arguments = message_class(**kwargs)
-    stub = basic_stub if service_name == "calculator.Calculator" else advanced_stub
-    result = stub.__getattribute__(method_descriptor.name)(class_arguments)
-    print("\nResult:\n", result, "\n\n")
-
-    # EXAMPLE 2 - AdvancedCalc with enums
-    service_name = r"calculator.AdvancedCalculator"
-    print("Service of choice: ", service_name)
-    service_desc = desc_pool.FindServiceByName(service_name)
-    method_descriptor = service_desc.methods_by_name["ComplexOperation"]
-    print("Method of choice: ", method_descriptor.name)
-    input_struct = method_descriptor.input_type
-    kwargs = {}
-    for field_descriptor in input_struct.fields:
-        kwargs[field_descriptor.name] = get_random(field_descriptor)
-    print("Arguments: ", kwargs, sep=" ")
-
-    message_class = GetMessageClass(input_struct)
-    class_arguments = message_class(**kwargs)
-    result = advanced_stub.__getattribute__(method_descriptor.name)(class_arguments)
-    print("\nResult:\n", result)
+    send_example_requests()
 
     channel.close()
 
