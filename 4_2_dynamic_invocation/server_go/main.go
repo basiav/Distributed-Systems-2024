@@ -27,7 +27,7 @@ func (s *calcServer) SimpleAdd(ctx context.Context, in *ArithmeticOpArguments) (
 }
 
 func (s *calcServer) SimpleSubtract(ctx context.Context, in *ArithmeticOpArguments) (*SingleIntResult, error) {
-	fmt.Println("SubtractTwo")
+	fmt.Println("SimpleSubtract")
 	return &SingleIntResult{
 		Res: in.Arg1 - in.Arg2,
 	}, nil

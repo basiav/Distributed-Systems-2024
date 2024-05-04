@@ -66,12 +66,12 @@ def list_available_service_methods_with_args(service_name):
 
 
 def send_example_requests():
-    print("\tExample rpc requests to the enable-reflection server")
+    print("\tExample rpc requests to the reflection server")
 
     print("EXAMPLE 1 - SimpleAdd")
     example1()
 
-    print("EXAMPLE 2")
+    print("EXAMPLE 2 - AdvancedCalculator ListSum")
     example2()
 
     print("EXAMPLE 3")
@@ -79,6 +79,9 @@ def send_example_requests():
 
     print("EXAMPLE 4")
     example4()
+
+    print("EXAMPLE 5")
+    example5()
 
 
 # EXAMPLE 1 - SimpleAdd with grpc_requests
@@ -91,8 +94,18 @@ def example1():
     print(f"SimpleAdd result: {result}\n")
 
 
-# EXAMPLE 2 - AdvancedCalc with enums, invocation on stub
+# EXAMPLE 2 - AdvancedCalc with ListSum
 def example2():
+    args = [10, 20, 30, 40]
+    print("Args: ", args)
+    result = client.request(
+        "calculator.AdvancedCalculator", "ListSum", {"args": args}
+    )
+    print(f"ListSum result: {result}\n")
+
+
+# EXAMPLE 3 - AdvancedCalc with enums, invocation on stub
+def example3():
     service_name = "calculator.AdvancedCalculator"
     print("Service of choice: ", service_name)
     service_desc = desc_pool.FindServiceByName(service_name)
@@ -111,8 +124,8 @@ def example2():
     print("Result:", result)
 
 
-# EXAMPLE 3 - AdvancedCalc with enums, invocation on stub
-def example3():
+# EXAMPLE 4 - AdvancedCalc with enums, invocation on stub
+def example4():
     service_name = "calculator.AdvancedCalculator"
     print("Service of choice: ", service_name)
     service_desc = desc_pool.FindServiceByName(service_name)
@@ -131,8 +144,8 @@ def example3():
     print("Result:", result)
 
 
-# EXAMPLE 4 - AdvancedCalc with enums with grpc_requests
-def example4():
+# EXAMPLE 5 - AdvancedCalc with enums with grpc_requests
+def example5():
     args = [1.88, 6.1, 35.1, 34.4, 2, 11]
     operations = ["SUM", "AVG", "MIN", "MAX"]
 
