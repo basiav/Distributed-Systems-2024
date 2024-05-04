@@ -167,23 +167,3 @@ if __name__ == "__main__":
     send_example_requests()
 
     channel.close()
-
-"""
-client is able to"
-    * connect to the server`
-    * learn which server capabilities exists
-    * send rpc requests to the enable-reflection server`
-
---> list all available services on server
-    grpcurl -plaintext localhost:50050 list 
-
---> list all available service methods
-    grpcurl -plaintext localhost:50050 list calculator.AdvancedCalculator
-    
---> get description of service    
-    grpcurl -plaintext localhost:50050 describe calculator.AdvancedCalculator
-
---> execute method on service running on server
-    grpcurl -plaintext -d '{"optype": "SUM", "args": [1,2]}' localhost:50050 calculator.AdvancedCalculator/ComplexOperation
-
-"""
