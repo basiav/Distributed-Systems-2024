@@ -7,18 +7,17 @@ import Demo
 # from generated.Demo import BulbPrx, PrinterPrx
 # from generated.calculator_ice import BulbPrx
 
-print(Ice.stringVersion())
+print("Ice version: ", Ice.stringVersion())
 
 
 def print_available_devices():
-    map_name_proxy.keys()
     print("\nAvailable devices:")
-    for i, key in enumerate(map_name_proxy.keys()):
-        print(f"[{i}] {key}")
+    for i, (proxy_key,  (_, address)) in enumerate(zip(map_name_proxy.keys(), map_device_address.items())):
+        print(f"[{i}] {proxy_key} on {address}")
 
 
 def get_available_device_operations():
-    print(f"Available operations for [{chosen_device_name}]:")
+    print(f"Available operations for [{device_chosen_name}]:")
     ops = [item for item in dir(device) if
            not (("ice" in item) or ("_" in item) or ("Async" in item) or ("Cast" in item))]
     for i, op_ in enumerate(ops):
@@ -40,7 +39,7 @@ if __name__ == '__main__':
         "bathroom bulb": "Bulb/bathroomBulb",
         "bathroom detector": "Detector/bathroomDetect",
         "kitchen detector": "Detector/kitchenDetect",
-        # On sercond server
+        # On second server
         "living room bulb": "Bulb/livingRoomBulb",
         "bedroom detector": "Detector/bedroomDetect"
     }
@@ -52,10 +51,13 @@ if __name__ == '__main__':
         "bathroom bulb": SERVER_FIRST,
         "bathroom detector": SERVER_FIRST,
         "kitchen detector": SERVER_FIRST,
-        # On sercond server
+        # On second server
         "living room bulb": SERVER_SECOND,
         "bedroom detector": SERVER_SECOND
     }
+
+    BULB_CAT = "Bulb"
+    DETECTOR_CAT = "Detector"
 
     try:
         while True:
@@ -72,21 +74,17 @@ if __name__ == '__main__':
                 print("Incorrect device number, try again...")
                 continue
 
-            chosen_device_name = list(map_name_proxy.keys())[chosen_device_idx]
+            device_chosen_name = list(map_name_proxy.keys())[chosen_device_idx]
             chosen_device_proxy_name = list(map_name_proxy.values())[chosen_device_idx]
             ic = Ice.initialize(sys.argv)
 
-            print("ADDRESS " + map_device_address[chosen_device_name])
+            print("ADDRESS " + map_device_address[device_chosen_name])
             base = ic.stringToProxy(
-                f"{chosen_device_proxy_name} : tcp -h {map_device_address[chosen_device_name]} -p 10000")
-
-            print(f"base: {base}")
-            # device = Demo.BulbPrx.checkedCast(base) \
-            #     if get_device_category() == "Bulb" else Demo.PrinterPrx.checkedCast(base)
+                f"{chosen_device_proxy_name} : tcp -h {map_device_address[device_chosen_name]} -p 10000")
 
             device = Demo.IBulbPrx.checkedCast(base) \
-                if get_device_category() == "Bulb" else Demo.IDetectorPrx.checkedCast(base)
-            print(f"device: {device}")
+                if get_device_category() == BULB_CAT else Demo.IDetectorPrx.checkedCast(base)
+            print(f"Device: {device}\n\n")
             if not device:
                 raise RuntimeError("Invalid proxy")
 
@@ -103,6 +101,7 @@ if __name__ == '__main__':
                     continue
 
                 fun = getattr(device, operations[int(op)])
+                print("fun: ", fun)
                 print(f"operations[int(op)]: {operations[int(op)]}")
                 if fun.__code__.co_varnames[1:-1]:
                     print("Insert listed arguments:")

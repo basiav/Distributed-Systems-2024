@@ -20,8 +20,9 @@ public enum InfoKey implements java.io.Serializable
     Location(0),
     SmokeLevel(1),
     CarbonMonoxideLevel(2),
-    Brightness(3),
-    Color(4);
+    Volume(3),
+    Brightness(4),
+    Color(5);
 
     public int value()
     {
@@ -39,8 +40,10 @@ public enum InfoKey implements java.io.Serializable
         case 2:
             return CarbonMonoxideLevel;
         case 3:
-            return Brightness;
+            return Volume;
         case 4:
+            return Brightness;
+        case 5:
             return Color;
         }
         return null;
@@ -53,24 +56,24 @@ public enum InfoKey implements java.io.Serializable
 
     public void ice_write(com.zeroc.Ice.OutputStream ostr)
     {
-        ostr.writeEnum(_value, 4);
+        ostr.writeEnum(_value, 5);
     }
 
     public static void ice_write(com.zeroc.Ice.OutputStream ostr, InfoKey v)
     {
         if(v == null)
         {
-            ostr.writeEnum(Demo.InfoKey.Location.value(), 4);
+            ostr.writeEnum(Demo.InfoKey.Location.value(), 5);
         }
         else
         {
-            ostr.writeEnum(v.value(), 4);
+            ostr.writeEnum(v.value(), 5);
         }
     }
 
     public static InfoKey ice_read(com.zeroc.Ice.InputStream istr)
     {
-        int v = istr.readEnum(4);
+        int v = istr.readEnum(5);
         return validate(v);
     }
 

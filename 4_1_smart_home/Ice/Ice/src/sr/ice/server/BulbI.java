@@ -23,12 +23,12 @@ public class BulbI extends DeviceI implements IBulb {
     }
 
     @Override
-    public void dim(Current current) throws ValueOutOfRangeException {
+    public void darken(Current current) throws ValueOutOfRangeException {
         changeBrightness(-5, current);
     }
 
     @Override
-    public void brighten(Current current) throws ValueOutOfRangeException {
+    public void lightUp(Current current) throws ValueOutOfRangeException {
         changeBrightness(5, current);
     }
 
@@ -44,14 +44,13 @@ public class BulbI extends DeviceI implements IBulb {
     }
 
     @Override
-    public Color[] getAllPossibleColors(Current current) {
+    public Color[] listColors(Current current) {
         return Color.values();
     }
 
     @Override
     public Info getInfo(Current current) {
         Info info = super.getInfo(current);
-
         info.details.put(InfoKey.Brightness, brightnessPercentage + "%");
         info.details.put(InfoKey.Color, color.name());
         return info;

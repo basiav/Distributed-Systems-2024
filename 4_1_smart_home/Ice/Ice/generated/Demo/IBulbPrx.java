@@ -53,18 +53,18 @@ public interface IBulbPrx extends IDevicePrx
         return f;
     }
 
-    default void dim()
+    default void darken()
         throws ValueOutOfRangeException
     {
-        dim(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        darken(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void dim(java.util.Map<String, String> context)
+    default void darken(java.util.Map<String, String> context)
         throws ValueOutOfRangeException
     {
         try
         {
-            _iceI_dimAsync(context, true).waitForResponseOrUserEx();
+            _iceI_darkenAsync(context, true).waitForResponseOrUserEx();
         }
         catch(ValueOutOfRangeException ex)
         {
@@ -76,14 +76,14 @@ public interface IBulbPrx extends IDevicePrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<Void> dimAsync()
+    default java.util.concurrent.CompletableFuture<Void> darkenAsync()
     {
-        return _iceI_dimAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_darkenAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> dimAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> darkenAsync(java.util.Map<String, String> context)
     {
-        return _iceI_dimAsync(context, false);
+        return _iceI_darkenAsync(context, false);
     }
 
     /**
@@ -92,31 +92,31 @@ public interface IBulbPrx extends IDevicePrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_dimAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_darkenAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "dim", null, sync, _iceE_dim);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "darken", null, sync, _iceE_darken);
         f.invoke(true, context, null, null, null);
         return f;
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_dim =
+    static final Class<?>[] _iceE_darken =
     {
         ValueOutOfRangeException.class
     };
 
-    default void brighten()
+    default void lightUp()
         throws ValueOutOfRangeException
     {
-        brighten(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        lightUp(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void brighten(java.util.Map<String, String> context)
+    default void lightUp(java.util.Map<String, String> context)
         throws ValueOutOfRangeException
     {
         try
         {
-            _iceI_brightenAsync(context, true).waitForResponseOrUserEx();
+            _iceI_lightUpAsync(context, true).waitForResponseOrUserEx();
         }
         catch(ValueOutOfRangeException ex)
         {
@@ -128,14 +128,14 @@ public interface IBulbPrx extends IDevicePrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<Void> brightenAsync()
+    default java.util.concurrent.CompletableFuture<Void> lightUpAsync()
     {
-        return _iceI_brightenAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_lightUpAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> brightenAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> lightUpAsync(java.util.Map<String, String> context)
     {
-        return _iceI_brightenAsync(context, false);
+        return _iceI_lightUpAsync(context, false);
     }
 
     /**
@@ -144,15 +144,15 @@ public interface IBulbPrx extends IDevicePrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_brightenAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_lightUpAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "brighten", null, sync, _iceE_brighten);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "lightUp", null, sync, _iceE_lightUp);
         f.invoke(true, context, null, null, null);
         return f;
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_brighten =
+    static final Class<?>[] _iceE_lightUp =
     {
         ValueOutOfRangeException.class
     };
@@ -212,24 +212,24 @@ public interface IBulbPrx extends IDevicePrx
         ValueOutOfRangeException.class
     };
 
-    default Color[] getAllPossibleColors()
+    default Color[] listColors()
     {
-        return getAllPossibleColors(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return listColors(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default Color[] getAllPossibleColors(java.util.Map<String, String> context)
+    default Color[] listColors(java.util.Map<String, String> context)
     {
-        return _iceI_getAllPossibleColorsAsync(context, true).waitForResponse();
+        return _iceI_listColorsAsync(context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Color[]> getAllPossibleColorsAsync()
+    default java.util.concurrent.CompletableFuture<Color[]> listColorsAsync()
     {
-        return _iceI_getAllPossibleColorsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_listColorsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Color[]> getAllPossibleColorsAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Color[]> listColorsAsync(java.util.Map<String, String> context)
     {
-        return _iceI_getAllPossibleColorsAsync(context, false);
+        return _iceI_listColorsAsync(context, false);
     }
 
     /**
@@ -238,9 +238,9 @@ public interface IBulbPrx extends IDevicePrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Color[]> _iceI_getAllPossibleColorsAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Color[]> _iceI_listColorsAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Color[]> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAllPossibleColors", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<Color[]> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "listColors", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, null, istr -> {
                      Color[] ret;
                      ret = colorsHelper.read(istr);

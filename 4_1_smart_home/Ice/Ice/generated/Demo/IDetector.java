@@ -53,7 +53,7 @@ public interface IDetector extends IDeviceNonTurnOff
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_alert(IDetector obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
         String ret = obj.alert(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();

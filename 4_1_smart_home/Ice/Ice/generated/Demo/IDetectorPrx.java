@@ -45,7 +45,7 @@ public interface IDetectorPrx extends IDeviceNonTurnOffPrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_alertAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "alert", null, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "alert", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, null, istr -> {
                      String ret;
                      ret = istr.readString();

@@ -130,7 +130,7 @@ public interface IDeviceNonTurnOffPrx extends com.zeroc.Ice.ObjectPrx
      **/
     default com.zeroc.IceInternal.OutgoingAsync<Info> _iceI_getInfoAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Info> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getInfo", null, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<Info> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getInfo", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, null, istr -> {
                      final com.zeroc.IceInternal.Holder<Info> ret = new com.zeroc.IceInternal.Holder<>();
                      istr.readValue(v -> ret.value = v, Info.class);

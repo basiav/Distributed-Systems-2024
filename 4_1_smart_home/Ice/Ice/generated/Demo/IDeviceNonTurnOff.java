@@ -89,7 +89,7 @@ public interface IDeviceNonTurnOff extends com.zeroc.Ice.Object
     **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getInfo(IDeviceNonTurnOff obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
         Info ret = obj.getInfo(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();

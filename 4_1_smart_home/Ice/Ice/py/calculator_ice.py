@@ -45,6 +45,9 @@ if 'Color' not in _M_Demo.__dict__:
     _M_Demo.Color = Color
     del Color
 
+if '_t_colors' not in _M_Demo.__dict__:
+    _M_Demo._t_colors = IcePy.defineSequence('::Demo::colors', (), _M_Demo._t_Color)
+
 if 'InfoKey' not in _M_Demo.__dict__:
     _M_Demo.InfoKey = Ice.createTempClass()
     class InfoKey(Ice.EnumBase):
@@ -61,9 +64,10 @@ if 'InfoKey' not in _M_Demo.__dict__:
     InfoKey.Location = InfoKey("Location", 0)
     InfoKey.SmokeLevel = InfoKey("SmokeLevel", 1)
     InfoKey.CarbonMonoxideLevel = InfoKey("CarbonMonoxideLevel", 2)
-    InfoKey.Brightness = InfoKey("Brightness", 3)
-    InfoKey.Color = InfoKey("Color", 4)
-    InfoKey._enumerators = { 0:InfoKey.Location, 1:InfoKey.SmokeLevel, 2:InfoKey.CarbonMonoxideLevel, 3:InfoKey.Brightness, 4:InfoKey.Color }
+    InfoKey.Volume = InfoKey("Volume", 3)
+    InfoKey.Brightness = InfoKey("Brightness", 4)
+    InfoKey.Color = InfoKey("Color", 5)
+    InfoKey._enumerators = { 0:InfoKey.Location, 1:InfoKey.SmokeLevel, 2:InfoKey.CarbonMonoxideLevel, 3:InfoKey.Volume, 4:InfoKey.Brightness, 5:InfoKey.Color }
 
     _M_Demo._t_InfoKey = IcePy.defineEnum('::Demo::InfoKey', InfoKey, (), InfoKey._enumerators)
 
@@ -100,6 +104,25 @@ if 'Info' not in _M_Demo.__dict__:
 
     _M_Demo.Info = Info
     del Info
+
+if 'WrongMethodException' not in _M_Demo.__dict__:
+    _M_Demo.WrongMethodException = Ice.createTempClass()
+    class WrongMethodException(Ice.UserException):
+        def __init__(self, reason=''):
+            self.reason = reason
+
+        def __str__(self):
+            return IcePy.stringifyException(self)
+
+        __repr__ = __str__
+
+        _ice_id = '::Demo::WrongMethodException'
+
+    _M_Demo._t_WrongMethodException = IcePy.defineException('::Demo::WrongMethodException', WrongMethodException, (), False, None, (('reason', (), IcePy._t_string, False, 0),))
+    WrongMethodException._ice_type = _M_Demo._t_WrongMethodException
+
+    _M_Demo.WrongMethodException = WrongMethodException
+    del WrongMethodException
 
 _M_Demo._t_IDevice = IcePy.defineValue('::Demo::IDevice', Ice.Value, -1, (), False, True, None, ())
 
@@ -189,43 +212,12 @@ if 'IDevicePrx' not in _M_Demo.__dict__:
     _M_Demo._t_IDeviceDisp = IcePy.defineClass('::Demo::IDevice', IDevice, (), None, ())
     IDevice._ice_type = _M_Demo._t_IDeviceDisp
 
-    IDevice._op_turnOn = IcePy.Operation('turnOn', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
-    IDevice._op_turnOff = IcePy.Operation('turnOff', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
-    IDevice._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
+    IDevice._op_turnOn = IcePy.Operation('turnOn', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_WrongMethodException,))
+    IDevice._op_turnOff = IcePy.Operation('turnOff', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_WrongMethodException,))
+    IDevice._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
 
     _M_Demo.IDevice = IDevice
     del IDevice
-
-if 'Device' not in _M_Demo.__dict__:
-    _M_Demo.Device = Ice.createTempClass()
-    class Device(Ice.Value):
-        def __init__(self, location='', turnedOn=False):
-            self.location = location
-            self.turnedOn = turnedOn
-
-        def ice_id(self):
-            return '::Demo::Device'
-
-        @staticmethod
-        def ice_staticId():
-            return '::Demo::Device'
-
-        def __str__(self):
-            return IcePy.stringify(self, _M_Demo._t_Device)
-
-        __repr__ = __str__
-
-    _M_Demo._t_Device = IcePy.defineValue('::Demo::Device', Device, -1, (), False, False, None, (
-        ('location', (), IcePy._t_string, False, 0),
-        ('turnedOn', (), IcePy._t_bool, False, 0)
-    ))
-    Device._ice_type = _M_Demo._t_Device
-
-    _M_Demo.Device = Device
-    del Device
-
-if '_t_colors' not in _M_Demo.__dict__:
-    _M_Demo._t_colors = IcePy.defineSequence('::Demo::colors', (), _M_Demo._t_Color)
 
 if 'ValueOutOfRangeException' not in _M_Demo.__dict__:
     _M_Demo.ValueOutOfRangeException = Ice.createTempClass()
@@ -264,29 +256,29 @@ if 'IBulbPrx' not in _M_Demo.__dict__:
         def end_changeColor(self, _r):
             return _M_Demo.IBulb._op_changeColor.end(self, _r)
 
-        def dim(self, context=None):
-            return _M_Demo.IBulb._op_dim.invoke(self, ((), context))
+        def darken(self, context=None):
+            return _M_Demo.IBulb._op_darken.invoke(self, ((), context))
 
-        def dimAsync(self, context=None):
-            return _M_Demo.IBulb._op_dim.invokeAsync(self, ((), context))
+        def darkenAsync(self, context=None):
+            return _M_Demo.IBulb._op_darken.invokeAsync(self, ((), context))
 
-        def begin_dim(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.IBulb._op_dim.begin(self, ((), _response, _ex, _sent, context))
+        def begin_darken(self, _response=None, _ex=None, _sent=None, context=None):
+            return _M_Demo.IBulb._op_darken.begin(self, ((), _response, _ex, _sent, context))
 
-        def end_dim(self, _r):
-            return _M_Demo.IBulb._op_dim.end(self, _r)
+        def end_darken(self, _r):
+            return _M_Demo.IBulb._op_darken.end(self, _r)
 
-        def brighten(self, context=None):
-            return _M_Demo.IBulb._op_brighten.invoke(self, ((), context))
+        def lightUp(self, context=None):
+            return _M_Demo.IBulb._op_lightUp.invoke(self, ((), context))
 
-        def brightenAsync(self, context=None):
-            return _M_Demo.IBulb._op_brighten.invokeAsync(self, ((), context))
+        def lightUpAsync(self, context=None):
+            return _M_Demo.IBulb._op_lightUp.invokeAsync(self, ((), context))
 
-        def begin_brighten(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.IBulb._op_brighten.begin(self, ((), _response, _ex, _sent, context))
+        def begin_lightUp(self, _response=None, _ex=None, _sent=None, context=None):
+            return _M_Demo.IBulb._op_lightUp.begin(self, ((), _response, _ex, _sent, context))
 
-        def end_brighten(self, _r):
-            return _M_Demo.IBulb._op_brighten.end(self, _r)
+        def end_lightUp(self, _r):
+            return _M_Demo.IBulb._op_lightUp.end(self, _r)
 
         def changeBrightness(self, percentagePoints, context=None):
             return _M_Demo.IBulb._op_changeBrightness.invoke(self, ((percentagePoints, ), context))
@@ -300,17 +292,17 @@ if 'IBulbPrx' not in _M_Demo.__dict__:
         def end_changeBrightness(self, _r):
             return _M_Demo.IBulb._op_changeBrightness.end(self, _r)
 
-        def getAllPossibleColors(self, context=None):
-            return _M_Demo.IBulb._op_getAllPossibleColors.invoke(self, ((), context))
+        def listColors(self, context=None):
+            return _M_Demo.IBulb._op_listColors.invoke(self, ((), context))
 
-        def getAllPossibleColorsAsync(self, context=None):
-            return _M_Demo.IBulb._op_getAllPossibleColors.invokeAsync(self, ((), context))
+        def listColorsAsync(self, context=None):
+            return _M_Demo.IBulb._op_listColors.invokeAsync(self, ((), context))
 
-        def begin_getAllPossibleColors(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Demo.IBulb._op_getAllPossibleColors.begin(self, ((), _response, _ex, _sent, context))
+        def begin_listColors(self, _response=None, _ex=None, _sent=None, context=None):
+            return _M_Demo.IBulb._op_listColors.begin(self, ((), _response, _ex, _sent, context))
 
-        def end_getAllPossibleColors(self, _r):
-            return _M_Demo.IBulb._op_getAllPossibleColors.end(self, _r)
+        def end_listColors(self, _r):
+            return _M_Demo.IBulb._op_listColors.end(self, _r)
 
         @staticmethod
         def checkedCast(proxy, facetOrContext=None, context=None):
@@ -344,17 +336,17 @@ if 'IBulbPrx' not in _M_Demo.__dict__:
         def changeColor(self, color, current=None):
             raise NotImplementedError("servant method 'changeColor' not implemented")
 
-        def dim(self, current=None):
-            raise NotImplementedError("servant method 'dim' not implemented")
+        def darken(self, current=None):
+            raise NotImplementedError("servant method 'darken' not implemented")
 
-        def brighten(self, current=None):
-            raise NotImplementedError("servant method 'brighten' not implemented")
+        def lightUp(self, current=None):
+            raise NotImplementedError("servant method 'lightUp' not implemented")
 
         def changeBrightness(self, percentagePoints, current=None):
             raise NotImplementedError("servant method 'changeBrightness' not implemented")
 
-        def getAllPossibleColors(self, current=None):
-            raise NotImplementedError("servant method 'getAllPossibleColors' not implemented")
+        def listColors(self, current=None):
+            raise NotImplementedError("servant method 'listColors' not implemented")
 
         def __str__(self):
             return IcePy.stringify(self, _M_Demo._t_IBulbDisp)
@@ -365,10 +357,10 @@ if 'IBulbPrx' not in _M_Demo.__dict__:
     IBulb._ice_type = _M_Demo._t_IBulbDisp
 
     IBulb._op_changeColor = IcePy.Operation('changeColor', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), _M_Demo._t_Color, False, 0),), (), None, ())
-    IBulb._op_dim = IcePy.Operation('dim', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
-    IBulb._op_brighten = IcePy.Operation('brighten', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
+    IBulb._op_darken = IcePy.Operation('darken', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
+    IBulb._op_lightUp = IcePy.Operation('lightUp', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_ValueOutOfRangeException,))
     IBulb._op_changeBrightness = IcePy.Operation('changeBrightness', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_int, False, 0),), (), None, (_M_Demo._t_ValueOutOfRangeException,))
-    IBulb._op_getAllPossibleColors = IcePy.Operation('getAllPossibleColors', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), _M_Demo._t_colors, False, 0), ())
+    IBulb._op_listColors = IcePy.Operation('listColors', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), _M_Demo._t_colors, False, 0), ())
 
     _M_Demo.IBulb = IBulb
     del IBulb
@@ -482,7 +474,7 @@ if 'IDeviceNonTurnOffPrx' not in _M_Demo.__dict__:
 
     IDeviceNonTurnOff._op_turnOn = IcePy.Operation('turnOn', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, ())
     IDeviceNonTurnOff._op_turnOff = IcePy.Operation('turnOff', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), None, (_M_Demo._t_TurnOffSafetyExcpetion,))
-    IDeviceNonTurnOff._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
+    IDeviceNonTurnOff._op_getInfo = IcePy.Operation('getInfo', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), _M_Demo._t_Info, False, 0), ())
 
     _M_Demo.IDeviceNonTurnOff = IDeviceNonTurnOff
     del IDeviceNonTurnOff
@@ -567,7 +559,7 @@ if 'IDetectorPrx' not in _M_Demo.__dict__:
     _M_Demo._t_IDetectorDisp = IcePy.defineClass('::Demo::IDetector', IDetector, (), None, (_M_Demo._t_IDeviceNonTurnOffDisp,))
     IDetector._ice_type = _M_Demo._t_IDetectorDisp
 
-    IDetector._op_alert = IcePy.Operation('alert', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_string, False, 0), ())
+    IDetector._op_alert = IcePy.Operation('alert', Ice.OperationMode.Idempotent, Ice.OperationMode.Idempotent, False, None, (), (), (), ((), IcePy._t_string, False, 0), ())
 
     _M_Demo.IDetector = IDetector
     del IDetector

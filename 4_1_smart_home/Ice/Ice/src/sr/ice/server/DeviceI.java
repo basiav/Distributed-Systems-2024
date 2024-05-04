@@ -1,7 +1,5 @@
 package sr.ice.server;
 
-//package server;
-
 import Demo.*;
 import com.zeroc.Ice.Current;
 

@@ -19,16 +19,16 @@ public interface IBulb extends IDevice
 {
     void changeColor(Color color, com.zeroc.Ice.Current current);
 
-    void dim(com.zeroc.Ice.Current current)
+    void darken(com.zeroc.Ice.Current current)
         throws ValueOutOfRangeException;
 
-    void brighten(com.zeroc.Ice.Current current)
+    void lightUp(com.zeroc.Ice.Current current)
         throws ValueOutOfRangeException;
 
     void changeBrightness(int percentagePoints, com.zeroc.Ice.Current current)
         throws ValueOutOfRangeException;
 
-    Color[] getAllPossibleColors(com.zeroc.Ice.Current current);
+    Color[] listColors(com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -81,12 +81,12 @@ public interface IBulb extends IDevice
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_dim(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_darken(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        obj.dim(current);
+        obj.darken(current);
         return inS.setResult(inS.writeEmptyParams());
     }
 
@@ -98,12 +98,12 @@ public interface IBulb extends IDevice
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_brighten(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_lightUp(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        obj.brighten(current);
+        obj.lightUp(current);
         return inS.setResult(inS.writeEmptyParams());
     }
 
@@ -134,11 +134,11 @@ public interface IBulb extends IDevice
      * @param current -
      * @return -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAllPossibleColors(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_listColors(IBulb obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        Color[] ret = obj.getAllPossibleColors(current);
+        Color[] ret = obj.listColors(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         colorsHelper.write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -148,16 +148,16 @@ public interface IBulb extends IDevice
     /** @hidden */
     final static String[] _iceOps =
     {
-        "brighten",
         "changeBrightness",
         "changeColor",
-        "dim",
-        "getAllPossibleColors",
+        "darken",
         "getInfo",
         "ice_id",
         "ice_ids",
         "ice_isA",
         "ice_ping",
+        "lightUp",
+        "listColors",
         "turnOff",
         "turnOn"
     };
@@ -177,43 +177,43 @@ public interface IBulb extends IDevice
         {
             case 0:
             {
-                return _iceD_brighten(this, in, current);
+                return _iceD_changeBrightness(this, in, current);
             }
             case 1:
             {
-                return _iceD_changeBrightness(this, in, current);
+                return _iceD_changeColor(this, in, current);
             }
             case 2:
             {
-                return _iceD_changeColor(this, in, current);
+                return _iceD_darken(this, in, current);
             }
             case 3:
             {
-                return _iceD_dim(this, in, current);
+                return IDevice._iceD_getInfo(this, in, current);
             }
             case 4:
             {
-                return _iceD_getAllPossibleColors(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 5:
             {
-                return IDevice._iceD_getInfo(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 6:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 7:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
             }
             case 8:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return _iceD_lightUp(this, in, current);
             }
             case 9:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+                return _iceD_listColors(this, in, current);
             }
             case 10:
             {
