@@ -98,9 +98,7 @@ def example1():
 def example2():
     args = [10, 20, 30, 40]
     print("Args: ", args)
-    result = client.request(
-        "calculator.AdvancedCalculator", "ListSum", {"args": args}
-    )
+    result = client.request("calculator.AdvancedCalculator", "ListSum", {"args": args})
     print(f"ListSum result: {result}\n")
 
 
@@ -180,3 +178,24 @@ if __name__ == "__main__":
     send_example_requests()
 
     channel.close()
+
+"""
+Client is able to:
+- connecto to the server
+- learn what server capabilities (services) are available
+- send rpc requests to the reflection server.
+
+grpcurl:
+--> list all available services on server
+    grpcurl -plaintext 127.0.0.9:50050
+
+--> list all available service methods
+    grpcurl -plaintext 127.0.0.9:50050 list calculator.AdvancedCalculator
+
+--> get description of service
+    grpcurl -plaintext 127.0.0.9:50050 describe calculator.AdvancedCalculator
+
+--> execute method on service running on server
+    grpcurl -plaintext -d '{"args": [1,2]}' localhost:50050 calculator.AdvancedCalculator/ListSum
+
+"""
