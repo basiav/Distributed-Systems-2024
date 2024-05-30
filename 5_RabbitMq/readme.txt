@@ -1,0 +1,1 @@
+Ja, Bartłomiej Słupik, oświadczam, iż zadanie wykonałem samodzielnie.
