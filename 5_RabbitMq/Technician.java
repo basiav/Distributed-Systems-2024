@@ -17,35 +17,38 @@ public class Technician {
 
     public Technician(ExaminationType t1, ExaminationType t2) throws IOException, TimeoutException {
         _id = __id++;
-        _logName = "[T%d %c%c]".formatted(_id, t1.toString().charAt(0), t2.toString().charAt(0));
+//        _logName = "[T%d %c%c]".formatted(_id, t1.toString().charAt(0), t2.toString().charAt(0));
+        _logName = "[T%d %s %s]".formatted(_id, t1.toString(), t2.toString());
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         connection = factory.newConnection();
         channel = connection.createChannel();
 
         String QUEUE_NAME_1 = "queue_" + t1.toString().toLowerCase();
-        String QUEUE_NAME_2 = "queue_" + t1.toString().toLowerCase();
+        String QUEUE_NAME_2 = "queue_" + t2.toString().toLowerCase();
         channel.queueDeclare(QUEUE_NAME_1, false, false, false, null);
         channel.queueDeclare(QUEUE_NAME_2, false, false, false, null);
 
-        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
+//        channel.basicQos(1);
 
-        String key1 = "technician." + t1 + ".#";
-        String key2 = "technician." + t2 + ".#";
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
-        System.out.printf("Created Technician with keys %s %s%n", key1, key2);
+        System.out.printf("Created Technician subscribed to queues %s %s%n", QUEUE_NAME_1, QUEUE_NAME_2);
+        System.out.println();
 
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
                 System.out.println(_logName + " Received: " + message);
-                System.out.println();
+
                 try {
                     Thread.sleep(random.nextInt(2000) + 800);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
+//                channel.basicAck(envelope.getDeliveryTag(), false);
 
                 String[] attrs = message.split("\\.");
                 String returnMsg = attrs[1] + " " + attrs[2] + " done";
@@ -56,7 +59,9 @@ public class Technician {
             }
         };
 
-        channel.basicConsume(QUEUE_NAME_1, consumer);
-        channel.basicConsume(QUEUE_NAME_2, consumer);
+        channel.basicConsume(QUEUE_NAME_1, true, consumer);
+        channel.basicConsume(QUEUE_NAME_2, true, consumer);
+//        channel.basicConsume(QUEUE_NAME_1, false, consumer);
+//        channel.basicConsume(QUEUE_NAME_2, false, consumer);
     }
 }
