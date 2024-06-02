@@ -1,3 +1,5 @@
+package src;
+
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -5,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 public class AdminLogger {
-    public static final String ADMIN_QUEUE_IN = "admin_queue_in";
+    public static final String ADMIN_QUEUE_IN = "ADMIN_queue_in";
 
     public static void main(String[] args) throws IOException, TimeoutException {
         AdminLogger adminLogger = new AdminLogger();

@@ -1,4 +1,7 @@
+package src;
+
 import com.rabbitmq.client.*;
+import src.Admin;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -6,50 +9,51 @@ import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 public class Technician {
-    final String EXCHANGE_NAME = "MED_EXCHANGE";
-    private static int __id = 1;
-    private int _id;
+    // Exchange for results - to send to doctors
+    final String EXCHANGE_NAME = "MED_RESULTS_EXCHANGE";
     private final Random random = new Random();
+    private final String techId;
 
-    private final String _logName;
-    private Connection connection;
     private final Channel channel;
 
-    // ADMIN MODE
-    private final Consumer _adminConsumer;
-    private final String _adminListenerQueueName;
+    // ADMIN mode functionalities
+    // to listen for admin's info and forward action results to admin
+    private final Consumer adminConsumer;
+    private String adminListenerQueueName;
 
 
-    public Technician(ExaminationType t1, ExaminationType t2) throws IOException, TimeoutException {
-        _id = __id++;
-//        _logName = "[T%d %c%c]".formatted(_id, t1.toString().charAt(0), t2.toString().charAt(0));
-        _logName = "[T%d %s %s]".formatted(_id, t1.toString(), t2.toString());
+    public Technician(String technicianId, ExaminationType t1, ExaminationType t2) throws IOException, TimeoutException {
+        techId = "[%s %s %s]".formatted(technicianId, t1.toString(), t2.toString());
+
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
-        connection = factory.newConnection();
+        Connection connection = factory.newConnection();
+
         channel = connection.createChannel();
 
+        // 2 work queues for 2 examination types a technician can handle
         String QUEUE_NAME_1 = "queue_" + t1.toString().toLowerCase();
         String QUEUE_NAME_2 = "queue_" + t2.toString().toLowerCase();
+
         channel.queueDeclare(QUEUE_NAME_1, false, false, false, null);
         channel.queueDeclare(QUEUE_NAME_2, false, false, false, null);
 
 //        channel.basicQos(1);
 
+        // Exchange to send results back to the doctor
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
-        System.out.printf("Created Technician subscribed to queues %s %s%n", QUEUE_NAME_1, QUEUE_NAME_2);
-        System.out.println();
+        System.out.printf("Created src.Technician %s subscribed to queues %s %s%n", this.techId, QUEUE_NAME_1, QUEUE_NAME_2);
 
-        Consumer consumer = new DefaultConsumer(channel) {
+        Consumer workQueueConsumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
-                System.out.println(_logName + " Received: " + message);
+                System.out.println(techId + " received: " + message);
 
                 // HANDLING ADMIN
                 // Send to admin info, that we have accepted the examination request
-                String forwardExaminationAcceptance = _logName + "." + message;
+                String forwardExaminationAcceptance = techId + "." + message;
                 channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardExaminationAcceptance.getBytes("UTF-8"));
 
                 try {
@@ -65,38 +69,36 @@ public class Technician {
                 String returnKey = "doctor." + attrs[0];
                 channel.basicPublish(EXCHANGE_NAME, returnKey,
                         null, returnMsg.getBytes(StandardCharsets.UTF_8));
-                System.out.printf(_logName + " Sent: %s %s%n", returnKey, returnMsg);
-
+                System.out.printf("%s sent: %s %s%n", techId, returnKey, returnMsg);
 
                 // HANDLING ADMIN
                 // Forward examination results to admin
-                String forwardResultsMsg = _logName + "." + returnMsg;
+                String forwardResultsMsg = techId + "." + returnMsg;
                 channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
-
-
             }
         };
 
-        channel.basicConsume(QUEUE_NAME_1, true, consumer);
-        channel.basicConsume(QUEUE_NAME_2, true, consumer);
+        channel.basicConsume(QUEUE_NAME_1, true, workQueueConsumer);
+        channel.basicConsume(QUEUE_NAME_2, true, workQueueConsumer);
+
 //        channel.basicConsume(QUEUE_NAME_1, false, consumer);
 //        channel.basicConsume(QUEUE_NAME_2, false, consumer);
 
         // ADMIN
         channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
-        _adminListenerQueueName = _logName + "_admin_listener_queue";
-        String qn = channel.queueDeclare(_adminListenerQueueName, false, false, false, null).getQueue();
+        adminListenerQueueName = techId + "_admin_listener_queue";
+        String qn = channel.queueDeclare(adminListenerQueueName, false, false, false, null).getQueue();
         channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
 
-        _adminConsumer = new DefaultConsumer(channel) {
+        adminConsumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
-                System.out.printf("[%s] Info from ADMIN received: %s %n", _logName, message);
+                System.out.printf("%s Info from ADMIN received: %s %n", techId, message);
             }
         };
 
-        // listen to admin
-        channel.basicConsume(_adminListenerQueueName, true, _adminConsumer);
+        // Listen to admin's info
+        channel.basicConsume(adminListenerQueueName, true, adminConsumer);
     }
 }

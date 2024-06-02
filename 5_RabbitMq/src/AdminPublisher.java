@@ -1,3 +1,5 @@
+package src;
+
 import com.rabbitmq.client.*;
 
 import java.io.BufferedReader;

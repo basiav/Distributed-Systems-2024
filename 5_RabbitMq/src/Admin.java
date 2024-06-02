@@ -1,3 +1,5 @@
+package src;
+
 import com.rabbitmq.client.*;
 
 import java.io.BufferedReader;
@@ -8,14 +10,13 @@ import java.util.concurrent.TimeoutException;
 
 public class Admin {
     public static final String ADMIN_EXCHANGE_NAME = "ADMIN_EXCHANGE";
-    public static final String ADMIN_QUEUE_IN = "admin_queue_in";
+    public static final String ADMIN_QUEUE_IN = "ADMIN_queue_in";
 
     // Two channels because of possible simultaneous channel usage
     // we don't want to consume and publish at the same time
     private final Channel channelIn;
     private final Channel channelOut;
     private final Consumer logConsumer;
-
 
     public Admin() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
@@ -35,9 +36,6 @@ public class Admin {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
-//                String[] attrs = message.split("\\.");
-//                String returnMsg = attrs[1] + " " + attrs[2] + " done";
-//                String returnKey = "doctor." + attrs[0];
                 String sender = message.split("\\.")[0];
                 System.out.printf("Log received from [%s] full message: %s %n", sender, message);
 //                channel.basicAck(envelope.getDeliveryTag(), false);
@@ -51,7 +49,7 @@ public class Admin {
     }
 
     private void run() throws IOException, TimeoutException {
-        System.out.println("Admin running");
+        System.out.println("src.Admin running");
 
         new Thread(listenOnQueue()).start();
 
@@ -75,9 +73,6 @@ public class Admin {
             // publish
             channelOut.basicPublish(ADMIN_EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
             System.out.println("Sent: " + message);
-
-//            // consume
-//            channel.basicConsume(ADMIN_QUEUE_IN, true, logConsumer);
         }
     }
 

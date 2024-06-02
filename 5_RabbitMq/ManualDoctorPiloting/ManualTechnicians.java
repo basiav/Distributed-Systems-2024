@@ -1,14 +1,14 @@
-import src.Doctor;
+package ManualDoctorPiloting;
+
 import src.ExaminationType;
 import src.Technician;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Doctor d1 = new Doctor("D1");
-        Doctor d2 = new Doctor("D2");
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+public class ManualTechnicians {
+    public static void main(String[] args) throws IOException, TimeoutException {
         Technician t1 = new Technician("T1", ExaminationType.HIP, ExaminationType.KNEE);
         Technician t2 = new Technician("T2", ExaminationType.ELBOW, ExaminationType.HIP);
-        d1.start();
-        d2.start();
     }
 }
