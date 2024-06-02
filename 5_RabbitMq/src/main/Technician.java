@@ -10,7 +10,6 @@ import java.util.concurrent.TimeoutException;
 public class Technician {
     // Exchange for results - to send to doctors
     final String EXCHANGE_NAME = "MED_RESULTS_EXCHANGE";
-    private final Random random = new Random();
     private final String techId;
 
     private final Channel channel;
@@ -42,8 +41,9 @@ public class Technician {
         // Exchange to send results back to the doctor
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
-        System.out.printf("Created src.main.Technician %s subscribed to queues %s %s%n", this.techId, QUEUE_NAME_1, QUEUE_NAME_2);
+        System.out.printf("Created Technician %s subscribed to queues %s %s%n", this.techId, QUEUE_NAME_1, QUEUE_NAME_2);
 
+        Random random = new Random();
         Consumer workQueueConsumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -80,8 +80,8 @@ public class Technician {
         channel.basicConsume(QUEUE_NAME_1, true, workQueueConsumer);
         channel.basicConsume(QUEUE_NAME_2, true, workQueueConsumer);
 
-//        channel.basicConsume(QUEUE_NAME_1, false, consumer);
-//        channel.basicConsume(QUEUE_NAME_2, false, consumer);
+//        channel.basicConsume(QUEUE_NAME_1, false, workQueueConsumer);
+//        channel.basicConsume(QUEUE_NAME_2, false, workQueueConsumer);
 
         // ADMIN
         channel.exchangeDeclare(AdminPublisher.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
