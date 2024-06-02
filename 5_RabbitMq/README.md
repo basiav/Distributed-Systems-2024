@@ -1,1 +1,1 @@
-First run AdminLogger and AdminPublisher classes, then Main
+First run src.AdminLogger and src.AdminPublisher classes, then src.Main
