@@ -1,7 +1,8 @@
 package ManualDoctorPiloting;
 
 import com.rabbitmq.client.*;
-import src.Admin;
+import src.AdminLogger;
+import src.AdminPublisher;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class ManualDoctor {
                 // ADMIN functionalities
                 // Forward results to ADMIN
                 String forwardResultsMsg = docId + "." + message;
-                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
+                channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
             }
         };
 
@@ -77,11 +78,11 @@ public class ManualDoctor {
         channel.basicConsume(queueName, true, examinationResultsConsumer);
 
         // ADMIN functionalities
-        channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        channel.exchangeDeclare(AdminPublisher.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
         String adminListenerQueueName = docId + "_admin_listener_queue";
         String qn = channel.queueDeclare(adminListenerQueueName, false, false, false, null).getQueue();
         System.out.println(docId + "qn: " + qn);
-        channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
+        channel.queueBind(qn, AdminPublisher.ADMIN_EXCHANGE_NAME, "");
 
         Consumer adminMessagesConsumer = new DefaultConsumer(channel) {
             @Override
@@ -114,7 +115,7 @@ public class ManualDoctor {
 
             // ADMIN functionalities
             // Same message to admin - copy to admin
-            channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, message.getBytes("UTF-8"));
+            channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, message.getBytes("UTF-8"));
         }
     }
 }

@@ -1,6 +1,4 @@
-import src.Doctor;
-import src.ExaminationType;
-import src.Technician;
+package src;
 
 public class Main {
     public static void main(String[] args) throws Exception {

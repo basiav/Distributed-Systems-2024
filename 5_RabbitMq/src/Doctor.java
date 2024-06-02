@@ -48,10 +48,11 @@ public class Doctor extends Thread {
         // RECEIVE - from the subscribe/publish results exchange
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
-        resultsQueueName = channel.queueDeclare().getQueue();
+        resultsQueueName = doctorId + "_results_queue";
         String bindingKey = "doctor." + docId;
-        channel.queueBind(resultsQueueName, EXCHANGE_NAME, bindingKey);
-        System.out.println("created publish/subscribe queue: " + resultsQueueName);
+        String qn = channel.queueDeclare(resultsQueueName, false, false, false, null).getQueue();
+        channel.queueBind(qn, EXCHANGE_NAME, bindingKey);
+        System.out.println(docId + " created publish/subscribe queue: " + qn + " with binding key " + bindingKey);
 
         resultsConsumer = new DefaultConsumer(channel) {
             @Override
@@ -61,16 +62,16 @@ public class Doctor extends Thread {
 
                 // Send the same message to ADMIN
                 String forwardResultsMsg = docId + "." + message;
-                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
+                channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
             }
         };
 
         // ADMIN
-        channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        channel.exchangeDeclare(AdminPublisher.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
         adminListenerQueueName = docId + "_admin_listener_queue";
-        String qn = channel.queueDeclare(adminListenerQueueName, false, false, false, null).getQueue();
-        System.out.println(docId + "qn: " + qn);
-        channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
+        qn = channel.queueDeclare(adminListenerQueueName, false, false, false, null).getQueue();
+        System.out.println(docId + " created admin queue: " + qn);
+        channel.queueBind(qn, AdminPublisher.ADMIN_EXCHANGE_NAME, "");
 
         adminConsumer = new DefaultConsumer(channel) {
             @Override
@@ -112,7 +113,7 @@ public class Doctor extends Thread {
 
                 // HANDLING ADMIN
                 // Same message to admin - copy to admin
-                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, message.getBytes("UTF-8"));
+                channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, message.getBytes("UTF-8"));
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }

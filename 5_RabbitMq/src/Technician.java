@@ -1,7 +1,6 @@
 package src;
 
 import com.rabbitmq.client.*;
-import src.Admin;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +53,7 @@ public class Technician {
                 // HANDLING ADMIN
                 // Send to admin info, that we have accepted the examination request
                 String forwardExaminationAcceptance = techId + "." + message;
-                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardExaminationAcceptance.getBytes("UTF-8"));
+                channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, forwardExaminationAcceptance.getBytes("UTF-8"));
 
                 try {
                     Thread.sleep(random.nextInt(2000) + 800);
@@ -74,7 +73,7 @@ public class Technician {
                 // HANDLING ADMIN
                 // Forward examination results to admin
                 String forwardResultsMsg = techId + "." + returnMsg;
-                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
+                channel.basicPublish("", AdminLogger.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
             }
         };
 
@@ -85,10 +84,10 @@ public class Technician {
 //        channel.basicConsume(QUEUE_NAME_2, false, consumer);
 
         // ADMIN
-        channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        channel.exchangeDeclare(AdminPublisher.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
         adminListenerQueueName = techId + "_admin_listener_queue";
         String qn = channel.queueDeclare(adminListenerQueueName, false, false, false, null).getQueue();
-        channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
+        channel.queueBind(qn, AdminPublisher.ADMIN_EXCHANGE_NAME, "");
 
         adminConsumer = new DefaultConsumer(channel) {
             @Override
