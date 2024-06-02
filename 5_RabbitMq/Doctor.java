@@ -26,6 +26,10 @@ public class Doctor extends Thread {
     // Obtaining results from technicians
     private final String queueName;
 
+    // ADMIN MODE
+    private final Consumer _adminConsumer;
+    private final String _adminListenerQueueName;
+
     public Doctor(String name) throws IOException, TimeoutException {
         _name = name;
         ConnectionFactory factory = new ConnectionFactory();
@@ -56,6 +60,26 @@ public class Doctor extends Thread {
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
                 System.out.printf("[%s] Results received: %s %n", _name, message);
+
+                // Send the same message to ADMIN
+                String forwardResultsMsg = _name + "." + message;
+                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
+            }
+        };
+
+        // ADMIN
+        channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+//        String listenAdminQueue = channel.queueDeclare().getQueue();
+        _adminListenerQueueName = _name + "_admin_listener_queue";
+        String qn = channel.queueDeclare(_adminListenerQueueName, false, false, false, null).getQueue();
+        System.out.println(_name + "qn: " + qn);
+        channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
+
+        _adminConsumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String message = new String(body, StandardCharsets.UTF_8);
+                System.out.printf("[%s] Info from ADMIN received: %s %n", _name, message);
             }
         };
 
@@ -99,6 +123,13 @@ public class Doctor extends Thread {
                 String queue_name = "queue_" + examinationType.toLowerCase();
                 channel.basicPublish("", queue_name, null, message.getBytes());
                 System.out.printf("[%s] Sent: %s %n", _name, message);
+
+                // HANDLING ADMIN
+                // Same message to admin - copy to admin
+                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, message.getBytes("UTF-8"));
+
+                // listen to admin
+                channel.basicConsume(_adminListenerQueueName, true, _adminConsumer);
 
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();

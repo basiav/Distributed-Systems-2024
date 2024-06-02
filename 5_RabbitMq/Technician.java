@@ -15,6 +15,11 @@ public class Technician {
     private Connection connection;
     private final Channel channel;
 
+    // ADMIN MODE
+    private final Consumer _adminConsumer;
+    private final String _adminListenerQueueName;
+
+
     public Technician(ExaminationType t1, ExaminationType t2) throws IOException, TimeoutException {
         _id = __id++;
 //        _logName = "[T%d %c%c]".formatted(_id, t1.toString().charAt(0), t2.toString().charAt(0));
@@ -42,6 +47,11 @@ public class Technician {
                 String message = new String(body, StandardCharsets.UTF_8);
                 System.out.println(_logName + " Received: " + message);
 
+                // HANDLING ADMIN
+                // Send to admin info, that we have accepted the examination request
+                String forwardExaminationAcceptance = _logName + "." + message;
+                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardExaminationAcceptance.getBytes("UTF-8"));
+
                 try {
                     Thread.sleep(random.nextInt(2000) + 800);
                 } catch (InterruptedException e) {
@@ -56,6 +66,14 @@ public class Technician {
                 channel.basicPublish(EXCHANGE_NAME, returnKey,
                         null, returnMsg.getBytes(StandardCharsets.UTF_8));
                 System.out.printf(_logName + " Sent: %s %s%n", returnKey, returnMsg);
+
+
+                // HANDLING ADMIN
+                // Forward examination results to admin
+                String forwardResultsMsg = _logName + "." + returnMsg;
+                channel.basicPublish("", Admin.ADMIN_QUEUE_IN, null, forwardResultsMsg.getBytes("UTF-8"));
+
+
             }
         };
 
@@ -63,5 +81,22 @@ public class Technician {
         channel.basicConsume(QUEUE_NAME_2, true, consumer);
 //        channel.basicConsume(QUEUE_NAME_1, false, consumer);
 //        channel.basicConsume(QUEUE_NAME_2, false, consumer);
+
+        // ADMIN
+        channel.exchangeDeclare(Admin.ADMIN_EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        _adminListenerQueueName = _logName + "_admin_listener_queue";
+        String qn = channel.queueDeclare(_adminListenerQueueName, false, false, false, null).getQueue();
+        channel.queueBind(qn, Admin.ADMIN_EXCHANGE_NAME, "");
+
+        _adminConsumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String message = new String(body, StandardCharsets.UTF_8);
+                System.out.printf("[%s] Info from ADMIN received: %s %n", _logName, message);
+            }
+        };
+
+        // listen to admin
+        channel.basicConsume(_adminListenerQueueName, true, _adminConsumer);
     }
 }
