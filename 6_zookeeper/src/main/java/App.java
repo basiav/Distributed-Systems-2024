@@ -1,7 +1,10 @@
 import org.apache.zookeeper.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
+
 
 public class App implements Watcher {
     private final ZooKeeper zooKeeper;
@@ -12,7 +15,9 @@ public class App implements Watcher {
     private final String znode = "/a";
 
     public App() throws IOException {
-        String connectString = "127.0.0.1:2181, 127.0.0.1:2182, 127.0.0.1:2183";
+//        String connectString = "127.0.0.1:2181, 127.0.0.1:2182, 127.0.0.1:2183";
+        String connectString = "127.0.0.1:2182";
+        process = null;
         this.zooKeeper = new ZooKeeper(connectString, 3000, this);
     }
 
@@ -21,10 +26,21 @@ public class App implements Watcher {
         app.run();
     }
 
-    public void run() throws InterruptedException, KeeperException {
+    public void run() throws InterruptedException, KeeperException, IOException {
         zooKeeper.addWatch(znode, AddWatchMode.PERSISTENT_RECURSIVE);
-        while (true) {
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            System.out.println("Type ls to print tree: ");
+            String line = br.readLine();
+
+            if ("ls".equals(line)) {
+                if (zooKeeper.exists(znode, false) == null) {
+                    ColoredOutput.printInColor(ColoredOutput.Color.RED, "znode: " + znode + " not existing, cannot ls!");
+                    continue;
+                }
+                printChildrenTree(znode);
+            }
         }
     }
 
@@ -34,7 +50,7 @@ public class App implements Watcher {
             ColoredOutput.printInColor(ColoredOutput.Color.GREEN, "zNode created, path: " + event.getPath());
             try {
                 printChildrenTree(znode);
-            } catch (InterruptedException | KeeperException | IOException e) {
+            } catch (InterruptedException | KeeperException e) {
                 e.printStackTrace();
             }
 
@@ -56,7 +72,7 @@ public class App implements Watcher {
             }
         } else if (event.getType() == Event.EventType.NodeDeleted) {
             ColoredOutput.printInColor(ColoredOutput.Color.RED, "\nzNode deleted, path: " + event.getPath());
-            if (Objects.equals(event.getPath(), znode)) {
+            if (Objects.equals(event.getPath(), znode) && process != null) {
                 ColoredOutput.printInColor(ColoredOutput.Color.RED, "Killing app...");
                 process.destroy();
             }
@@ -68,50 +84,28 @@ public class App implements Watcher {
                 byte[] b = null;
                 b = zooKeeper.getData(event.getPath(), null, null);
                 String data = new String(b, "UTF-8");
-                String dataChangedMsg = String.format("\nData of [%s] has been changed: %s\n" , event.getPath(), data);
-                ColoredOutput.printInColor(ColoredOutput.Color.YELLOW, dataChangedMsg);
+                String dataChangedMsg = String.format("\nData of [%s] has been changed: %s\n", event.getPath(), data);
+                ColoredOutput.printInColor(ColoredOutput.Color.PURPLE, dataChangedMsg);
                 printChildrenTree(znode);
             } catch (KeeperException | InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
 
-    public void printChildrenTree(String nodePath) throws IOException, InterruptedException, KeeperException {
-        List<String> tree = getChildrenTree(nodePath);
-        for (String child : tree) {
-            StringTokenizer tokenizer = new StringTokenizer(child, "/");
-            String token = null;
-            while (tokenizer.hasMoreTokens()) {
-                if (token != null)
-                    System.out.print("\t");
-                token = tokenizer.nextToken();
-            }
-            if (token != null)
-                ColoredOutput.printInColor(ColoredOutput.Color.PURPLE, "/" + token);
-        }
+    public void printChildrenTree(String nodePath) throws InterruptedException, KeeperException {
+        printTree(nodePath, "");
     }
 
-    public List<String> getChildrenTree(String nodePath) throws InterruptedException, KeeperException {
-        HashMap<String, Boolean> visited = new HashMap<>();
-        visited.put(nodePath, true);
-        return DFS(nodePath, visited, new ArrayList<>());
-    }
-
-    List<String> DFS(String node, HashMap<String, Boolean> visited, List<String> tree) throws InterruptedException, KeeperException {
-        tree.add(node);
-        List<String> children = zooKeeper.getChildren(node, false);
-        for (String child : children) {
-            String childPath = node + "/" + child;
-            if (!visited.containsKey(childPath) || !visited.get(childPath)) {
-                visited.put(child, true);
-//                tree.add(childPath);
-                DFS(childPath, visited, tree);
+    public void printTree(String path, String indent) throws KeeperException, InterruptedException {
+        if (zooKeeper.exists(path, false) != null) {
+            ColoredOutput.printInColor(ColoredOutput.Color.YELLOW, indent + path);
+            List<String> children = zooKeeper.getChildren(path, false);
+            for (String child : children) {
+                printTree(path + "/" + child, indent + "    ");
             }
         }
-        return tree;
     }
 }
 
@@ -120,7 +114,7 @@ class ColoredOutput {
     enum Color {
         BLUE("\u001B[34m"), GREEN("\u001B[32m"), PURPLE("\u001B[35m"), RED("\u001B[31m"), YELLOW("\u001B[33m"), RESET("\u001B[0m");
 
-        private String color;
+        private final String color;
 
         private Color(String color) {
             this.color = color;
