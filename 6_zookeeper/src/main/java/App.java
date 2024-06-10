@@ -94,19 +94,39 @@ public class App implements Watcher {
         }
     }
 
-
-    public void printChildrenTree(String nodePath) throws InterruptedException, KeeperException {
-        printTree(nodePath, "");
+    public void printChildrenTree(String nodePath) throws IOException, InterruptedException, KeeperException {
+        List<String> tree = getChildrenTree(nodePath);
+        for (String child : tree) {
+            StringTokenizer tokenizer = new StringTokenizer(child, "/");
+            String token = null;
+            while (tokenizer.hasMoreTokens()) {
+                if (token != null)
+                    System.out.print("\t");
+                token = tokenizer.nextToken();
+            }
+            if (token != null)
+                ColoredOutput.printInColor(ColoredOutput.Color.YELLOW, "/" + token);
+        }
     }
 
-    public void printTree(String path, String indent) throws KeeperException, InterruptedException {
-        if (zooKeeper.exists(path, false) != null) {
-            ColoredOutput.printInColor(ColoredOutput.Color.YELLOW, indent + path);
-            List<String> children = zooKeeper.getChildren(path, false);
-            for (String child : children) {
-                printTree(path + "/" + child, indent + "    ");
+    public List<String> getChildrenTree(String nodePath) throws InterruptedException, KeeperException {
+        HashMap<String, Boolean> visited = new HashMap<>();
+        visited.put(nodePath, true);
+        return DFS(nodePath, visited, new ArrayList<>());
+    }
+
+    List<String> DFS(String node, HashMap<String, Boolean> visited, List<String> tree) throws InterruptedException, KeeperException {
+        tree.add(node);
+        List<String> children = zooKeeper.getChildren(node, false);
+        for (String child : children) {
+            String childPath = node + "/" + child;
+            if (!visited.containsKey(childPath) || !visited.get(childPath)) {
+                visited.put(child, true);
+//                tree.add(childPath);
+                DFS(childPath, visited, tree);
             }
         }
+        return tree;
     }
 }
 
