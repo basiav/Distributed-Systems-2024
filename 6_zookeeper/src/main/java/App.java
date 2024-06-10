@@ -10,19 +10,25 @@ public class App implements Watcher {
     private final ZooKeeper zooKeeper;
     private Process process;
     // Program to run
-    private final String program = "mspaint";
+    private final String program;
     // Watched znode
     private final String znode = "/a";
 
-    public App() throws IOException {
+    public App(String program) throws IOException {
+        this.program = program;
+        this.process = null;
+
 //        String connectString = "127.0.0.1:2181, 127.0.0.1:2182, 127.0.0.1:2183";
         String connectString = "127.0.0.1:2182";
-        process = null;
         this.zooKeeper = new ZooKeeper(connectString, 3000, this);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-        App app = new App();
+        String program = "mspaint";
+        if (args.length > 1) {
+            program = args[0];
+        }
+        App app = new App(program);
         app.run();
     }
 
@@ -48,11 +54,6 @@ public class App implements Watcher {
     public void process(WatchedEvent event) {
         if (event.getType() == Event.EventType.NodeCreated) {
             ColoredOutput.printInColor(ColoredOutput.Color.GREEN, "zNode created, path: " + event.getPath());
-            try {
-                printChildrenTree(znode);
-            } catch (InterruptedException | KeeperException e) {
-                e.printStackTrace();
-            }
 
             if (Objects.equals(event.getPath(), znode)) {
                 ColoredOutput.printInColor(ColoredOutput.Color.GREEN, "Opening app...");
